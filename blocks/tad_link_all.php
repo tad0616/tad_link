@@ -19,32 +19,31 @@ function tad_link_all($options){
       $$k=$v;
     }
     $color=cate_sn2color($cate_sn);
-    
+
     $link_js=($options[0]==1)?"window.open(this.value,'_blank');":"location.href='".XOOPS_URL."/modules/tad_link/index.php?link_sn='+this.value";
 
-    
+
   	$sql2 = "select * from ".$xoopsDB->prefix("tad_link")." where `cate_sn` = '{$cate_sn}' and enable='1' order by link_sort";
   	$result2 = $xoopsDB->query($sql2) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
     $total=$xoopsDB->getRowsNum($result2);
     if(empty($total))continue;
 
 
-    $block.="
-    <select onChange=\"{$link_js}\" style='background-color:{$color};' class='span12'>
-    <option value=''>$cate_title</option>
-    ";
-    
+    $block['link_js']=$link_js;
+    $block['color']=$color;
+    $i=0;
   	while($all2=$xoopsDB->fetchArray($result2)){
   	  //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
       foreach($all2 as $k=>$v){
         $$k=$v;
       }
       $val=($options[0]==1)?$link_url:$link_sn;
-      $block.="<option value='$val'>&#x2665; {$link_title}</option>";
+      $block['cate_title'][$i]['link_title']=$link_title;
+      $block['cate_title'][$i]['val']=$val;
+      $i++;
     }
-    $block.="</select>
-    <br />";
-    
+
+
   }
 	return $block;
 }
@@ -55,7 +54,7 @@ function tad_link_all_edit($options){
   include_once XOOPS_ROOT_PATH."/modules/tad_link/function_block.php";
 	$chked0_0=($options[0]=="1")?"checked":"";
 	$chked0_1=($options[0]=="0")?"checked":"";
-	
+
 	$menu=block_link_cate($options[1]);
 
 	$form="{$menu['js']}

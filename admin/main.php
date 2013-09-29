@@ -142,10 +142,6 @@ function list_tad_link_cate_loop($show_function=1,$of_cate_sn=0,$i=0,$level=0){
 		$xoopsTpl->assign('data' , $data);
     $xoopsTpl->assign('jquery' , get_jquery(true));
 	}
-	//echo "<pre>";
-  //var_export($data);
-  //echo "</pre>";
-  //exit;
 }
 
 
