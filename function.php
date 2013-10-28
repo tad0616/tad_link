@@ -22,61 +22,61 @@ include_once "function_block.php";
 
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
 function get_tad_link_cate_options($page='',$mode='edit',$default_cate_sn="0",$default_of_cate_sn="0",$unselect_level="",$start_search_sn="0",$level=0){
-	global $xoopsDB,$xoopsModule;
+  global $xoopsDB,$xoopsModule;
 
-	$count=tad_link_cate_count();
+  $count=tad_link_cate_count();
 
-	$sql = "select cate_sn,cate_title from ".$xoopsDB->prefix("tad_link_cate")." where of_cate_sn='{$start_search_sn}' order by cate_sort";
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $sql = "select cate_sn,cate_title from ".$xoopsDB->prefix("tad_link_cate")." where of_cate_sn='{$start_search_sn}' order by cate_sort";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-	$prefix=str_repeat("&nbsp;&nbsp;",$level);
-	$level++;
+  $prefix=str_repeat("&nbsp;&nbsp;",$level);
+  $level++;
 
-	$unselect=explode(",",$unselect_level);
+  $unselect=explode(",",$unselect_level);
 
-	$main="";
-	while(list($cate_sn,$cate_title)=$xoopsDB->fetchRow($result)){
-	  if($mode=="edit"){
-			$selected=($cate_sn==$default_of_cate_sn)?"selected=selected":"";
-			$selected.=($cate_sn==$default_cate_sn)?"disabled=disabled":"";
-  		$selected.=(in_array($level,$unselect))?"disabled=disabled":"";
-	  }else{
+  $main="";
+  while(list($cate_sn,$cate_title)=$xoopsDB->fetchRow($result)){
+    if($mode=="edit"){
+      $selected=($cate_sn==$default_of_cate_sn)?"selected=selected":"";
+      $selected.=($cate_sn==$default_cate_sn)?"disabled=disabled":"";
+      $selected.=(in_array($level,$unselect))?"disabled=disabled":"";
+    }else{
       if(is_array($default_cate_sn)){
-  		  $selected=in_array($cate_sn,$default_cate_sn)?"selected=selected":"";
+        $selected=in_array($cate_sn,$default_cate_sn)?"selected=selected":"";
       }else{
-  		  $selected=($cate_sn==$default_cate_sn)?"selected=selected":"";
-  		}
-  		$selected.=(in_array($level,$unselect))?"disabled=disabled":"";
-  	}
-  	if($page=="none" or empty($count[$cate_sn])){
+        $selected=($cate_sn==$default_cate_sn)?"selected=selected":"";
+      }
+      $selected.=(in_array($level,$unselect))?"disabled=disabled":"";
+    }
+    if($page=="none" or empty($count[$cate_sn])){
       $counter="";
-  	}else{
-    	$w=($page=="admin")?_MA_TADLINK_CATE_COUNT:_MD_TADLINK_CATE_COUNT;
-    	$counter=" (".sprintf($w,$count[$cate_sn]).") ";
-  	}
-		$main.="<option value=$cate_sn $selected>{$prefix}{$cate_title}{$counter}</option>";
-		$main.=get_tad_link_cate_options($page,$mode,$default_cate_sn,$default_of_cate_sn,$unselect_level,$cate_sn,$level);
+    }else{
+      $w=($page=="admin")?_MA_TADLINK_CATE_COUNT:_MD_TADLINK_CATE_COUNT;
+      $counter=" (".sprintf($w,$count[$cate_sn]).") ";
+    }
+    $main.="<option value=$cate_sn $selected>{$prefix}{$cate_title}{$counter}</option>";
+    $main.=get_tad_link_cate_options($page,$mode,$default_cate_sn,$default_of_cate_sn,$unselect_level,$cate_sn,$level);
 
-	}
-	return $main;
+  }
+  return $main;
 }
 
 
 //分類底下的連結數
 function tad_link_cate_count(){
-	global $xoopsDB;
-	$sql = "select cate_sn,count(*) from ".$xoopsDB->prefix("tad_link")." group by cate_sn";
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	while(list($cate_sn,$count)=$xoopsDB->fetchRow($result)){
+  global $xoopsDB;
+  $sql = "select cate_sn,count(*) from ".$xoopsDB->prefix("tad_link")." group by cate_sn";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while(list($cate_sn,$count)=$xoopsDB->fetchRow($result)){
     $all[$cate_sn]=intval($count);
   }
-	return $all;
+  return $all;
 }
 
 //連結內容格式化
 function mk_big_content($link_sn=null,$click_mode='normal',$link_title="",$link_url="",$cate_sn="",$cate_title="",$link_desc="",$link_counter=""){
   global $xoopsModuleConfig,$isAdmin,$xoopsTpl;
-  
+
 }
 
 //顯示圖片
@@ -90,12 +90,12 @@ function get_show_pic($link_sn,$mode='thumb'){
     $pic=_TAD_LINK_PIC_URL."/{$link_sn}.jpg";
     $pic_path=_TAD_LINK_PIC_PATH."/{$link_sn}.jpg";
   }
-  
+
   if(file_exists($pic_path)){
     return $pic;
   }else{
     get_pic($link_sn);
-      if($mode=='thumb'){
+    if($mode=='thumb'){
       $empty=($xoopsModuleConfig['direct_link'])?"http://capture.heartrails.com/120x90/border?{$link['link_url']}":XOOPS_URL."/modules/tad_link/images/pic_thumb.png";
     }else{
       $empty=($xoopsModuleConfig['direct_link'])?"http://capture.heartrails.com/400x300/border?{$link['link_url']}":XOOPS_URL."/modules/tad_link/images/pic_big.png";
@@ -108,13 +108,13 @@ function get_show_pic($link_sn,$mode='thumb'){
 //遠端擷取圖片
 function get_pic($link_sn=''){
   $link=get_tad_link($link_sn);
-	copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}",_TAD_LINK_PIC_PATH."/{$link_sn}.jpg");
-	
-	//if(filesize(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg")==9805){
+  copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}",_TAD_LINK_PIC_PATH."/{$link_sn}.jpg");
+
+  //if(filesize(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg")==9805){
   //  unlink(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg");
   //}else{
     thumbnail(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg",_TAD_LINK_THUMB_PIC_PATH."/{$link_sn}.jpg");
-	//}
+  //}
 }
 
 
@@ -150,67 +150,67 @@ function vita_get_url_content($url) {
 //做縮圖
 function thumbnail($filename="",$thumb_name="",$type="image/jpeg",$width="120"){
 
-	ini_set('memory_limit', '50M');
-	// Get new sizes
-	list($old_width, $old_height) = getimagesize($filename);
+  ini_set('memory_limit', '50M');
+  // Get new sizes
+  list($old_width, $old_height) = getimagesize($filename);
 
-	$percent=($old_width>$old_height)?round($width/$old_width,2):round($width/$old_height,2);
+  $percent=($old_width>$old_height)?round($width/$old_width,2):round($width/$old_height,2);
 
-	$newwidth = ($old_width>$old_height)?$width:$old_width * $percent;
-	$newheight = ($old_width>$old_height)?$old_height * $percent:$width;
+  $newwidth = ($old_width>$old_height)?$width:$old_width * $percent;
+  $newheight = ($old_width>$old_height)?$old_height * $percent:$width;
 
-	// Load
-	$thumb = imagecreatetruecolor($newwidth, $newheight);
-	if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
-		$source = imagecreatefromjpeg($filename);
-		$type="image/jpeg";
-	}elseif($type=="image/png"){
-		$source = imagecreatefrompng($filename);
-		$type="image/png";
-	}elseif($type=="image/gif"){
-		$source = imagecreatefromgif($filename);
-		$type="image/gif";
-	}
+  // Load
+  $thumb = imagecreatetruecolor($newwidth, $newheight);
+  if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
+    $source = imagecreatefromjpeg($filename);
+    $type="image/jpeg";
+  }elseif($type=="image/png"){
+    $source = imagecreatefrompng($filename);
+    $type="image/png";
+  }elseif($type=="image/gif"){
+    $source = imagecreatefromgif($filename);
+    $type="image/gif";
+  }
 
-	// Resize
-	imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
+  // Resize
+  imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
 //die($thumb_name);
   header("Content-type: image/png");
-	imagepng($thumb,$thumb_name);
+  imagepng($thumb,$thumb_name);
 
-	return;
-	exit;
+  return;
+  exit;
 }
 
 
 //新增tad_link計數器
 function add_tad_link_counter($link_sn=''){
-	global $xoopsDB,$xoopsModule;
-	$sql = "update ".$xoopsDB->prefix("tad_link")." set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
-	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  global $xoopsDB,$xoopsModule;
+  $sql = "update ".$xoopsDB->prefix("tad_link")." set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
+  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 }
 
 
 //以流水號取得某筆tad_link資料
 function get_tad_link($link_sn=""){
-	global $xoopsDB;
-	if(empty($link_sn))return;
-	$sql = "select * from ".$xoopsDB->prefix("tad_link")." where link_sn='$link_sn'";
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	$data=$xoopsDB->fetchArray($result);
-	return $data;
+  global $xoopsDB;
+  if(empty($link_sn))return;
+  $sql = "select * from ".$xoopsDB->prefix("tad_link")." where link_sn='$link_sn'";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $data=$xoopsDB->fetchArray($result);
+  return $data;
 }
 
 //取得tad_link_cate所有資料陣列
 function get_tad_link_cate_all(){
-	global $xoopsDB;
-	$sql = "select * from ".$xoopsDB->prefix("tad_link_cate");
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	while($data=$xoopsDB->fetchArray($result)){
-		$cate_sn=intval($data['cate_sn']);
-		$data_arr[$cate_sn]=$data;
-	}
-	return $data_arr;
+  global $xoopsDB;
+  $sql = "select * from ".$xoopsDB->prefix("tad_link_cate");
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while($data=$xoopsDB->fetchArray($result)){
+    $cate_sn=intval($data['cate_sn']);
+    $data_arr[$cate_sn]=$data;
+  }
+  return $data_arr;
 }
 
 
@@ -219,27 +219,27 @@ function get_tad_link_cate_all(){
 
 //自動取得tad_link_cate的最新排序
 function tad_link_cate_max_sort($of_cate_sn='0'){
-	global $xoopsDB;
-	$sql = "select max(`cate_sort`) from ".$xoopsDB->prefix("tad_link_cate")." where of_cate_sn='{$of_cate_sn}'";
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	list($sort)=$xoopsDB->fetchRow($result);
-	return ++$sort;
+  global $xoopsDB;
+  $sql = "select max(`cate_sort`) from ".$xoopsDB->prefix("tad_link_cate")." where of_cate_sn='{$of_cate_sn}'";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  list($sort)=$xoopsDB->fetchRow($result);
+  return ++$sort;
 }
 
 /********************* 預設函數 *********************/
 //圓角文字框
 function div_3d($title="",$main="",$kind="raised",$style="",$other=""){
-	$main="<table style='width:auto;{$style}'><tr><td>
-	<div class='{$kind}'>
-	<h1>$title</h1>
-	$other
-	<b class='b1'></b><b class='b2'></b><b class='b3'></b><b class='b4'></b>
-	<div class='boxcontent'>
- 	$main
-	</div>
-	<b class='b4b'></b><b class='b3b'></b><b class='b2b'></b><b class='b1b'></b>
-	</div>
-	</td></tr></table>";
-	return $main;
+  $main="<table style='width:auto;{$style}'><tr><td>
+  <div class='{$kind}'>
+  <h1>$title</h1>
+  $other
+  <b class='b1'></b><b class='b2'></b><b class='b3'></b><b class='b4'></b>
+  <div class='boxcontent'>
+  $main
+  </div>
+  <b class='b4b'></b><b class='b3b'></b><b class='b2b'></b><b class='b1b'></b>
+  </div>
+  </td></tr></table>";
+  return $main;
 }
 ?>
