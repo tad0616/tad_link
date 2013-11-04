@@ -8,7 +8,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADLINK_NAME;
-$modversion['version'] = 2.00;
+$modversion['version'] = 2.01;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author'] = _MI_TADLINK_AUTHOR;
 $modversion['credits'] = _MI_TADLINK_CREDITS;

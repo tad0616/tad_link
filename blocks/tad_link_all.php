@@ -3,7 +3,7 @@
 //區塊主函式 (好站推薦快速連結(tad_link_all))
 function tad_link_all($options){
   global $xoopsDB;
-
+  $i=0;
   $block="";
   $and_cate=empty($options[1])?"":"where cate_sn in({$options[1]})";
   $sql = "select * from ".$xoopsDB->prefix("tad_link_cate")." $and_cate order by of_cate_sn,cate_sort";
@@ -24,9 +24,10 @@ function tad_link_all($options){
     if(empty($total))continue;
 
 
-    $block['link_js']=$link_js;
-    $block['color']=$color;
-    $i=0;
+    $block[$i]['link_js']=$link_js;
+    $block[$i]['color']=$color;
+    $block[$i]['cate_title']=$cate_title;
+    $j=0;
     while($all2=$xoopsDB->fetchArray($result2)){
       //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
       foreach($all2 as $k=>$v){
@@ -34,11 +35,11 @@ function tad_link_all($options){
       }
       $val=($options[0]==1)?$link_url:$link_sn;
       if(empty($val))$val="#";
-      $block['cate_title'][$i]['link_title']=$link_title;
-      $block['cate_title'][$i]['val']=$val;
-      $i++;
+      $block[$i]['item'][$j]['link_title']=$link_title;
+      $block[$i]['item'][$j]['val']=$val;
+      $j++;
     }
-
+    $i++;
 
   }
   return $block;

@@ -1,5 +1,9 @@
-<select onChange="<{$block.link_js}>" style='background-color:<{$block.color}>;'>
-  <{foreach from=$block.cate_title item=li}>
-    <option value='<{$li.val}>'>&#x2665; <{$li.link_title}></option>
-  <{/foreach}>
-</select>
+
+<{foreach from=$block item=cate}>
+    <select onChange="<{$block.link_js}>" style='background-color:<{$block.color}>;'>
+    <option value=""><{$cate.cate_title}></option>
+      <{foreach from=$cate.item item=link}>
+        <option value='<{$link.val}>'>&#x2665; <{$link.link_title}></option>
+      <{/foreach}>
+    </select>
+<{/foreach}>
