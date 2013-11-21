@@ -107,14 +107,25 @@ function get_show_pic($link_sn,$mode='thumb'){
 
 //遠端擷取圖片
 function get_pic($link_sn=''){
-  $link=get_tad_link($link_sn);
-  copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}",_TAD_LINK_PIC_PATH."/{$link_sn}.jpg");
+  if($_FILES){
+    include_once XOOPS_ROOT_PATH."/modules/tadtools/upload/class.upload.php";
 
-  //if(filesize(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg")==9805){
-  //  unlink(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg");
-  //}else{
-    thumbnail(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg",_TAD_LINK_THUMB_PIC_PATH."/{$link_sn}.jpg");
-  //}
+    $handle = new upload($_FILES['pic'],'zh_TW');// 將上傳物件實體化
+    if($handle->uploaded) { // 如果檔案已經上傳到 tmp
+      $handle->file_new_name_body = $link_sn; // 重新設定新檔名
+      $handle->file_overwrite = true;
+      $handle->image_resize = true; // 重設圖片大小
+      $handle->image_x = 400; // 設定寬度為 400 px
+      $handle->image_ratio_y = true; // 按比例縮放高度
+      $handle->image_convert = 'jpg';
+      $handle->process(_TAD_LINK_PIC_PATH); // 檔案搬移到目的地
+      $handle->clean(); // 若搬移成功，則釋放記憶體
+    }
+  }else{
+    $link=get_tad_link($link_sn);
+    copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}",_TAD_LINK_PIC_PATH."/{$link_sn}.jpg");
+  }
+  thumbnail(_TAD_LINK_PIC_PATH."/{$link_sn}.jpg",_TAD_LINK_THUMB_PIC_PATH."/{$link_sn}.jpg");
 }
 
 

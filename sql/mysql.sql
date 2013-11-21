@@ -20,4 +20,3 @@ CREATE TABLE `tad_link` (
   `enable` enum('1','0') NOT NULL default '1' COMMENT '是否啟用',
 PRIMARY KEY (`link_sn`)
 ) ENGINE=MyISAM;
-

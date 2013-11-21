@@ -17,7 +17,7 @@
     });
   });
 </script>
-  
+
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
 
@@ -25,7 +25,7 @@
   <form action="index.php" method="post" id="myForm" enctype="multipart/form-data">
     <div class="controls controls-row">
     	<input type="text" name="link_url" id="LinkUrl" style="font-size:24px;" class="validate[required,custom[url]] span10" placeholder="http://<{$smarty.const._MD_TADLINK_LINK_URL}>" value="<{$link_url}>">
-    	
+
     	<button type="button" id="LinkGet" class="btn btn-primary pull-right"><{$smarty.const._MD_TADLINK_AUTOGET}></button>
   	</div>
 
@@ -44,6 +44,7 @@
 
       <div class="span2">
         <img src="<{$pic}>" id="thumb">
+        <input type="file" name="pic" accept="image/gif,image/jpeg,image/png">
       </div>
 
       <div class="span4">
