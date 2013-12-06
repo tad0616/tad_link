@@ -10,7 +10,14 @@ function tad_link_show($options){
   global $xoopsDB;
   if(empty($options[0]))$options[0]=10;
 
-  $order=($options[4]=='new')?"order by post_date desc":"order by rand()";
+  if($options[4]=='new'){
+    $order="order by post_date desc";
+  }elseif($options[4]=='rand'){
+    $order="order by rand()";
+  }else{
+    $order="order by link_sort";
+  }
+
   $and_cate=empty($options[6])?"":"and cate_sn in({$options[6]})";
   $sql = "select * from ".$xoopsDB->prefix("tad_link")." where enable='1' $and_cate $order limit 0,{$options[0]}";
 
@@ -66,6 +73,7 @@ function tad_link_show_edit($options){
   $chked3_0=($options[3]=="0")?"checked":"";
   $chked4_1=($options[4]=="new")?"checked":"";
   $chked4_0=($options[4]=="rand")?"checked":"";
+  $chked4_2=($options[4]=="sort")?"checked":"";
   $chked5_1=($options[5]=="1")?"checked":"";
   $chked5_0=($options[5]=="0")?"checked":"";
 
@@ -87,6 +95,7 @@ function tad_link_show_edit($options){
 
   <INPUT type='radio' name='options[4]' value='new' $chked4_1>"._MB_TADLINK_SHOW_EDIT_BITEM4."
   <INPUT type='radio' name='options[4]' value='rand' $chked4_0>"._MB_TADLINK_SHOW_EDIT_BITEM5."<br>
+  <INPUT type='radio' name='options[4]' value='sort' $chked4_2>"._MB_TADLINK_SHOW_EDIT_BITEM7."<br>
 
   "._MB_TADLINK_SHOW_EDIT_BITEM6."
   <INPUT type='radio' name='options[5]' value='1' $chked5_1>"._YES."

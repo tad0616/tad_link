@@ -11,6 +11,7 @@ define("_MB_TADLINK_SHOW_EDIT_BITEM2","顯示站名？");
 define("_MB_TADLINK_SHOW_EDIT_BITEM3","顯示網址？");
 define("_MB_TADLINK_SHOW_EDIT_BITEM4","顯示最新");
 define("_MB_TADLINK_SHOW_EDIT_BITEM5","隨機顯示");
+define("_MB_TADLINK_SHOW_EDIT_BITEM7","按照排序");
 define("_MB_TADLINK_SHOW_EDIT_BITEM6","直接外連？");
 
 define("_MB_TADLINK_TAD_LINK_ALL_EDIT_BITEM0","直接外連？");
