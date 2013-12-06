@@ -40,7 +40,8 @@ function list_tad_link($show_cate_sn='',$mode=''){
       $$k=$v;
     }
     //避免截掉半個中文字
-    //$link_desc=nl2br(xoops_substr(strip_tags($link_desc), 0, 90));
+    $link_desc=nl2br(xoops_substr(strip_tags($link_desc), 0, 180));
+
     $thumb=get_show_pic($link_sn);
     $pic=get_show_pic($link_sn,'big');
 

@@ -54,6 +54,7 @@ function tad_link_show($options){
     $block['links'][$i]['title']=$title;
     $i++;
   }
+  $block['height']=$options[7];
 
   return $block;
 }
@@ -92,9 +93,9 @@ function tad_link_show_edit($options){
   "._MB_TADLINK_SHOW_EDIT_BITEM3."
   <INPUT type='radio' name='options[3]' value='1' $chked3_1>"._YES."
   <INPUT type='radio' name='options[3]' value='0' $chked3_0>"._NO."<br>
-
+  "._MB_TADLINK_SHOW_SORT."
   <INPUT type='radio' name='options[4]' value='new' $chked4_1>"._MB_TADLINK_SHOW_EDIT_BITEM4."
-  <INPUT type='radio' name='options[4]' value='rand' $chked4_0>"._MB_TADLINK_SHOW_EDIT_BITEM5."<br>
+  <INPUT type='radio' name='options[4]' value='rand' $chked4_0>"._MB_TADLINK_SHOW_EDIT_BITEM5."
   <INPUT type='radio' name='options[4]' value='sort' $chked4_2>"._MB_TADLINK_SHOW_EDIT_BITEM7."<br>
 
   "._MB_TADLINK_SHOW_EDIT_BITEM6."
@@ -103,7 +104,10 @@ function tad_link_show_edit($options){
 
   "._MB_TADLINK_TAD_CATE_MENU."
   {$menu['form']}
-  <INPUT type='hidden' name='options[6]' id='bb' value='{$options[2]}'>
+  <INPUT type='hidden' name='options[6]' id='bb' value='{$options[2]}'><br>
+  "._MB_TADLINK_SHOW_HEIGHT."
+  <INPUT type='text' name='options[7]' value='{$options[7]}' size=4> px<br>
+
   ";
   return $form;
 }

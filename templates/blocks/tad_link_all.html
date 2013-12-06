@@ -1,9 +1,10 @@
-
+<div class="row-fluid">
 <{foreach from=$block item=cate}>
-    <select onChange="<{$cate.link_js}>" style='background-color:<{$cate.color}>;'>
+    <select onChange="<{$cate.link_js}>" style='background-color:<{$cate.color}>;' class="span12">
     <option value=""><{$cate.cate_title}></option>
       <{foreach from=$cate.item item=link}>
         <option value='<{$link.val}>'>&#x2665; <{$link.link_title}></option>
       <{/foreach}>
     </select>
 <{/foreach}>
+</div>
