@@ -159,40 +159,41 @@ function vita_get_url_content($url) {
 }
 
 //做縮圖
-function thumbnail($filename="",$thumb_name="",$type="image/jpeg",$width="120"){
+if(!function_exists('thumbnail')){
+  function thumbnail($filename="",$thumb_name="",$type="image/jpeg",$width="120"){
 
-  ini_set('memory_limit', '50M');
-  // Get new sizes
-  list($old_width, $old_height) = getimagesize($filename);
+    ini_set('memory_limit', '50M');
+    // Get new sizes
+    list($old_width, $old_height) = getimagesize($filename);
 
-  $percent=($old_width>$old_height)?round($width/$old_width,2):round($width/$old_height,2);
+    $percent=($old_width>$old_height)?round($width/$old_width,2):round($width/$old_height,2);
 
-  $newwidth = ($old_width>$old_height)?$width:$old_width * $percent;
-  $newheight = ($old_width>$old_height)?$old_height * $percent:$width;
+    $newwidth = ($old_width>$old_height)?$width:$old_width * $percent;
+    $newheight = ($old_width>$old_height)?$old_height * $percent:$width;
 
-  // Load
-  $thumb = imagecreatetruecolor($newwidth, $newheight);
-  if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
-    $source = imagecreatefromjpeg($filename);
-    $type="image/jpeg";
-  }elseif($type=="image/png"){
-    $source = imagecreatefrompng($filename);
-    $type="image/png";
-  }elseif($type=="image/gif"){
-    $source = imagecreatefromgif($filename);
-    $type="image/gif";
+    // Load
+    $thumb = imagecreatetruecolor($newwidth, $newheight);
+    if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
+      $source = imagecreatefromjpeg($filename);
+      $type="image/jpeg";
+    }elseif($type=="image/png"){
+      $source = imagecreatefrompng($filename);
+      $type="image/png";
+    }elseif($type=="image/gif"){
+      $source = imagecreatefromgif($filename);
+      $type="image/gif";
+    }
+
+    // Resize
+    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
+  //die($thumb_name);
+    header("Content-type: image/png");
+    imagepng($thumb,$thumb_name);
+
+    return;
+    exit;
   }
-
-  // Resize
-  imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-//die($thumb_name);
-  header("Content-type: image/png");
-  imagepng($thumb,$thumb_name);
-
-  return;
-  exit;
 }
-
 
 //新增tad_link計數器
 function add_tad_link_counter($link_sn=''){
@@ -238,19 +239,5 @@ function tad_link_cate_max_sort($of_cate_sn='0'){
 }
 
 /********************* 預設函數 *********************/
-//圓角文字框
-function div_3d($title="",$main="",$kind="raised",$style="",$other=""){
-  $main="<table style='width:auto;{$style}'><tr><td>
-  <div class='{$kind}'>
-  <h1>$title</h1>
-  $other
-  <b class='b1'></b><b class='b2'></b><b class='b3'></b><b class='b4'></b>
-  <div class='boxcontent'>
-  $main
-  </div>
-  <b class='b4b'></b><b class='b3b'></b><b class='b2b'></b><b class='b1b'></b>
-  </div>
-  </td></tr></table>";
-  return $main;
-}
+
 ?>
