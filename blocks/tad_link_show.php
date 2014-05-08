@@ -40,11 +40,11 @@ function tad_link_show($options){
     $pic=($options[1])?"<img src='$thumb' onClick=\"{$link_js}\" style='cursor:pointer;margin:4px auto;width:120px;'>":"";
     $height+=($options[1])?100:5;
 
-    $title=($options[2])?"<div style='cursor:pointer;font-size:11px;color:#0066CC;' onClick=\"{$link_js}\">$link_title</div>":"";
+    $title=($options[2])?"<div style='cursor:pointer;font-size:11px;' onClick=\"{$link_js}\">$link_title</div>":"";
 
     $height+=($options[2])?30:0;
 
-    $url=($options[3])?"<div style='cursor:pointer;font-size:11px;color:#006600;' onClick=\"{$link_js}\">$link_url</div>":"";
+    $url=($options[3])?"<div style='cursor:pointer;font-size:11px;' onClick=\"{$link_js}\">$link_url</div>":"";
 
     $height+=($options[3])?25:0;
 
