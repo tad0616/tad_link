@@ -20,7 +20,7 @@
 	<div class="well">
     <div class="row-fluid">
       <div class="span5">
-        <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" border=0><img src="<{$pic}>" class="img-rounded img-polaroid" ></a></div>
+        <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" border=0><img src="<{$pic}>" class="img-rounded img-polaroid" alt="<{$cate_title}>"></a></div>
       <div class="span7">
         <div class="span6">
         <span class="label label-info">
@@ -28,7 +28,7 @@
         </span>
         <span class="badge badge-important"><{$link_counter}></span>
         </div>
-        
+
         <div class="span6" style="text-align:right;">
         <{if $isAdmin}>
         <a href="index.php?op=tad_link_form&link_sn=<{$link_sn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
@@ -36,21 +36,21 @@
         <{/if}>
         <a href="index.php?cate_sn=<{$cate_sn}>" class="btn btn-mini btn-info"><{$smarty.const._MD_TADLINK_CATE_INFO2}></a>
         </div>
-        
+
         <h1><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{$link_title}></a></h1>
 
         <div class="well well-small">
         <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" class="btn btn-primary"><{$smarty.const._MD_TADLINK_GOTO_LINK}><{$link_url}></a>
         </div>
-        
+
         <div><{$link_desc}></div>
       </div>
     </div>
 	</div>
-	
+
   <div style="margin:8px;text-align:right;"><{$push_url}></div>
   <{$facebook_comments}>
-  
+
 <{elseif $op=="batch" and $isAdmin and $show_cate_sn}>
 
     <script type="text/javascript">
@@ -63,7 +63,7 @@
             });
         }
         });
-        
+
         $("#clickAll").click(function() {
 
            if($("#clickAll").attr("checked"))
@@ -76,16 +76,16 @@
            {
              $("input[name='link_sn[]']").each(function() {
                  $(this).attr("checked", false);
-             });          
+             });
            }
            get_all_sn();
         });
-        
+
         $("input[name='link_sn[]']").change(function() {
           get_all_sn();
         });
       });
-      
+
       function get_all_sn(){
         var i=0;
         var arr = new Array();
@@ -97,7 +97,7 @@
         });
         $('#all_sn').val(arr.join(','));
       };
-        
+
     	function delete_tad_link_func(link_sn){
     		var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
     		if (!sure)	return;
@@ -140,10 +140,10 @@
                 <{$link.cate_title}>
               </span>
               <{$link.link_title}>
-              
+
               <span style="font-size:12px;"><{$link.link_url}></span>
               <span class="label label-important"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
-              
+
             </label>
           </td>
           <td>
@@ -203,7 +203,7 @@
       <{if $i==0}>
       <div class="row-fluid">
       <{/if}>
-  
+
         <div class="well span6" id="link<{$link.link_sn}>">
           <div class="row-fluid">
             <div class="span4">
@@ -239,7 +239,7 @@
               </div>
             </div>
           </div>
-            
+
         </div>
 
       <{assign var="i" value=$i+1}>
@@ -255,9 +255,9 @@
       <{$bar}>
     </div>
   <{/if}>
-  
+
   <{if $isAdmin}>
     <{includeq file="db:tad_link_form_tpl.html"}>
   <{/if}>
-  
+
 <{/if}>

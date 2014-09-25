@@ -33,18 +33,18 @@ function tad_link_show($options){
     }
 
     $val=($options[5])?$link_url:$link_sn;
-    $link_js=($options[5])?"window.open('{$link_url}','_blank');":"location.href='".XOOPS_URL."/modules/tad_link/index.php?link_sn={$link_sn}'";
+    $link_go=($options[5])?$link_url:"".XOOPS_URL."/modules/tad_link/index.php?link_sn={$link_sn}";
 
     $height=10;
     $thumb=get_show_block_pic($link_sn);
-    $pic=($options[1])?"<img src='$thumb' onClick=\"{$link_js}\" style='cursor:pointer;margin:4px auto;width:120px;'>":"";
+    $pic=($options[1])?"<a href='{$link_go}' target='_blank'><img src='$thumb' style='margin:4px auto;width:120px;' alt='{$link_title}' title='{$link_url}'>":"";
     $height+=($options[1])?100:5;
 
-    $title=($options[2])?"<div style='cursor:pointer;font-size:11px;' onClick=\"{$link_js}\">$link_title</div>":"";
+    $title=($options[2])?"<div style='font-size:11px;'><a href='{$link_go}' target='_blank'>$link_title</a></div>":"";
 
     $height+=($options[2])?30:0;
 
-    $url=($options[3])?"<div style='cursor:pointer;font-size:11px;' onClick=\"{$link_js}\">$link_url</div>":"";
+    $url=($options[3])?"<div style='font-size:11px;'><a href='{$link_go}' target='_blank'>$link_url</a></div>":"";
 
     $height+=($options[3])?25:0;
 
