@@ -142,7 +142,11 @@
               <{$link.link_title}>
 
               <span style="font-size:12px;"><{$link.link_url}></span>
-              <span class="label label-important"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
+              <span class="label label-info"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
+
+              <{if $link.overdue}>
+                <span class="label label-important"><{$smarty.const._MD_TADLINK_OVERDUE}></span>
+              <{/if}>
 
             </label>
           </td>

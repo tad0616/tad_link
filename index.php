@@ -19,7 +19,10 @@ function list_tad_link($show_cate_sn='',$mode=''){
 
   //今天日期
   $today=date("Y-m-d");
-  $sql = "select * from ".$xoopsDB->prefix("tad_link")." where enable='1' and (unable_date='0000-00-00' or unable_date >='$today')  $and_cate";
+  $now=time();
+
+  $and_unable=($mode=='batch')?"":"and (unable_date='0000-00-00' or unable_date >='$today')";
+  $sql = "select * from ".$xoopsDB->prefix("tad_link")." where enable='1' $and_unable  $and_cate";
 
   if($mode!='batch'){
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
@@ -45,6 +48,10 @@ function list_tad_link($show_cate_sn='',$mode=''){
     $thumb=get_show_pic($link_sn);
     $pic=get_show_pic($link_sn,'big');
 
+    $unable_time=strtotime($unable_date);
+    $overdue=($now > $unable_time and $unable_date!='0000-00-00')?true:false;
+
+
     $all_content[$i]['link_sn']=$link_sn;
     $all_content[$i]['pic']=$pic;
     $all_content[$i]['thumb']=$thumb;
@@ -54,6 +61,7 @@ function list_tad_link($show_cate_sn='',$mode=''){
     $all_content[$i]['link_url']=$link_url;
     $all_content[$i]['link_desc']=$link_desc;
     $all_content[$i]['link_counter']=$link_counter;
+    $all_content[$i]['overdue']=$overdue;
     $i++;
   }
 
@@ -75,6 +83,7 @@ function list_tad_link($show_cate_sn='',$mode=''){
   $xoopsTpl->assign("next_op","insert_tad_link");
   $xoopsTpl->assign("pic","images/pic_thumb.png");
   $xoopsTpl->assign('show_cate_sn',$show_cate_sn);
+  $xoopsTpl->assign('mode',$mode);
 
   $xoopsTpl->assign("count",++$i);
 }

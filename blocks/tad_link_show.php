@@ -19,7 +19,9 @@ function tad_link_show($options){
   }
 
   $and_cate=empty($options[6])?"":"and cate_sn in({$options[6]})";
-  $sql = "select * from ".$xoopsDB->prefix("tad_link")." where enable='1' $and_cate $order limit 0,{$options[0]}";
+  //今天日期
+  $today=date("Y-m-d");
+  $sql = "select * from ".$xoopsDB->prefix("tad_link")." where `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') $and_cate $order limit 0,{$options[0]}";
 
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 

@@ -6,6 +6,8 @@ function tad_link_all($options){
   $i=0;
   $block="";
   $and_cate=empty($options[1])?"":"where cate_sn in({$options[1]})";
+  //今天日期
+  $today=date("Y-m-d");
   $sql = "select * from ".$xoopsDB->prefix("tad_link_cate")." $and_cate order by of_cate_sn,cate_sort";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   while($all=$xoopsDB->fetchArray($result)){
@@ -18,7 +20,7 @@ function tad_link_all($options){
     $link_js=($options[0]==1)?"window.open(this.value,'_blank');":"location.href='".XOOPS_URL."/modules/tad_link/index.php?link_sn='+this.value";
 
 
-    $sql2 = "select * from ".$xoopsDB->prefix("tad_link")." where `cate_sn` = '{$cate_sn}' and enable='1' order by link_sort";
+    $sql2 = "select * from ".$xoopsDB->prefix("tad_link")." where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
     $result2 = $xoopsDB->query($sql2) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
     $total=$xoopsDB->getRowsNum($result2);
     if(empty($total))continue;
