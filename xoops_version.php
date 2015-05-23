@@ -1,14 +1,9 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-11-14
-// $Id:$
-// ------------------------------------------------------------------------- //
 $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADLINK_NAME;
-$modversion['version'] = 2.00;
+$modversion['version'] = 2.3;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author'] = _MI_TADLINK_AUTHOR;
 $modversion['credits'] = _MI_TADLINK_CREDITS;
@@ -19,7 +14,7 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2013/07/28';
+$modversion['release_date'] = '2014/12/04';
 $modversion['module_website_url'] = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -86,7 +81,7 @@ $modversion['blocks'][1]['description'] = _MI_TADLINK_BDESC1;
 $modversion['blocks'][1]['show_func'] = "tad_link_show";
 $modversion['blocks'][1]['template'] = "tad_link_show.html";
 $modversion['blocks'][1]['edit_func'] = "tad_link_show_edit";
-$modversion['blocks'][1]['options'] = "10|1|1|0|new|1";
+$modversion['blocks'][1]['options'] = "10|1|1|0|new|1||110";
 
 $modversion['blocks'][2]['file'] = "tad_link_all.php";
 $modversion['blocks'][2]['name'] = _MI_TADLINK_BNAME2;

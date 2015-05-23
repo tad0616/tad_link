@@ -17,62 +17,63 @@
     });
   });
 </script>
-  
+
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
 
 <div class="well">
   <form action="index.php" method="post" id="myForm" enctype="multipart/form-data">
-    <div class="controls controls-row">
-    	<input type="text" name="link_url" id="LinkUrl" style="font-size:24px;" class="validate[required,custom[url]] span10" placeholder="http://<{$smarty.const._MD_TADLINK_LINK_URL}>" value="<{$link_url}>">
-    	
-    	<button type="button" id="LinkGet" class="btn btn-primary pull-right"><{$smarty.const._MD_TADLINK_AUTOGET}></button>
-  	</div>
+    <div class="row-fluid">
+      <input type="text" name="link_url" id="LinkUrl" style="font-size:24px;" class="validate[required,custom[url]] span10" placeholder="http://<{$smarty.const._MD_TADLINK_LINK_URL}>" value="<{$link_url}>">
+
+      <button type="button" id="LinkGet" class="btn btn-primary pull-right"><{$smarty.const._MD_TADLINK_AUTOGET}></button>
+    </div>
 
     <div class="row-fluid">
 
       <div class="span6">
 
-        <div class="controls controls-row">
+        <div class="row-fluid">
           <input type="text" name="link_title" id="LinkTitle" class="validate[required] span12" placeholder="<{$smarty.const._MD_TADLINK_LINK_TITLE}>" value="<{$link_title}>">
         </div>
 
-        <div class="controls controls-row">
+        <div class="row-fluid">
           <textarea name="link_desc" class="span12" rows=4 id="LinkDesc" placeholder="<{$smarty.const._MD_TADLINK_LINK_DESC}>"><{$link_desc}></textarea>
         </div>
       </div>
 
       <div class="span2">
         <img src="<{$pic}>" id="thumb">
+        <input type="file" name="pic" accept="image/gif,image/jpeg,image/png">
       </div>
 
       <div class="span4">
-        <div class="controls controls-row">
+        <div class="row-fluid">
           <{if $get_tad_link_cate_options}>
             <select name="cate_sn" size=1 id="cate_sn" class="span5">
-          		<option value=""></option>
-          		<{$get_tad_link_cate_options}>
-          	</select>
-        	 <input type="text" name="new_cate" class="span7" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_NEW_CATE}>">
-        	<{else}>
-        	 <input type="text" name="new_cate" class="span12" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_ADD_NEW_CATE}>">
+              <option value=""></option>
+              <{$get_tad_link_cate_options}>
+            </select>
+           <input type="text" name="new_cate" class="span7" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_NEW_CATE}>">
+          <{else}>
+           <input type="text" name="new_cate" class="span12" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_ADD_NEW_CATE}>">
           <{/if}>
         </div>
 
 
-        <div class="controls controls-row">
+        <div class="row-fluid">
           <input type="text" name="unable_date" class="span5" value="<{$unable_date}>" id="unable_date" placeholder="<{$smarty.const._MD_TADLINK_UNABLE_DATE}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd' , startDate:'%y-%M-%d}'})">
 
           <input type="hidden" name="enable" value="1">
           <input type="hidden" name="mode" value="<{$mode}>">
           <input type="hidden" name="link_sn" value="<{$link_sn}>">
           <input type="hidden" name="op" value="<{$next_op}>">
-        	<button type="submit" class="btn btn-info pull-right"><{$smarty.const._MD_TADLINK_QUICK_ADD}></button>
+          <button type="submit" class="btn btn-info pull-right"><{$smarty.const._MD_TADLINK_QUICK_ADD}></button>
         </div>
 
 
      </div>
-  	</div>
+    </div>
   </form>
 </div>
 <div style="color:<{$color}>;"><{$chk_msg}></div>

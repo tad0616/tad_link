@@ -6,30 +6,30 @@
   <h2><{$smarty.const._MA_TAD_LINK_CATE_FORM}></h2>
 
 
-	<{$formValidator_code}>
-	<form action='main.php' method='post' id='myForm' enctype='multipart/form-data'>
+  <{$formValidator_code}>
+  <form action='main.php' method='post' id='myForm' enctype='multipart/form-data'>
 
-	<!--父分類-->
-	<{$smarty.const._MA_TADLINK_OF_CATE_SN}>
-	<select name='of_cate_sn' size=1 >
+  <!--父分類-->
+  <{$smarty.const._MA_TADLINK_OF_CATE_SN}>
+  <select name='of_cate_sn' size=1 >
   <option value=''></option>
-		<{$get_tad_link_cate_options}>
-	</select>
-	
+    <{$get_tad_link_cate_options}>
+  </select>
 
-	<!--分類標題-->
+
+  <!--分類標題-->
   <{$smarty.const._MA_TADLINK_CATE_TITLE}>
   <input type='text' name='cate_title' size='20' value='<{$cate_title}>' id='cate_title' class='validate[required]'></td></tr>
 
 
 
-	<!--分類編號-->
-	<input type='hidden' name='cate_sn' value='<{$cate_sn}>'>
-	<input type='hidden' name='cate_sort' value='<{$cate_sort}>'>
-	<input type='hidden' name='op' value='<{$next_op}>'>
-	<input type='submit' value='<{$smarty.const._TAD_SAVE}>'>
-	
-	</form>
+  <!--分類編號-->
+  <input type='hidden' name='cate_sn' value='<{$cate_sn}>'>
+  <input type='hidden' name='cate_sort' value='<{$cate_sort}>'>
+  <input type='hidden' name='op' value='<{$next_op}>'>
+  <input type='submit' value='<{$smarty.const._TAD_SAVE}>'>
+
+  </form>
 
 <{else}>
 
@@ -45,19 +45,19 @@
         });
       });
 
-  		function delete_tad_link_cate_func(cate_sn){
-  			var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-  			if (!sure)	return;
-  			location.href="main.php?op=delete_tad_link_cate&cate_sn=" + cate_sn;
-  		}
+      function delete_tad_link_cate_func(cate_sn){
+        var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
+        if (!sure)  return;
+        location.href="main.php?op=delete_tad_link_cate&cate_sn=" + cate_sn;
+      }
     </script>
-    
+
     <div id="save_msg"></div>
-		
+
 
     <table>
-		<tbody id="sort">
-		<{foreach from=$data item=link}>
+    <tbody id="sort">
+    <{foreach from=$data item=link}>
       <tr id="tr_<{$link.cate_sn}>">
         <td>
           <div class="well well-small span4 <{$link.offset}>" style="font-size:12pt;">
@@ -71,10 +71,10 @@
       </tr>
     <{/foreach}>
 
-		</tbody>
-		</table>
-		
-		<div class="text-center">
+    </tbody>
+    </table>
+
+    <div class="text-center">
       <a href="main.php?op=tad_link_cate_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
-		</div>
+    </div>
 <{/if}>
