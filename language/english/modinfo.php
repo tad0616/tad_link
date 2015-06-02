@@ -1,0 +1,37 @@
+<?php
+//  ------------------------------------------------------------------------ //
+// 本模組由 tad 製作
+// 製作日期：2011-11-14
+// $Id:$
+// ------------------------------------------------------------------------- //
+include_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
+
+define('_MI_TADLINK_NAME', 'Tad Links');
+define('_MI_TADLINK_AUTHOR', 'Tad');
+define('_MI_TADLINK_CREDITS', 'Tad');
+define('_MI_TADLINK_DESC', 'Tad Links Module');
+define('_MI_TADLINK_ADMENU1', 'Management');
+define('_MI_TADLINK_ADMENU2', 'Category');
+define('_MI_TADLINK_TEMPLATE_DESC1', 'tad_link_index_tpl.html template file.');
+define('_MI_TADLINK_BNAME1', 'New Links');
+define('_MI_TADLINK_BDESC1', 'New Links (tad_link_show)');
+define('_MI_TADLINK_BNAME2', 'Quick Links');
+define('_MI_TADLINK_BDESC2', 'Quick Links (tad_link_all)');
+
+define('_MI_TADLINK_SHOW_NUM', 'Links per Page');
+define('_MI_TADLINK_SHOW_NUM_DESC', 'Number of links displayed on a page (pagination)');
+define('_MI_TADLINK_SHOW_FACEBOOK', 'Use Facebook Message System Tools');
+define('_MI_TADLINK_SHOW_FACEBOOK_DESC', 'Set the "Link detail page" whether to show Facebook Message Tools');
+define('_MI_TADLINK_SHOW_PUSH', 'Use Tweets Tools');
+define('_MI_TADLINK_SHOW_PUSH_DESC', 'Set in the "Link detail page" whether to show Tweets Tools');
+define('_MI_TADLINK_PIC_WIDTH', 'Picture width');
+define('_MI_TADLINK_PIC_WIDTH_DESC', 'Set the width for a large image (upper limit is 400)');
+define('_MI_TADLINK_DIRECT_LINK', 'Direct link thumbnail?');
+define('_MI_TADLINK_DIRECT_LINK_DESC', 'If Thumbnail has not been created when adding the link, should we use a remote connection thumbnail? <br/>Choose "Yes" is slow, but perhaps you can see thumbnail. <br/>Choose "No", then will be pre-alternative set of thumbnails, faster, but you can not see thumbnail ');
+
+define('_MI_TADLINK_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_TADLINK_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADLINK_BACK_2_ADMIN', 'Back to Administration of ');
+
+//help
+define('_MI_TADLINK_HELP_OVERVIEW', 'Overview');

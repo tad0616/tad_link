@@ -1,0 +1,57 @@
+Tad Link 2.3 official version of the amended project (2014-12-04 release)
+================================================== ==
+ 1. Fixed block site will still be expired bug
+ 2. Amendments expired batch management can not see the site bug
+
+
+Tad Link 2.21 official version of the amended project (2014-09-25 release)
+================================================== ==
+ 1. streamline unnecessary functions
+ 2. Remove the block of text color
+ 3. Fixed code to conform to WCAG
+
+Tad Link 2.2 official version of the amended project (2013-12-06 release)
+================================================== ==
+ 1. Block diagram added option "Sort" to render
+ 2. Block diagram added custom height setting
+ 3. Fix Goody Quick Links block dropdown width
+ 4. Adjust Quick release interface
+
+
+Tad Link 2.1 official version of the amended project (2013-11-21 release)
+================================================== ==
+ 1. Fixed block menu can not be linked with no color problem
+ 2. Add custom favicons features
+
+Tad Link 2.01 official version of the amended project (2013-11-04 release)
+================================================== ==
+ 1. Fixed block menu will break issue table
+ 2. Fix "Goody Quick Links" block can display only one category of bug
+
+
+Tad Link 2.0 official version of the amended project (2013-07-28 release)
+================================================== ==
+ 1. The distal end of the thumbnail display function is added directly, avoiding most of the host can not download the image file.
+ 2. Add the system function detection in order to understand whether the current system can store thumbnail.
+ 3. Modify the format as a standard XOOPS 2.5 modules
+ 4. detailed oriented model, can transform online free forum
+ 5. Support BootStrap
+ 6. Block optional Quick Zeyuchengzhi category
+ 7. Remove the category will be deleted along with bottom link
+ 8. reduction, will cancel all kinds of display modes
+ 9. Reception new batch delete function, and direct dragging Sort
+
+
+Tad Link 1.0 official version of the amended project (release 2011-11-16)
+================================================== ==
+ 1. Add the "big picture showing width 'preferences
+ 2. Add "whether to show off Tweets tool" preferences of
+ 3. Add "whether to use facebook message 'preferences in
+ 4. Add "Showing the link number" of preferences
+ 5. Add "switch to portfolio effect 'preferences
+ 6. Add "link to the site detail page" preferences
+ 7. Add "directly outside the Company," preferences
+ 8. Join a direct pull back "Link Information" sort function (only a link to get in to show off next)
+ 9. backstage added directly stimulating "classified information" to sort function
+10. Add search functionality
+11. FIG join the site captures automatically grab function (did not catch the first time it does not matter, stood like, the system will automatically determine, did not catch it will automatically re-arrested)

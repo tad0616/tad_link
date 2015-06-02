@@ -12,5 +12,3 @@ define("_MB_TADLINK_SHOW_HEIGHT","每列高度：");
 
 define("_MB_TADLINK_TAD_LINK_ALL_EDIT_BITEM0","直接外連？");
 define("_MB_TADLINK_TAD_CATE_MENU","選擇欲顯示之分類（可複選）");
-
-?>
