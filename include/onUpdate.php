@@ -3,106 +3,112 @@
 function xoops_module_update_tad_link(&$module, $old_version) {
     GLOBAL $xoopsDB;
 
-		//if(!chk_chk1()) go_update1();
+    //if(!chk_chk1()) go_update1();
 
     return true;
 }
 
-function chk_chk1(){
-  global $xoopsDB;
-  $sql="select count(*) from ".$xoopsDB->prefix("tad_link_files_center");
-  $result=$xoopsDB->query($sql);
-  if(empty($result)) return false;
-  return true;
+function chk_chk1() {
+    global $xoopsDB;
+    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_link_files_center");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return false;
+    }
+
+    return true;
 }
 
-
-function go_update1(){
-  global $xoopsDB;
-  $sql="CREATE TABLE `".$xoopsDB->prefix("tad_link_files_center")."` (
-  `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ÀÉ®×¬y¤ô¸¹',
-  `col_name` varchar(255) NOT NULL COMMENT 'Äæ¦ì¦WºÙ',
-  `col_sn` smallint(5) unsigned NOT NULL COMMENT 'Äæ¦ì½s¸¹',
-  `sort` smallint(5) unsigned NOT NULL COMMENT '±Æ§Ç',
-  `kind` enum('img','file') NOT NULL COMMENT 'ÀÉ®×ºØÃþ',
-  `file_name` varchar(255) NOT NULL COMMENT 'ÀÉ®×¦WºÙ',
-  `file_type` varchar(255) NOT NULL COMMENT 'ÀÉ®×Ãþ«¬',
-  `file_size` int(10) unsigned NOT NULL COMMENT 'ÀÉ®×¤j¤p',
-  `description` text NOT NULL COMMENT 'ÀÉ®×»¡©ú',
-  `counter` mediumint(8) unsigned NOT NULL COMMENT '¤U¸ü¤H¦¸',
-  `original_filename` varchar(255) NOT NULL COMMENT 'ÀÉ®×¦WºÙ',
-  `hash_filename` varchar(255) NOT NULL COMMENT '¥[±KÀÉ®×¦WºÙ',
-  `sub_dir` varchar(255) NOT NULL COMMENT 'ÀÉ®×¤l¸ô®|',
+function go_update1() {
+    global $xoopsDB;
+    $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_link_files_center") . "` (
+  `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'æª”æ¡ˆæµæ°´è™Ÿ',
+  `col_name` varchar(255) NOT NULL COMMENT 'æ¬„ä½åç¨±',
+  `col_sn` smallint(5) unsigned NOT NULL COMMENT 'æ¬„ä½ç·¨è™Ÿ',
+  `sort` smallint(5) unsigned NOT NULL COMMENT 'æŽ’åº',
+  `kind` enum('img','file') NOT NULL COMMENT 'æª”æ¡ˆç¨®é¡ž',
+  `file_name` varchar(255) NOT NULL COMMENT 'æª”æ¡ˆåç¨±',
+  `file_type` varchar(255) NOT NULL COMMENT 'æª”æ¡ˆé¡žåž‹',
+  `file_size` int(10) unsigned NOT NULL COMMENT 'æª”æ¡ˆå¤§å°',
+  `description` text NOT NULL COMMENT 'æª”æ¡ˆèªªæ˜Ž',
+  `counter` mediumint(8) unsigned NOT NULL COMMENT 'ä¸‹è¼‰äººæ¬¡',
+  `original_filename` varchar(255) NOT NULL COMMENT 'æª”æ¡ˆåç¨±',
+  `hash_filename` varchar(255) NOT NULL COMMENT 'åŠ å¯†æª”æ¡ˆåç¨±',
+  `sub_dir` varchar(255) NOT NULL COMMENT 'æª”æ¡ˆå­è·¯å¾‘',
   PRIMARY KEY (`files_sn`)
 ) ENGINE=MyISAM";
-  $xoopsDB->queryF($sql);
+    $xoopsDB->queryF($sql);
 }
 
-
-//«Ø¥ß¥Ø¿ý
-function mk_dir($dir=""){
-    //­YµL¥Ø¿ý¦WºÙ¨q¥XÄµ§i°T®§
-    if(empty($dir))return;
-    //­Y¥Ø¿ý¤£¦s¦bªº¸Ü«Ø¥ß¥Ø¿ý
+//å»ºç«‹ç›®éŒ„
+function mk_dir($dir = "") {
+    //è‹¥ç„¡ç›®éŒ„åç¨±ç§€å‡ºè­¦å‘Šè¨Šæ¯
+    if (empty($dir)) {
+        return;
+    }
+    //è‹¥ç›®éŒ„ä¸å­˜åœ¨çš„è©±å»ºç«‹ç›®éŒ„
     if (!is_dir($dir)) {
         umask(000);
-        //­Y«Ø¥ß¥¢±Ñ¨q¥XÄµ§i°T®§
+        //è‹¥å»ºç«‹å¤±æ•—ç§€å‡ºè­¦å‘Šè¨Šæ¯
         mkdir($dir, 0777);
     }
 }
 
-//«þ¨©¥Ø¿ý
-function full_copy( $source="", $target=""){
-	if ( is_dir( $source ) ){
-		@mkdir( $target );
-		$d = dir( $source );
-		while ( FALSE !== ( $entry = $d->read() ) ){
-			if ( $entry == '.' || $entry == '..' ){
-				continue;
-			}
+//æ‹·è²ç›®éŒ„
+function full_copy($source = "", $target = "") {
+    if (is_dir($source)) {
+        @mkdir($target);
+        $d = dir($source);
+        while (false !== ($entry = $d->read())) {
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
 
-			$Entry = $source . '/' . $entry;
-			if ( is_dir( $Entry ) )	{
-				full_copy( $Entry, $target . '/' . $entry );
-				continue;
-			}
-			copy( $Entry, $target . '/' . $entry );
-		}
-		$d->close();
-	}else{
-		copy( $source, $target );
-	}
+            $Entry = $source . '/' . $entry;
+            if (is_dir($Entry)) {
+                full_copy($Entry, $target . '/' . $entry);
+                continue;
+            }
+            copy($Entry, $target . '/' . $entry);
+        }
+        $d->close();
+    } else {
+        copy($source, $target);
+    }
 }
 
+function rename_win($oldfile, $newfile) {
+    if (!rename($oldfile, $newfile)) {
+        if (copy($oldfile, $newfile)) {
+            unlink($oldfile);
 
-function rename_win($oldfile,$newfile) {
-   if (!rename($oldfile,$newfile)) {
-      if (copy ($oldfile,$newfile)) {
-         unlink($oldfile);
-         return TRUE;
-      }
-      return FALSE;
-   }
-   return TRUE;
+            return true;
+        }
+
+        return false;
+    }
+
+    return true;
 }
-
 
 function delete_directory($dirname) {
-    if (is_dir($dirname))
+    if (is_dir($dirname)) {
         $dir_handle = opendir($dirname);
-    if (!$dir_handle)
+    }
+    if (!$dir_handle) {
         return false;
-    while($file = readdir($dir_handle)) {
+    }
+    while ($file = readdir($dir_handle)) {
         if ($file != "." && $file != "..") {
-            if (!is_dir($dirname."/".$file))
-                unlink($dirname."/".$file);
-            else
-                delete_directory($dirname.'/'.$file);
+            if (!is_dir($dirname . "/" . $file)) {
+                unlink($dirname . "/" . $file);
+            } else {
+                delete_directory($dirname . '/' . $file);
+            }
         }
     }
     closedir($dir_handle);
     rmdir($dirname);
+
     return true;
 }
-
-?>

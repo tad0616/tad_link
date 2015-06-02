@@ -28,6 +28,3 @@ define("_MI_TADLINK_PIC_WIDTH","大圖寬度");
 define("_MI_TADLINK_PIC_WIDTH_DESC","設定大圖的呈現寬度（上限為400）");
 define("_MI_TADLINK_DIRECT_LINK","直接連結縮圖？");
 define("_MI_TADLINK_DIRECT_LINK_DESC","當縮圖一直無法下載儲存時，是否使用遠端連線縮圖？選「是」速度較慢，但或許可以看得見縮圖。選「否」的話會以預設的縮圖替代之，速度較快，但看不到縮圖。");
-
-
-?>

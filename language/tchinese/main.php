@@ -24,7 +24,7 @@ define("_MD_TADLINK_UNABLE_DATE","下架日");
 define("_MD_TADLINK_UID","發布者");
 define("_MD_TADLINK_POST_DATE","發布日期");
 define("_MD_TADLINK_ENABLE","是否啟用");
-define("_MD_TAD_LINK_FORM","連結管理");
+define("_MD_TADLINK_FORM","連結管理");
 define("_MD_TADLINK_QUICK_ADD","快速新增");
 define("_MD_TADLINK_GET_PIC","重新抓圖");
 define("_MD_TADLINK_SHOW_CATE","篩選分類");
@@ -43,4 +43,3 @@ define("_MD_TADLINK_BACK","回上頁");
 define("_MD_TADLINK_SELECT_ALL","全選");
 define("_MD_TADLINK_DRAG_SORT","可直接拖曳排序");
 define("_MD_TADLINK_OVERDUE","過期");
-?>
