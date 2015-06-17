@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-11-14
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = "tad_link_adm_main.html";
 include_once "header.php";
@@ -12,7 +6,8 @@ include_once "../function.php";
 
 /*-----------function區--------------*/
 //tad_link_cate編輯表單
-function tad_link_cate_form($cate_sn = "") {
+function tad_link_cate_form($cate_sn = "")
+{
     global $xoopsDB, $xoopsUser, $xoopsTpl;
 
     //抓取預設值
@@ -23,7 +18,6 @@ function tad_link_cate_form($cate_sn = "") {
     }
 
     //預設值設定
-
 
     //設定「cate_sn」欄位預設值
     $cate_sn = (!isset($DBV['cate_sn'])) ? "" : $DBV['cate_sn'];
@@ -57,10 +51,11 @@ function tad_link_cate_form($cate_sn = "") {
 }
 
 //新增資料到tad_link_cate中
-function insert_tad_link_cate() {
+function insert_tad_link_cate()
+{
     global $xoopsDB, $xoopsUser;
 
-    $myts                =& MyTextSanitizer::getInstance();
+    $myts                = &MyTextSanitizer::getInstance();
     $_POST['cate_title'] = $myts->addSlashes($_POST['cate_title']);
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link_cate") . "
@@ -75,10 +70,11 @@ function insert_tad_link_cate() {
 }
 
 //更新tad_link_cate某一筆資料
-function update_tad_link_cate($cate_sn = "") {
+function update_tad_link_cate($cate_sn = "")
+{
     global $xoopsDB, $xoopsUser;
 
-    $myts                =& MyTextSanitizer::getInstance();
+    $myts                = &MyTextSanitizer::getInstance();
     $_POST['cate_title'] = $myts->addSlashes($_POST['cate_title']);
 
     $sql = "update " . $xoopsDB->prefix("tad_link_cate") . " set
@@ -92,7 +88,8 @@ function update_tad_link_cate($cate_sn = "") {
 }
 
 //取得tad_link_cate無窮分類列表
-function list_tad_link_cate_loop($show_function = 1, $of_cate_sn = 0, $i = 0, $level = 0) {
+function list_tad_link_cate_loop($show_function = 1, $of_cate_sn = 0, $i = 0, $level = 0)
+{
     global $xoopsDB, $xoopsModule, $xoopsTpl;
 
     $sql = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where `of_cate_sn` = '{$of_cate_sn}' order by cate_sort";
@@ -115,7 +112,7 @@ function list_tad_link_cate_loop($show_function = 1, $of_cate_sn = 0, $i = 0, $l
         $data[$i]['level']      = $level;
         $off                    = $level - 1;
         $data[$i]['offset']     = ($level == 0) ? "" : "offset{$off}";
-        $data[$i]['count'] = empty($cate_sn) or empty($count[$cate_sn]) ? "" : sprintf(_MA_TADLINK_CATE_COUNT, $count[$cate_sn]);
+        $data[$i]['count']      = empty($cate_sn) or empty($count[$cate_sn]) ? "" : sprintf(_MA_TADLINK_CATE_COUNT, $count[$cate_sn]);
 
         //echo "<p>\$data[$i]['$cate_sn']={$cate_title} offset{$off}</p>";
         $i++;
@@ -141,34 +138,36 @@ function list_tad_link_cate_loop($show_function = 1, $of_cate_sn = 0, $i = 0, $l
 }
 
 //以流水號取得某筆tad_link_cate資料
-function get_tad_link_cate($cate_sn = "") {
+function get_tad_link_cate($cate_sn = "")
+{
     global $xoopsDB;
     if (empty($cate_sn)) {
         return;
     }
-    $sql = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $data = $xoopsDB->fetchArray($result);
+    $data   = $xoopsDB->fetchArray($result);
 
     return $data;
 }
 
 //刪除tad_link_cate某筆資料資料
-function delete_tad_link_cate($cate_sn = "") {
+function delete_tad_link_cate($cate_sn = "")
+{
     global $xoopsDB;
     //先刪除底下所有連結
     $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where cate_sn='$cate_sn'";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-
 
     $sql = "delete from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
 /*-----------執行動作判斷區----------*/
-$op      = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$cate_sn = (empty($_REQUEST['cate_sn'])) ? "" : (int)($_REQUEST['cate_sn']);
-$link_sn = (empty($_REQUEST['link_sn'])) ? "" : (int)($_REQUEST['link_sn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op      = system_CleanVars($_REQUEST, 'op', '', 'string');
+$cate_sn = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
+$link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/

@@ -1,7 +1,8 @@
 <?php
 include_once "header.php";
-$link_sn = (empty($_REQUEST['link_sn'])) ? "" : (int)($_REQUEST['link_sn']);
-$op      = (empty($_POST['op'])) ? "" : $_POST['op'];
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op      = system_CleanVars($_REQUEST, 'op', '', 'string');
+$link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
 
 $all = get_tad_link($link_sn);
 foreach ($all as $k => $v) {

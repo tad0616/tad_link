@@ -1,6 +1,7 @@
 <?php
-function xoops_module_uninstall_tad_link(&$module) {
-    GLOBAL $xoopsDB;
+function xoops_module_uninstall_tad_link(&$module)
+{
+    global $xoopsDB;
     $date = date("Ymd");
 
     rename(XOOPS_ROOT_PATH . "/uploads/tad_link", XOOPS_ROOT_PATH . "/uploads/tad_link_bak_{$date}");
@@ -8,7 +9,8 @@ function xoops_module_uninstall_tad_link(&$module) {
     return true;
 }
 
-function delete_directory($dirname) {
+function delete_directory($dirname)
+{
     if (is_dir($dirname)) {
         $dir_handle = opendir($dirname);
     }
@@ -31,7 +33,8 @@ function delete_directory($dirname) {
 }
 
 //«þ¨©¥Ø¿ý
-function full_copy($source = "", $target = "") {
+function full_copy($source = "", $target = "")
+{
     if (is_dir($source)) {
         @mkdir($target);
         $d = dir($source);

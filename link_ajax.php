@@ -9,8 +9,8 @@ if (!empty($_POST['url'])) {
     echo json_encode($web);
 }
 
-
-function getUrlData($url) {
+function getUrlData($url)
+{
     $result   = false;
     $contents = getUrlContents($url);
     if (isset($contents) && is_string($contents)) {
@@ -30,21 +30,22 @@ function getUrlData($url) {
                 for ($i = 0, $limiti = count($names); $i < $limiti; $i++) {
                     $metaTags[$names[$i]] = array(
                         'html'  => htmlentities($originals[$i]),
-                        'value' => $values[$i]
+                        'value' => $values[$i],
                     );
                 }
             }
         }
         $result = array(
             'title'    => $title,
-            'metaTags' => $metaTags
+            'metaTags' => $metaTags,
         );
     }
 
     return $result;
 }
 
-function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0) {
+function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0)
+{
     $result   = false;
     $contents = @file_get_contents($url);
     // Check if we need to go somewhere else
@@ -64,7 +65,8 @@ function getUrlContents($url, $maximumRedirections = null, $currentRedirection =
 }
 
 //檢查必要函數
-function chk_function() {
+function chk_function()
+{
     $main = "";
     if (!function_exists('curl_init')) {
         $main .= "<div style='color:red;'>" . sprintf(_MI_TADLINK_NO_FUNCTION, 'curl_init') . "</div>";
@@ -82,7 +84,8 @@ function chk_function() {
 }
 
 if (!function_exists('json_encode')) {
-    function json_encode($a = false) {
+    function json_encode($a = false)
+    {
         if (is_null($a)) {
             return 'null';
         }
@@ -95,7 +98,7 @@ if (!function_exists('json_encode')) {
         if (is_scalar($a)) {
             if (is_float($a)) {
                 // Always use "." for floats.
-                return (float)(str_replace(",", ".", (string)($a)));
+                return (float) (str_replace(",", ".", (string) ($a)));
             }
 
             if (is_string($a)) {
@@ -115,11 +118,15 @@ if (!function_exists('json_encode')) {
         }
         $result = array();
         if ($isList) {
-            foreach ($a as $v) $result[] = json_encode($v);
+            foreach ($a as $v) {
+                $result[] = json_encode($v);
+            }
 
             return '[' . join(',', $result) . ']';
         } else {
-            foreach ($a as $k => $v) $result[] = json_encode($k) . ':' . json_encode($v);
+            foreach ($a as $k => $v) {
+                $result[] = json_encode($k) . ':' . json_encode($v);
+            }
 
             return '{' . join(',', $result) . '}';
         }

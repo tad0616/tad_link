@@ -2,7 +2,8 @@
 
 //取得所有類別標題
 if (!function_exists("block_link_cate")) {
-    function block_link_cate($selected = "") {
+    function block_link_cate($selected = "")
+    {
         global $xoopsDB;
 
         if (!empty($selected)) {

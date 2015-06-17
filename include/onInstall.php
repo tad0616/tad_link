@@ -1,5 +1,6 @@
 <?php
-function xoops_module_install_tad_link(&$module) {
+function xoops_module_install_tad_link(&$module)
+{
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_link");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_link/thumbs");
 
@@ -7,7 +8,8 @@ function xoops_module_install_tad_link(&$module) {
 }
 
 //建立目錄
-function mk_dir($dir = "") {
+function mk_dir($dir = "")
+{
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
         return;

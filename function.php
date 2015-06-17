@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-11-14
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 define('_TADLINK_PIC_URL', XOOPS_URL . '/uploads/tad_link');
 define('_TADLINK_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link');
 define('_TADLINK_THUMB_PIC_URL', XOOPS_URL . '/uploads/tad_link/thumbs');
@@ -20,12 +14,13 @@ include_once "function_block.php";
 /********************* 自訂函數 *********************/
 
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
-function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = "0", $default_of_cate_sn = "0", $unselect_level = "", $start_search_sn = "0", $level = 0) {
+function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = "0", $default_of_cate_sn = "0", $unselect_level = "", $start_search_sn = "0", $level = 0)
+{
     global $xoopsDB, $xoopsModule;
 
     $count = tad_link_cate_count();
 
-    $sql = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
+    $sql    = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     $prefix = str_repeat("&nbsp;&nbsp;", $level);
@@ -62,25 +57,28 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
 }
 
 //分類底下的連結數
-function tad_link_cate_count() {
+function tad_link_cate_count()
+{
     global $xoopsDB;
-    $sql = "select cate_sn,count(*) from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
+    $sql    = "select cate_sn,count(*) from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
-        $all[$cate_sn] = (int)($count);
+        $all[$cate_sn] = (int) ($count);
     }
 
     return $all;
 }
 
 //連結內容格式化
-function mk_big_content($link_sn = null, $click_mode = 'normal', $link_title = "", $link_url = "", $cate_sn = "", $cate_title = "", $link_desc = "", $link_counter = "") {
+function mk_big_content($link_sn = null, $click_mode = 'normal', $link_title = "", $link_url = "", $cate_sn = "", $cate_title = "", $link_desc = "", $link_counter = "")
+{
     global $xoopsModuleConfig, $isAdmin, $xoopsTpl;
 
 }
 
 //顯示圖片
-function get_show_pic($link_sn, $mode = 'thumb') {
+function get_show_pic($link_sn, $mode = 'thumb')
+{
     global $xoopsModuleConfig;
     $link = get_tad_link($link_sn);
     if ($mode == 'thumb') {
@@ -106,12 +104,14 @@ function get_show_pic($link_sn, $mode = 'thumb') {
 }
 
 //遠端擷取圖片
-function get_pic($link_sn = '') {
+function get_pic($link_sn = '')
+{
     if ($_FILES) {
         include_once XOOPS_ROOT_PATH . "/modules/tadtools/upload/class.upload.php";
 
-        $handle = new upload($_FILES['pic'], 'zh_TW');// 將上傳物件實體化
-        if ($handle->uploaded) { // 如果檔案已經上傳到 tmp
+        $handle = new upload($_FILES['pic'], 'zh_TW'); // 將上傳物件實體化
+        if ($handle->uploaded) {
+            // 如果檔案已經上傳到 tmp
             $handle->file_new_name_body = $link_sn; // 重新設定新檔名
             $handle->file_overwrite     = true;
             $handle->image_resize       = true; // 重設圖片大小
@@ -129,7 +129,8 @@ function get_pic($link_sn = '') {
 }
 
 //複製檔案
-function copyemz($file1, $file2) {
+function copyemz($file1, $file2)
+{
     $contentx   = @vita_get_url_content($file1);
     $openedfile = fopen($file2, "w");
     fwrite($openedfile, $contentx);
@@ -144,7 +145,8 @@ function copyemz($file1, $file2) {
 }
 
 //遠端取得資料
-function vita_get_url_content($url) {
+function vita_get_url_content($url)
+{
     if (function_exists('curl_init')) {
         $ch      = curl_init();
         $timeout = 5;
@@ -162,7 +164,8 @@ function vita_get_url_content($url) {
 
 //做縮圖
 if (!function_exists('thumbnail')) {
-    function thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120") {
+    function thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+    {
 
         ini_set('memory_limit', '50M');
         // Get new sizes
@@ -198,32 +201,35 @@ if (!function_exists('thumbnail')) {
 }
 
 //新增tad_link計數器
-function add_tad_link_counter($link_sn = '') {
+function add_tad_link_counter($link_sn = '')
+{
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_link") . " set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
 //以流水號取得某筆tad_link資料
-function get_tad_link($link_sn = "") {
+function get_tad_link($link_sn = "")
+{
     global $xoopsDB;
     if (empty($link_sn)) {
         return;
     }
-    $sql = "select * from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $data = $xoopsDB->fetchArray($result);
+    $data   = $xoopsDB->fetchArray($result);
 
     return $data;
 }
 
 //取得tad_link_cate所有資料陣列
-function get_tad_link_cate_all() {
+function get_tad_link_cate_all()
+{
     global $xoopsDB;
-    $sql = "select * from " . $xoopsDB->prefix("tad_link_cate");
+    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate");
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     while ($data = $xoopsDB->fetchArray($result)) {
-        $cate_sn            = (int)($data['cate_sn']);
+        $cate_sn            = (int) ($data['cate_sn']);
         $data_arr[$cate_sn] = $data;
     }
 
@@ -231,10 +237,11 @@ function get_tad_link_cate_all() {
 }
 
 //自動取得tad_link_cate的最新排序
-function tad_link_cate_max_sort($of_cate_sn = '0') {
+function tad_link_cate_max_sort($of_cate_sn = '0')
+{
     global $xoopsDB;
-    $sql = "select max(`cate_sort`) from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$of_cate_sn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql        = "select max(`cate_sort`) from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$of_cate_sn}'";
+    $result     = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;

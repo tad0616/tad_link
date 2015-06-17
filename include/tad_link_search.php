@@ -1,6 +1,7 @@
 <?php
 //好站連結搜尋程式
-function tad_link_search($queryarray, $andor, $limit, $offset, $userid) {
+function tad_link_search($queryarray, $andor, $limit, $offset, $userid)
+{
     global $xoopsDB;
     //處理許功蓋
     if (get_magic_quotes_gpc()) {

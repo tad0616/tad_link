@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-11-14
-// $Id:$
-// ------------------------------------------------------------------------- //
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
 define('_MI_TADLINK_NAME', 'Tad Links');
@@ -12,7 +7,7 @@ define('_MI_TADLINK_CREDITS', 'Tad');
 define('_MI_TADLINK_DESC', 'Tad Links Module');
 define('_MI_TADLINK_ADMENU1', 'Management');
 define('_MI_TADLINK_ADMENU2', 'Category');
-define('_MI_TADLINK_TEMPLATE_DESC1', 'tad_link_index_tpl.html template file.');
+define('_MI_TADLINK_TEMPLATE_DESC1', 'tad_link_index.html template file.');
 define('_MI_TADLINK_BNAME1', 'New Links');
 define('_MI_TADLINK_BDESC1', 'New Links (tad_link_show)');
 define('_MI_TADLINK_BNAME2', 'Quick Links');

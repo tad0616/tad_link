@@ -1,14 +1,15 @@
 <?php
 
 //區塊主函式 (好站推薦快速連結(tad_link_all))
-function tad_link_all($options) {
+function tad_link_all($options)
+{
     global $xoopsDB;
     $i        = 0;
     $block    = "";
     $and_cate = empty($options[1]) ? "" : "where cate_sn in({$options[1]})";
     //今天日期
-    $today = date("Y-m-d");
-    $sql   = "select * from " . $xoopsDB->prefix("tad_link_cate") . " $and_cate order by of_cate_sn,cate_sort";
+    $today  = date("Y-m-d");
+    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " $and_cate order by of_cate_sn,cate_sort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $cate_sn , $of_cate_sn , $cate_title , $cate_sort
@@ -19,9 +20,9 @@ function tad_link_all($options) {
 
         $link_js = ($options[0] == 1) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
 
-        $sql2 = "select * from " . $xoopsDB->prefix("tad_link") . " where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
+        $sql2    = "select * from " . $xoopsDB->prefix("tad_link") . " where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
         $result2 = $xoopsDB->query($sql2) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-        $total = $xoopsDB->getRowsNum($result2);
+        $total   = $xoopsDB->getRowsNum($result2);
         if (empty($total)) {
             continue;
         }
@@ -51,7 +52,8 @@ function tad_link_all($options) {
 }
 
 //區塊編輯函式
-function tad_link_all_edit($options) {
+function tad_link_all_edit($options)
+{
 
     include_once XOOPS_ROOT_PATH . "/modules/tad_link/function_block.php";
     $chked0_0 = ($options[0] == "1") ? "checked" : "";
@@ -74,11 +76,12 @@ function tad_link_all_edit($options) {
 
 if (!function_exists('cate_sn2color')) {
     //自動取得顏色
-    function cate_sn2color($cate_sn = '') {
-        $R      = $G = $B = 255;
+    function cate_sn2color($cate_sn = '')
+    {
+        $R      = $G      = $B      = 255;
         $m      = ceil($cate_sn / 6);
         $n      = $cate_sn % 6;
-        $degree = (int)($cate_sn) * 3 * $m;
+        $degree = (int) ($cate_sn) * 3 * $m;
 
         if ($n == 0) {
             $R -= $degree;

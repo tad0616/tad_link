@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADLINK_NAME;
-$modversion['version']     = 2.3;
+$modversion['version']     = 2.4;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author']      = _MI_TADLINK_AUTHOR;
 $modversion['credits']     = _MI_TADLINK_CREDITS;
@@ -14,21 +14,21 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2014/12/04';
+$modversion['release_date']        = '2015/06/17';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
 $modversion['author_website_url']  = 'http://tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
-$modversion['min_php']             = 5.2;
-$modversion['min_xoops']           = '2.5';
+$modversion['min_php']             = 5.3;
+$modversion['min_xoops']           = '2.5.7';
 
 //---paypal資訊---//
-$modversion ['paypal']                  = array();
-$modversion ['paypal']['business']      = 'tad0616@gmail.com';
-$modversion ['paypal']['item_name']     = 'Donation : ' . _MI_TAD_WEB;
-$modversion ['paypal']['amount']        = 0;
-$modversion ['paypal']['currency_code'] = 'USD';
+$modversion['paypal']                  = array();
+$modversion['paypal']['business']      = 'tad0616@gmail.com';
+$modversion['paypal']['item_name']     = 'Donation : ' . _MI_TAD_WEB;
+$modversion['paypal']['amount']        = 0;
+$modversion['paypal']['currency_code'] = 'USD';
 
 //---啟動後台管理界面選單---//
 $modversion['system_menu'] = 1;
@@ -54,16 +54,28 @@ $modversion['onUninstall'] = "include/onUninstall.php";
 //---樣板設定---//
 $modversion['templates']                    = array();
 $i                                          = 1;
-$modversion['templates'][$i]['file']        = 'tad_link_index_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_link_index_tpl.html';
+$modversion['templates'][$i]['file']        = 'tad_link_index.html';
+$modversion['templates'][$i]['description'] = 'tad_link_index.html';
+
+$i++;
+$modversion['templates'][$i]['file']        = 'tad_link_index_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_link_index_b3.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tad_link_adm_main.html';
 $modversion['templates'][$i]['description'] = 'tad_link_adm_main.html';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_link_form_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_link_form_tpl.html';
+$modversion['templates'][$i]['file']        = 'tad_link_adm_main_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_link_adm_main_b3.html';
+
+$i++;
+$modversion['templates'][$i]['file']        = 'tad_link_form.html';
+$modversion['templates'][$i]['description'] = 'tad_link_form.html';
+
+$i++;
+$modversion['templates'][$i]['file']        = 'tad_link_form_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_link_form_b3.html';
 
 //---搜尋設定---//
 $modversion['hasSearch']      = 1;
@@ -75,7 +87,7 @@ $modversion['blocks'][1]['file']        = "tad_link_show.php";
 $modversion['blocks'][1]['name']        = _MI_TADLINK_BNAME1;
 $modversion['blocks'][1]['description'] = _MI_TADLINK_BDESC1;
 $modversion['blocks'][1]['show_func']   = "tad_link_show";
-$modversion['blocks'][1]['template']    = "tad_link_show.html";
+$modversion['blocks'][1]['template']    = "tad_link_block_show.html";
 $modversion['blocks'][1]['edit_func']   = "tad_link_show_edit";
 $modversion['blocks'][1]['options']     = "10|1|1|0|new|1||110";
 
@@ -83,7 +95,7 @@ $modversion['blocks'][2]['file']        = "tad_link_all.php";
 $modversion['blocks'][2]['name']        = _MI_TADLINK_BNAME2;
 $modversion['blocks'][2]['description'] = _MI_TADLINK_BDESC2;
 $modversion['blocks'][2]['show_func']   = "tad_link_all";
-$modversion['blocks'][2]['template']    = "tad_link_all.html";
+$modversion['blocks'][2]['template']    = "tad_link_block_all.html";
 $modversion['blocks'][2]['edit_func']   = "tad_link_all_edit";
 $modversion['blocks'][2]['options']     = "1";
 

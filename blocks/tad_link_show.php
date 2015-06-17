@@ -1,12 +1,7 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-11-14
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 //區塊主函式 (最新好站連結(tad_link_show))
-function tad_link_show($options) {
+function tad_link_show($options)
+{
     global $xoopsDB;
     if (empty($options[0])) {
         $options[0] = 10;
@@ -63,7 +58,8 @@ function tad_link_show($options) {
 }
 
 //區塊編輯函式
-function tad_link_show_edit($options) {
+function tad_link_show_edit($options)
+{
 
     include_once XOOPS_ROOT_PATH . "/modules/tad_link/function_block.php";
 
@@ -116,7 +112,8 @@ function tad_link_show_edit($options) {
 
 if (!function_exists('get_show_block_pic')) {
     //顯示圖片
-    function get_show_block_pic($link_sn) {
+    function get_show_block_pic($link_sn)
+    {
 
         $pic      = XOOPS_URL . "/uploads/tad_link/thumbs/{$link_sn}.jpg";
         $pic_path = XOOPS_ROOT_PATH . "/uploads/tad_link/thumbs/{$link_sn}.jpg";

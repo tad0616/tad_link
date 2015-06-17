@@ -1,14 +1,16 @@
 <?php
 
-function xoops_module_update_tad_link(&$module, $old_version) {
-    GLOBAL $xoopsDB;
+function xoops_module_update_tad_link(&$module, $old_version)
+{
+    global $xoopsDB;
 
     //if(!chk_chk1()) go_update1();
 
     return true;
 }
 
-function chk_chk1() {
+function chk_chk1()
+{
     global $xoopsDB;
     $sql    = "select count(*) from " . $xoopsDB->prefix("tad_link_files_center");
     $result = $xoopsDB->query($sql);
@@ -19,7 +21,8 @@ function chk_chk1() {
     return true;
 }
 
-function go_update1() {
+function go_update1()
+{
     global $xoopsDB;
     $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_link_files_center") . "` (
   `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
@@ -41,7 +44,8 @@ function go_update1() {
 }
 
 //建立目錄
-function mk_dir($dir = "") {
+function mk_dir($dir = "")
+{
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
         return;
@@ -55,7 +59,8 @@ function mk_dir($dir = "") {
 }
 
 //拷貝目錄
-function full_copy($source = "", $target = "") {
+function full_copy($source = "", $target = "")
+{
     if (is_dir($source)) {
         @mkdir($target);
         $d = dir($source);
@@ -77,7 +82,8 @@ function full_copy($source = "", $target = "") {
     }
 }
 
-function rename_win($oldfile, $newfile) {
+function rename_win($oldfile, $newfile)
+{
     if (!rename($oldfile, $newfile)) {
         if (copy($oldfile, $newfile)) {
             unlink($oldfile);
@@ -91,7 +97,8 @@ function rename_win($oldfile, $newfile) {
     return true;
 }
 
-function delete_directory($dirname) {
+function delete_directory($dirname)
+{
     if (is_dir($dirname)) {
         $dir_handle = opendir($dirname);
     }
