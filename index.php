@@ -79,6 +79,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $xoopsTpl->assign("pic", "images/pic_thumb.png");
     $xoopsTpl->assign('show_cate_sn', $show_cate_sn);
     $xoopsTpl->assign('mode', $mode);
+    $xoopsTpl->assign('cate', get_tad_link_cate($show_cate_sn));
 
     $xoopsTpl->assign("count", ++$i);
 
@@ -89,6 +90,29 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $fancybox      = new fancybox('.fancybox');
     $fancybox_code = $fancybox->render();
     $xoopsTpl->assign('fancybox_code', $fancybox_code);
+
+    $path     = get_tad_link_cate_path($show_cate_sn);
+    $path_arr = array_keys($path);
+    $sql      = "select cate_sn,of_cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " order by cate_sort";
+    $result   = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+
+    $count  = tad_link_cate_count();
+    $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
+    while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
+        $font_style      = $show_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
+        $open            = in_array($cate_sn, $path_arr) ? 'true' : 'false';
+        $display_counter = empty($count[$cate_sn]) ? "" : " ({$count[$cate_sn]})";
+        $data[]          = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'index.php?cate_sn={$cate_sn}', target:'_self', open:{$open} {$font_style}}";
+    }
+    $json = implode(',', $data);
+
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php";
+    $ztree      = new ztree("link_tree", $json, "", "", "of_cate_sn", "cate_sn");
+    $ztree_code = $ztree->render();
+    $xoopsTpl->assign('ztree_code', $ztree_code);
 }
 
 //以流水號秀出某筆tad_link資料內容

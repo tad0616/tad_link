@@ -1,76 +1,48 @@
-<{if $op=="tad_link_cate_form"}>
-  <h2><{$smarty.const._MA_TADLINK_CATE_FORM}></h2>
-
-
-  <{$formValidator_code}>
-  <form action='main.php' method='post' id='myForm' enctype='multipart/form-data'>
-
-  <!--父分類-->
-  <{$smarty.const._MA_TADLINK_OF_CATE_SN}>
-  <select name='of_cate_sn' size=1 >
-  <option value=''></option>
-    <{$get_tad_link_cate_options}>
-  </select>
-
-
-  <!--分類標題-->
-  <{$smarty.const._MA_TADLINK_CATE_TITLE}>
-  <input type='text' name='cate_title' size='20' value='<{$cate_title}>' id='cate_title' class='validate[required]'></td></tr>
-
-
-
-  <!--分類編號-->
-  <input type='hidden' name='cate_sn' value='<{$cate_sn}>'>
-  <input type='hidden' name='cate_sort' value='<{$cate_sort}>'>
-  <input type='hidden' name='op' value='<{$next_op}>'>
-  <input type='submit' value='<{$smarty.const._TAD_SAVE}>'>
-
-  </form>
-
-<{else}>
-
-  <{$jquery}>
-    <script language="JavaScript">
-      $().ready(function(){
-        $("#sort").sortable({ opacity: 0.6, cursor: "move", update: function() {
-            var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-            $.post("save_sort.php", order, function(theResponse){
-                $("#save_msg").html(theResponse);
-            });
-        }
-        });
-      });
-
-      function delete_tad_link_cate_func(cate_sn){
-        var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-        if (!sure)  return;
-        location.href="main.php?op=delete_tad_link_cate&cate_sn=" + cate_sn;
-      }
-    </script>
-
-    <div id="save_msg"></div>
-
-
-    <table>
-    <tbody id="sort">
-    <{foreach from=$data item=link}>
-      <tr id="tr_<{$link.cate_sn}>">
-        <td>
-          <div class="well well-small span4 <{$link.offset}>" style="font-size:12pt;">
-            <span class="label label-success"><{$link.level}></span>
-            <a href="../index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a>
-            <span class="label"><{$link.count}></span>
-            <a href="main.php?op=tad_link_cate_form&cate_sn=<{$link.cate_sn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
-            <a href="javascript:delete_tad_link_cate_func(<{$link.cate_sn}>);" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
-          </div>
-        </td>
-      </tr>
-    <{/foreach}>
-
-    </tbody>
-    </table>
-
-    <div class="text-center">
-      <a href="main.php?op=tad_link_cate_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
+<div class="container">
+  <div id="save_msg"></div>
+  <div class="row">
+    <div class="col-md-3">
+      <{$ztree_code}>
     </div>
-<{/if}>
+    <div class="col-md-9">
+      <{if $op=="tad_link_cate_form"}>
+        <h2><{$smarty.const._MA_TADLINK_CATE_FORM}></h2>
+
+        <{$formValidator_code}>
+
+        <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-md-2 control-label">
+              <{$smarty.const._MA_TADLINK_OF_CATE_SN}>
+            </label>
+            <div class="col-md-3">
+              <select name="of_cate_sn" size=1 >
+                <option value=""></option>
+                <{$get_tad_link_cate_options}>
+              </select>
+            </div>
+            <label class="col-md-2 control-label">
+              <{$smarty.const._MA_TADLINK_CATE_TITLE}>
+            </label>
+            <div class="col-md-4">
+              <input type="text" name="cate_title" size="20" value="<{$cate_title}>" id="cate_title" class="validate[required] form-control">
+            </div>
+            <div class="col-md-1">
+              <input type="hidden" name="cate_sn" value="<{$cate_sn}>">
+              <input type="hidden" name="cate_sort" value="<{$cate_sort}>">
+              <input type="hidden" name="op" value="<{$next_op}>">
+              <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+            </div>
+          </div>
+
+          <!--分類編號-->
+
+        </form>
+      <{else}>
+        <div class="text-center">
+          <a href="main.php?op=tad_link_cate_form" class="btn btn-info"><{$smarty.const._TAD_ADD}></a>
+        </div>
+      <{/if}>
+    </div>
+  </div>
+</div>

@@ -5,8 +5,48 @@ function xoops_module_update_tad_link(&$module, $old_version)
     global $xoopsDB;
 
     //if(!chk_chk1()) go_update1();
+    chk_tad_link_block();
 
     return true;
+}
+
+//刪除錯誤的重複欄位及樣板檔
+function chk_tad_link_block()
+{
+    global $xoopsDB;
+    //die(var_export($xoopsConfig));
+    include XOOPS_ROOT_PATH . '/modules/tad_link/xoops_version.php';
+
+    //先找出該有的區塊以及對應樣板
+    foreach ($modversion['blocks'] as $i => $block) {
+        $show_func                = $block['show_func'];
+        $tpl_file_arr[$show_func] = $block['template'];
+        $tpl_desc_arr[$show_func] = $block['description'];
+    }
+
+    //找出目前所有的樣板檔
+    $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
+    WHERE `dirname` = 'tad_link' ORDER BY `func_num`";
+    $result = $xoopsDB->query($sql);
+    while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
+        //假如現有的區塊和樣板對不上就刪掉
+        if ($template != $tpl_file_arr[$show_func]) {
+            $sql = "delete from " . $xoopsDB->prefix("newblocks") . " where bid='{$bid}'";
+            $xoopsDB->queryF($sql);
+
+            //連同樣板以及樣板實體檔案也要刪掉
+            $sql = "delete from " . $xoopsDB->prefix("tplfile") . " as a
+            left join " . $xoopsDB->prefix("tplsource") . "  as b on a.tpl_id=b.tpl_id
+            where a.tpl_refid='$bid' and a.tpl_module='tad_link' and a.tpl_type='block'";
+            $xoopsDB->queryF($sql);
+        } else {
+            $sql = "update " . $xoopsDB->prefix("tplfile") . "
+            set tpl_file='{$template}' , tpl_desc='{$tpl_desc_arr[$show_func]}'
+            where tpl_refid='{$bid}'";
+            $xoopsDB->queryF($sql);
+        }
+    }
+
 }
 
 function chk_chk1()

@@ -12,6 +12,61 @@ include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 include_once "function_block.php";
 
 /********************* 自訂函數 *********************/
+//取得路徑
+function get_tad_link_cate_path($the_cate_sn = "", $include_self = true)
+{
+    global $xoopsDB;
+
+    $arr[0]['cate_sn']    = "0";
+    $arr[0]['cate_title'] = "<i class='fa fa-home'></i>";
+    $arr[0]['sub']        = get_tad_link_sub_cate(0);
+    if (!empty($the_cate_sn)) {
+
+        $tbl = $xoopsDB->prefix("tad_link_cate");
+        $sql = "SELECT t1.cate_sn AS lev1, t2.cate_sn as lev2, t3.cate_sn as lev3, t4.cate_sn as lev4, t5.cate_sn as lev5, t6.cate_sn as lev6, t7.cate_sn as lev7
+            FROM `{$tbl}` t1
+            LEFT JOIN `{$tbl}` t2 ON t2.of_cate_sn = t1.cate_sn
+            LEFT JOIN `{$tbl}` t3 ON t3.of_cate_sn = t2.cate_sn
+            LEFT JOIN `{$tbl}` t4 ON t4.of_cate_sn = t3.cate_sn
+            LEFT JOIN `{$tbl}` t5 ON t5.of_cate_sn = t4.cate_sn
+            LEFT JOIN `{$tbl}` t6 ON t6.of_cate_sn = t5.cate_sn
+            LEFT JOIN `{$tbl}` t7 ON t7.of_cate_sn = t6.cate_sn
+            WHERE t1.of_cate_sn = '0'";
+        $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        while ($all = $xoopsDB->fetchArray($result)) {
+            if (in_array($the_cate_sn, $all)) {
+                //$main.="-";
+                foreach ($all as $cate_sn) {
+                    if (!empty($cate_sn)) {
+                        if (!$include_self and $cate_sn == $the_cate_sn) {
+                            break;
+                        }
+                        $arr[$cate_sn]        = get_tad_link_cate($cate_sn);
+                        $arr[$cate_sn]['sub'] = get_tad_link_sub_cate($cate_sn);
+                        if ($cate_sn == $the_cate_sn) {
+                            break;
+                        }
+                    }
+                }
+                //$main.="<br>";
+                break;
+            }
+        }
+    }
+    return $arr;
+}
+
+function get_tad_link_sub_cate($cate_sn = "0")
+{
+    global $xoopsDB;
+    $sql         = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$cate_sn}'";
+    $result      = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $cate_sn_arr = "";
+    while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
+        $cate_sn_arr[$cate_sn] = $cate_title;
+    }
+    return $cate_sn_arr;
+}
 
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
 function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = "0", $default_of_cate_sn = "0", $unselect_level = "", $start_search_sn = "0", $level = 0)
@@ -56,6 +111,20 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     return $main;
 }
 
+//以流水號取得某筆tad_link_cate資料
+function get_tad_link_cate($cate_sn = "")
+{
+    global $xoopsDB;
+    if (empty($cate_sn)) {
+        return;
+    }
+    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $data   = $xoopsDB->fetchArray($result);
+
+    return $data;
+}
+
 //分類底下的連結數
 function tad_link_cate_count()
 {
@@ -70,7 +139,7 @@ function tad_link_cate_count()
 }
 
 //連結內容格式化
-function mk_big_content($link_sn = null, $click_mode = 'normal', $link_title = "", $link_url = "", $cate_sn = "", $cate_title = "", $link_desc = "", $link_counter = "")
+function mk_big_content($link_sn = null, $click_mode = 'normal', $link_cate_title = "", $link_url = "", $cate_sn = "", $cate_title = "", $link_desc = "", $link_counter = "")
 {
     global $xoopsModuleConfig, $isAdmin, $xoopsTpl;
 

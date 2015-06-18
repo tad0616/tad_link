@@ -3,7 +3,7 @@ include_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['langua
 
 define('_MI_TADLINK_NAME', 'Tad Links');
 define('_MI_TADLINK_AUTHOR', 'Tad');
-define('_MI_TADLINK_CREDITS', 'Tad');
+define('_MI_TADLINK_CREDITS', 'Michael');
 define('_MI_TADLINK_DESC', 'Tad Links Module');
 define('_MI_TADLINK_ADMENU1', 'Management');
 define('_MI_TADLINK_ADMENU2', 'Category');

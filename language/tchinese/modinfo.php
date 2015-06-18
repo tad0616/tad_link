@@ -3,7 +3,7 @@ include_once XOOPS_ROOT_PATH . '/modules/tadtools/language/' . $xoopsConfig['lan
 
 define('_MI_TADLINK_NAME', '好站連結');
 define('_MI_TADLINK_AUTHOR', '好站連結');
-define('_MI_TADLINK_CREDITS', 'tad');
+define('_MI_TADLINK_CREDITS', 'Michael');
 define('_MI_TADLINK_DESC', '好站連結模組');
 define('_MI_TADLINK_ADMENU1', '主管理介面');
 define('_MI_TADLINK_ADMENU2', '分類設定');

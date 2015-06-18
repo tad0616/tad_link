@@ -1,3 +1,15 @@
+Tad Link 2.4 official version of the amended project (2015-06-18 release)
+====================================================
+ 1.Resolve when the update block templates can not be loaded issues
+
+Tad Link 2.4 official version of the amended project (2015-06-18 release)
+====================================================
+ 1.Modify the code to meet specifications PSR2
+ 2.Added Bootstrap3 Support
+ 3.Added drag sorting and classification level set function
+ 4.Layout optimization
+ 5.Added English language (thanks Michael)
+
 Tad Link 2.3 official version of the amended project (2014-12-04 release)
 ================================================== ==
  1. Fixed block site will still be expired bug
