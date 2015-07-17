@@ -113,7 +113,6 @@ function list_tad_link_cate($show_cate_sn = 0)
     $ztree      = new ztree("link_tree", $json, "save_drag.php", "save_sort.php", "of_cate_sn", "cate_sn");
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
-
 }
 
 //刪除tad_link_cate某筆資料資料
