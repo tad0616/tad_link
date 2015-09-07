@@ -68,6 +68,33 @@ function get_tad_link_sub_cate($cate_sn = "0")
     return $cate_sn_arr;
 }
 
+//以流水號取得某筆tad_link_cate資料
+function get_tad_link_cate($cate_sn = "")
+{
+    global $xoopsDB;
+    if (empty($cate_sn)) {
+        return;
+    }
+    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $data   = $xoopsDB->fetchArray($result);
+
+    return $data;
+}
+
+//分類底下的連結數
+function tad_link_cate_count()
+{
+    global $xoopsDB;
+    $sql    = "select cate_sn,count(*) from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
+        $all[$cate_sn] = (int) ($count);
+    }
+
+    return $all;
+}
+
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
 function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = "0", $default_of_cate_sn = "0", $unselect_level = "", $start_search_sn = "0", $level = 0)
 {
@@ -109,33 +136,6 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     }
 
     return $main;
-}
-
-//以流水號取得某筆tad_link_cate資料
-function get_tad_link_cate($cate_sn = "")
-{
-    global $xoopsDB;
-    if (empty($cate_sn)) {
-        return;
-    }
-    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $data   = $xoopsDB->fetchArray($result);
-
-    return $data;
-}
-
-//分類底下的連結數
-function tad_link_cate_count()
-{
-    global $xoopsDB;
-    $sql    = "select cate_sn,count(*) from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
-        $all[$cate_sn] = (int) ($count);
-    }
-
-    return $all;
 }
 
 //連結內容格式化
