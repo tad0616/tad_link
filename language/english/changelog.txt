@@ -1,4 +1,12 @@
-Tad Link 2.4 official version of the amended project (2015-06-18 release)
+Tad Link 2.5 official version of the amended project (2016-05-20 release)
+====================================================
+ 1.Support PHP7
+ 2.Remove BootStrap2
+ 3. To improve the management interface, added catalog delete function
+ 4. Adjust the web interface
+
+
+Tad Link 2.4.1 official version of the amended project (2015-06-18 release)
 ====================================================
  1.Resolve when the update block templates can not be loaded issues
 

@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADLINK_NAME;
-$modversion['version']     = 2.41;
+$modversion['version']     = 2.5;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author']      = _MI_TADLINK_AUTHOR;
 $modversion['credits']     = _MI_TADLINK_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2015/06/18';
+$modversion['release_date']        = '2016/05/20';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -54,24 +54,12 @@ $modversion['onUninstall'] = "include/onUninstall.php";
 //---樣板設定---//
 $modversion['templates']                    = array();
 $i                                          = 1;
-$modversion['templates'][$i]['file']        = 'tad_link_index.html';
-$modversion['templates'][$i]['description'] = 'tad_link_index.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_link_index_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_link_index_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_link_adm_main.html';
-$modversion['templates'][$i]['description'] = 'tad_link_adm_main.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_link_adm_main_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_link_adm_main_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tad_link_form.html';
-$modversion['templates'][$i]['description'] = 'tad_link_form.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tad_link_form_b3.html';

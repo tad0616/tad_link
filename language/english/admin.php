@@ -25,3 +25,4 @@ define('_MA_TADLINK_ENABLE', 'Enabled');
 define('_MA_TADLINK_FORM', 'Link management');
 define('_MA_TADLINK_QUICK_ADD', 'Quick Add');
 define('_MA_TADLINK_CATE_COUNT', 'There are %s links');
+define('_MA_TADLINK_EMPTY', 'Empty');

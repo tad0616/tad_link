@@ -6,7 +6,7 @@ define('_TADLINK_THUMB_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link/thumbs');
 
 //引入TadTools的函式庫
 if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
-    redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50", 3, _TAD_NEED_TADTOOLS);
+    redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
 }
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 include_once "function_block.php";
@@ -32,7 +32,7 @@ function get_tad_link_cate_path($the_cate_sn = "", $include_self = true)
             LEFT JOIN `{$tbl}` t6 ON t6.of_cate_sn = t5.cate_sn
             LEFT JOIN `{$tbl}` t7 ON t7.of_cate_sn = t6.cate_sn
             WHERE t1.of_cate_sn = '0'";
-        $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result = $xoopsDB->query($sql) or web_error($sql);
         while ($all = $xoopsDB->fetchArray($result)) {
             if (in_array($the_cate_sn, $all)) {
                 //$main.="-";
@@ -60,7 +60,7 @@ function get_tad_link_sub_cate($cate_sn = "0")
 {
     global $xoopsDB;
     $sql         = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$cate_sn}'";
-    $result      = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $result      = $xoopsDB->query($sql) or web_error($sql);
     $cate_sn_arr = "";
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $cate_sn_arr[$cate_sn] = $cate_title;
@@ -76,7 +76,7 @@ function get_tad_link_cate($cate_sn = "")
         return;
     }
     $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -87,7 +87,7 @@ function tad_link_cate_count()
 {
     global $xoopsDB;
     $sql    = "select cate_sn,count(*) from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
         $all[$cate_sn] = (int) ($count);
     }
@@ -103,7 +103,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $count = tad_link_cate_count();
 
     $sql    = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $prefix = str_repeat("&nbsp;&nbsp;", $level);
     $level++;
@@ -194,7 +194,7 @@ function get_pic($link_sn = '')
         $link = get_tad_link($link_sn);
         copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
     }
-    thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
+    tad_likn_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
 }
 
 //複製檔案
@@ -232,41 +232,39 @@ function vita_get_url_content($url)
 }
 
 //做縮圖
-if (!function_exists('thumbnail')) {
-    function thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
-    {
+function tad_likn_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+{
 
-        ini_set('memory_limit', '50M');
-        // Get new sizes
-        list($old_width, $old_height) = getimagesize($filename);
+    ini_set('memory_limit', '50M');
+    // Get new sizes
+    list($old_width, $old_height) = getimagesize($filename);
 
-        $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
+    $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
 
-        $newwidth  = ($old_width > $old_height) ? $width : $old_width * $percent;
-        $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
+    $newwidth  = ($old_width > $old_height) ? $width : $old_width * $percent;
+    $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
 
-        // Load
-        $thumb = imagecreatetruecolor($newwidth, $newheight);
-        if ($type == "image/jpeg" or $type == "image/jpg" or $type == "image/pjpg" or $type == "image/pjpeg") {
-            $source = imagecreatefromjpeg($filename);
-            $type   = "image/jpeg";
-        } elseif ($type == "image/png") {
-            $source = imagecreatefrompng($filename);
-            $type   = "image/png";
-        } elseif ($type == "image/gif") {
-            $source = imagecreatefromgif($filename);
-            $type   = "image/gif";
-        }
-
-        // Resize
-        imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-        //die($thumb_name);
-        header("Content-type: image/png");
-        imagepng($thumb, $thumb_name);
-
-        return;
-        exit;
+    // Load
+    $thumb = imagecreatetruecolor($newwidth, $newheight);
+    if ($type == "image/jpeg" or $type == "image/jpg" or $type == "image/pjpg" or $type == "image/pjpeg") {
+        $source = imagecreatefromjpeg($filename);
+        $type   = "image/jpeg";
+    } elseif ($type == "image/png") {
+        $source = imagecreatefrompng($filename);
+        $type   = "image/png";
+    } elseif ($type == "image/gif") {
+        $source = imagecreatefromgif($filename);
+        $type   = "image/gif";
     }
+
+    // Resize
+    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
+    //die($thumb_name);
+    header("Content-type: image/png");
+    imagepng($thumb, $thumb_name);
+
+    return;
+    exit;
 }
 
 //新增tad_link計數器
@@ -274,7 +272,7 @@ function add_tad_link_counter($link_sn = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = "update " . $xoopsDB->prefix("tad_link") . " set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //以流水號取得某筆tad_link資料
@@ -285,7 +283,7 @@ function get_tad_link($link_sn = "")
         return;
     }
     $sql    = "select * from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -296,7 +294,7 @@ function get_tad_link_cate_all()
 {
     global $xoopsDB;
     $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate");
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while ($data = $xoopsDB->fetchArray($result)) {
         $cate_sn            = (int) ($data['cate_sn']);
         $data_arr[$cate_sn] = $data;
@@ -310,10 +308,19 @@ function tad_link_cate_max_sort($of_cate_sn = '0')
 {
     global $xoopsDB;
     $sql        = "select max(`cate_sort`) from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$of_cate_sn}'";
-    $result     = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
 }
 
-/********************* 預設函數 *********************/;
+//刪除tad_link某筆資料資料
+function delete_tad_link($link_sn = "")
+{
+    global $xoopsDB, $isAdmin;
+    if (!$isAdmin) {
+        return;
+    }
+    $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
+    $xoopsDB->queryF($sql) or web_error($sql);
+}

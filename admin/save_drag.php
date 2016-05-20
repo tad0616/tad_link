@@ -22,7 +22,7 @@ function chk_cate_path($cate_sn, $to_cate_sn)
     global $xoopsDB;
     //抓出子目錄的編號
     $sql    = "select cate_sn from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$cate_sn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($sub_cate_sn) = $xoopsDB->fetchRow($result)) {
         if (chk_cate_path($sub_cate_sn, $to_cate_sn)) {
             return true;

@@ -24,3 +24,4 @@ define('_MA_TADLINK_ENABLE', '是否啟用');
 define('_MA_TADLINK_FORM', '連結管理');
 define('_MA_TADLINK_QUICK_ADD', '快速新增');
 define('_MA_TADLINK_CATE_COUNT', '有 %s 個連結');
+define('_MA_TADLINK_EMPTY', '尚無資料');

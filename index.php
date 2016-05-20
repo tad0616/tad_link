@@ -22,7 +22,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $and_unable = ($mode == 'batch') ? "" : "and (unable_date='0000-00-00' or unable_date >='$today')";
     $sql        = "select * from " . $xoopsDB->prefix("tad_link") . " where enable='1' $and_unable  $and_cate";
-
+    $bar        = '';
     if ($mode != 'batch') {
         //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = getPageBar($sql, $show_num, 10);
@@ -31,7 +31,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $total   = $PageBar['total'];
     }
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $all_content = "";
     $i           = 0;
@@ -94,7 +94,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $path     = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
     $sql      = "select cate_sn,of_cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " order by cate_sort";
-    $result   = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result   = $xoopsDB->query($sql) or web_error($sql);
 
     $count  = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -113,6 +113,17 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $ztree      = new ztree("link_tree", $json, "", "", "of_cate_sn", "cate_sn");
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
+
+    if ($isAdmin) {
+        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
+            redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+        }
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
+        $sweet_alert = new sweet_alert();
+        $sweet_alert->render("delete_all_link_func", "index.php?op=delete_all_link&mode=batch&cate_sn={$show_cate_sn}&all_sn=", 'all_sn');
+        $sweet_alert2 = new sweet_alert();
+        $sweet_alert2->render("delete_tad_link_func", "index.php?op=delete_tad_link&mode=batch&cate_sn={$show_cate_sn}&link_sn=", 'link_sn');
+    }
 }
 
 //以流水號秀出某筆tad_link資料內容
@@ -153,9 +164,14 @@ function show_one_tad_link($link_sn = "")
     $xoopsTpl->assign("push_url", $push_url);
     $xoopsTpl->assign("op", "show_one_tad_link");
 
-    //計數器欄位值 +1
-    //add_tad_link_counter($link_sn);
-
+    if ($isAdmin) {
+        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
+            redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+        }
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
+        $sweet_alert2 = new sweet_alert();
+        $sweet_alert2->render("delete_tad_link_func", "index.php?op=delete_tad_link&link_sn=", 'link_sn');
+    }
 }
 
 //新增資料到tad_link_cate中
@@ -166,14 +182,14 @@ function new_tad_link_cate($of_cate_sn = '', $cate_title = '')
         return;
     }
 
-    $myts       = &MyTextSanitizer::getInstance();
+    $myts       = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($cate_title);
     $cate_sort  = tad_link_cate_max_sort($of_cate_sn);
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link_cate") . "
   (`of_cate_sn` , `cate_title` , `cate_sort`)
   values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
     $cate_sn = $xoopsDB->getInsertId();
@@ -198,7 +214,7 @@ function insert_tad_link()
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
 
-    $myts                = &MyTextSanitizer::getInstance();
+    $myts                = MyTextSanitizer::getInstance();
     $_POST['link_title'] = $myts->addSlashes($_POST['link_title']);
     $_POST['link_url']   = $myts->addSlashes($_POST['link_url']);
     $_POST['link_desc']  = $myts->addSlashes($_POST['link_desc']);
@@ -210,7 +226,7 @@ function insert_tad_link()
     $sql = "insert into " . $xoopsDB->prefix("tad_link") . "
   (`cate_sn` , `link_title` , `link_url` , `link_desc` , `link_sort` , `link_counter` , `unable_date` , `uid` , `post_date` , `enable`)
   values('{$cate_sn}' , '{$_POST['link_title']}' , '{$_POST['link_url']}' , '{$_POST['link_desc']}' , '{$link_sort}' , 0 , '{$_POST['unable_date']}' , '{$uid}' , now() , '{$_POST['enable']}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
     $link_sn = $xoopsDB->getInsertId();
@@ -225,7 +241,7 @@ function tad_link_max_sort()
 {
     global $xoopsDB;
     $sql        = "select max(`link_sort`) from " . $xoopsDB->prefix("tad_link");
-    $result     = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -242,7 +258,7 @@ function update_tad_link($link_sn = "")
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
 
-    $myts                = &MyTextSanitizer::getInstance();
+    $myts                = MyTextSanitizer::getInstance();
     $_POST['link_title'] = $myts->addSlashes($_POST['link_title']);
     $_POST['link_url']   = $myts->addSlashes($_POST['link_url']);
     $_POST['link_desc']  = $myts->addSlashes($_POST['link_desc']);
@@ -261,22 +277,11 @@ function update_tad_link($link_sn = "")
    `post_date` =now()
   where link_sn='$link_sn'";
 
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     get_pic($link_sn);
 
     return $link_sn;
-}
-
-//刪除tad_link某筆資料資料
-function delete_tad_link($link_sn = "")
-{
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
-        return;
-    }
-    $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
 //批次刪除tad_link某筆資料資料
@@ -287,7 +292,7 @@ function delete_all_link($all_sn = "")
         return;
     }
     $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn in($all_sn)";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 function go_url($link_sn)

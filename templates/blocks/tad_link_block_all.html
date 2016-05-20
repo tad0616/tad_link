@@ -1,5 +1,5 @@
 <{foreach from=$block item=cate}>
-  <select onChange="<{$cate.link_js}>" style='background-color:<{$cate.color}>;' class="form-control span12">
+  <select onChange="<{$cate.link_js}>" style='background-color:<{$cate.color}>;' class="form-control">
   <option value=""><{$cate.cate_title}></option>
     <{foreach from=$cate.item item=link}>
       <option value='<{$link.val}>'>&#x2665; <{$link.link_title}></option>
