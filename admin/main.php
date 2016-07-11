@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_link_adm_main.html";
+$xoopsOption['template_main'] = "tad_link_adm_main.tpl";
 include_once "header.php";
 include_once "../function.php";
 $isAdmin = true;
@@ -91,7 +91,8 @@ function list_tad_link_cate_tree($def_cate_sn = "")
 //tad_link_cate編輯表單
 function tad_link_cate_form($cate_sn = "")
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl;
+    global $xoopsDB, $xoopsUser, $xoopsTpl, $xoopsModule;
+    include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
 
     //抓取預設值
     if (!empty($cate_sn)) {
@@ -114,6 +115,10 @@ function tad_link_cate_form($cate_sn = "")
     //設定「cate_sort」欄位預設值
     $cate_sort = (!isset($DBV['cate_sort'])) ? tad_link_cate_max_sort() : $DBV['cate_sort'];
 
+    $mod_id             = $xoopsModule->getVar('mid');
+    $moduleperm_handler = xoops_gethandler('groupperm');
+    $tad_link_post      = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
+
     $op = (empty($cate_sn)) ? "insert_tad_link_cate" : "update_tad_link_cate";
 
     if (!file_exists(TADTOOLS_PATH . "/formValidator.php")) {
@@ -130,6 +135,13 @@ function tad_link_cate_form($cate_sn = "")
     $xoopsTpl->assign('cate_title', $cate_title);
     $xoopsTpl->assign('get_tad_link_cate_options', get_tad_link_cate_options('none', 'edit', $cate_sn, $of_cate_sn));
     $xoopsTpl->assign('formValidator_code', $formValidator_code);
+
+    //可上傳群組
+    $SelectGroup_name = new XoopsFormSelectGroup("tad_link_post", "tad_link_post", true, $tad_link_post, 6, true);
+    $SelectGroup_name->setExtra("class='form-control' id='tad_link_post'");
+    $enable_post_group = $SelectGroup_name->render();
+    $xoopsTpl->assign('enable_post_group', $enable_post_group);
+
 }
 
 //新增資料到tad_link_cate中
@@ -137,17 +149,25 @@ function insert_tad_link_cate()
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts                = MyTextSanitizer::getInstance();
-    $_POST['cate_title'] = $myts->addSlashes($_POST['cate_title']);
+    $myts       = MyTextSanitizer::getInstance();
+    $cate_title = $myts->addSlashes($_POST['cate_title']);
+    $of_cate_sn = intval($_POST['of_cate_sn']);
+    $cate_sort  = intval($_POST['cate_sort']);
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link_cate") . "
     (`of_cate_sn` , `cate_title` , `cate_sort`)
-    values('{$_POST['of_cate_sn']}' , '{$_POST['cate_title']}' , '{$_POST['cate_sort']}')";
+    values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}')";
     $xoopsDB->query($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
     $cate_sn = $xoopsDB->getInsertId();
 
+    //有上層目錄，新增目錄時，而且在前台時($is_back=0) , 依上層權限
+    // if ($of_cate_sn) {
+    //     $catalog_up = getItem_Permissions($of_cate_sn, 'tad_link_post');
+    // }
+    //寫入權限
+    saveItem_Permissions($_POST['tad_link_post'], $cate_sn, 'tad_link_post');
     return $cate_sn;
 }
 
@@ -156,16 +176,24 @@ function update_tad_link_cate($cate_sn = "")
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts                = MyTextSanitizer::getInstance();
-    $_POST['cate_title'] = $myts->addSlashes($_POST['cate_title']);
+    $myts       = MyTextSanitizer::getInstance();
+    $cate_title = $myts->addSlashes($_POST['cate_title']);
+    $of_cate_sn = intval($_POST['of_cate_sn']);
+    $cate_sort  = intval($_POST['cate_sort']);
 
     $sql = "update " . $xoopsDB->prefix("tad_link_cate") . " set
-     `of_cate_sn` = '{$_POST['of_cate_sn']}' ,
-     `cate_title` = '{$_POST['cate_title']}' ,
-     `cate_sort` = '{$_POST['cate_sort']}'
+     `of_cate_sn` = '{$of_cate_sn}' ,
+     `cate_title` = '{$cate_title}' ,
+     `cate_sort` = '{$cate_sort}'
     where cate_sn='$cate_sn'";
     $xoopsDB->queryF($sql) or web_error($sql);
 
+    //有上層目錄，新增目錄時，而且在前台時($is_back=0) , 依上層權限
+    // if ($of_cate_sn) {
+    //     $catalog_up = getItem_Permissions($of_cate_sn, 'tad_link_post');
+    // }
+    //寫入權限
+    saveItem_Permissions($_POST['tad_link_post'], $cate_sn, 'tad_link_post');
     return $cate_sn;
 }
 

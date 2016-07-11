@@ -1,4 +1,12 @@
-Tad Link 2.5 official version of the amended project (2016-05-20 release)
+Tad Link 2.6 (2016-07-11 released)
+====================================================
+ 1.Support XOOPS 2.5.8
+ 2.New groups can post data.
+ 3.Added list mode to the block.
+
+
+
+Tad Link 2.5 (2016-05-20 released)
 ====================================================
  1.Support PHP7
  2.Remove BootStrap2
@@ -6,11 +14,11 @@ Tad Link 2.5 official version of the amended project (2016-05-20 release)
  4. Adjust the web interface
 
 
-Tad Link 2.4.1 official version of the amended project (2015-06-18 release)
+Tad Link 2.4.1 (2015-06-18 released)
 ====================================================
  1.Resolve when the update block templates can not be loaded issues
 
-Tad Link 2.4 official version of the amended project (2015-06-18 release)
+Tad Link 2.4 (2015-06-18 released)
 ====================================================
  1.Modify the code to meet specifications PSR2
  2.Added Bootstrap3 Support
@@ -18,19 +26,19 @@ Tad Link 2.4 official version of the amended project (2015-06-18 release)
  4.Layout optimization
  5.Added English language (thanks Michael)
 
-Tad Link 2.3 official version of the amended project (2014-12-04 release)
+Tad Link 2.3 (2014-12-04 released)
 ================================================== ==
  1. Fixed block site will still be expired bug
  2. Amendments expired batch management can not see the site bug
 
 
-Tad Link 2.21 official version of the amended project (2014-09-25 release)
+Tad Link 2.21 (2014-09-25 released)
 ================================================== ==
  1. streamline unnecessary functions
  2. Remove the block of text color
  3. Fixed code to conform to WCAG
 
-Tad Link 2.2 official version of the amended project (2013-12-06 release)
+Tad Link 2.2 (2013-12-06 released)
 ================================================== ==
  1. Block diagram added option "Sort" to render
  2. Block diagram added custom height setting
@@ -38,18 +46,18 @@ Tad Link 2.2 official version of the amended project (2013-12-06 release)
  4. Adjust Quick release interface
 
 
-Tad Link 2.1 official version of the amended project (2013-11-21 release)
+Tad Link 2.1 (2013-11-21 released)
 ================================================== ==
  1. Fixed block menu can not be linked with no color problem
  2. Add custom favicons features
 
-Tad Link 2.01 official version of the amended project (2013-11-04 release)
+Tad Link 2.01 (2013-11-04 released)
 ================================================== ==
  1. Fixed block menu will break issue table
  2. Fix "Goody Quick Links" block can display only one category of bug
 
 
-Tad Link 2.0 official version of the amended project (2013-07-28 release)
+Tad Link 2.0 (2013-07-28 released)
 ================================================== ==
  1. The distal end of the thumbnail display function is added directly, avoiding most of the host can not download the image file.
  2. Add the system function detection in order to understand whether the current system can store thumbnail.
@@ -62,7 +70,7 @@ Tad Link 2.0 official version of the amended project (2013-07-28 release)
  9. Reception new batch delete function, and direct dragging Sort
 
 
-Tad Link 1.0 official version of the amended project (release 2011-11-16)
+Tad Link 1.0 (2011-11-16 released)
 ================================================== ==
  1. Add the "big picture showing width 'preferences
  2. Add "whether to show off Tweets tool" preferences of

@@ -57,6 +57,16 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label class="col-md-2 control-label">
+              <{$smarty.const._MA_TADLINK_SET_POST_POWER}>
+            </label>
+            <div class="col-md-10">
+              <{$enable_post_group}>
+            </div>
+          </div>
+
+
           <!--分類編號-->
 
         </form>

@@ -7,6 +7,7 @@ define('_MI_TADLINK_CREDITS', 'Michael');
 define('_MI_TADLINK_DESC', '好站連結模組');
 define('_MI_TADLINK_ADMENU1', '主管理介面');
 define('_MI_TADLINK_ADMENU2', '分類設定');
+define('_MI_TADLINK_ADMENU3', '權限設定');
 define('_MI_TADLINK_TEMPLATE_DESC1', 'tad_link_index.html的樣板檔。');
 define('_MI_TADLINK_BNAME1', '最新好站連結');
 define('_MI_TADLINK_BDESC1', '最新好站連結(tad_link_show)');

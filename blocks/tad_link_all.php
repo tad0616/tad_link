@@ -27,10 +27,11 @@ function tad_link_all($options)
             continue;
         }
 
-        $block[$i]['link_js']    = $link_js;
-        $block[$i]['color']      = $color;
-        $block[$i]['cate_title'] = $cate_title;
-        $j                       = 0;
+        $block['data'][$i]['link_js']    = $link_js;
+        $block['data'][$i]['color']      = $color;
+        $block['data'][$i]['cate_title'] = $cate_title;
+        $block['data'][$i]['cate_sn']    = $cate_sn;
+        $j                               = 0;
         while ($all2 = $xoopsDB->fetchArray($result2)) {
             //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
             foreach ($all2 as $k => $v) {
@@ -40,14 +41,15 @@ function tad_link_all($options)
             if (empty($val)) {
                 $val = "#";
             }
-            $block[$i]['item'][$j]['link_title'] = $link_title;
-            $block[$i]['item'][$j]['val']        = $val;
+            $block['data'][$i]['item'][$j]['link_title'] = $link_title;
+            $block['data'][$i]['item'][$j]['val']        = $val;
             $j++;
         }
         $i++;
 
     }
-
+    $block['display_type'] = $options[2];
+    // die(var_export($block));
     return $block;
 }
 
@@ -56,20 +58,27 @@ function tad_link_all_edit($options)
 {
 
     include_once XOOPS_ROOT_PATH . "/modules/tad_link/function_block.php";
-    $chked0_0 = ($options[0] == "1") ? "checked" : "";
-    $chked0_1 = ($options[0] == "0") ? "checked" : "";
+    $chked0_0      = ($options[0] == "1") ? "checked" : "";
+    $chked0_1      = ($options[0] == "0") ? "checked" : "";
+    $opt2_dropdown = ($options[2] != "list") ? "checked" : "";
+    $opt2_list     = ($options[2] == "list") ? "checked" : "";
 
     $menu = block_link_cate($options[1]);
 
     $form = "{$menu['js']}
-  " . _MB_TADLINK_TADLINK_ALL_EDIT_BITEM0 . "
-  <INPUT type='radio' $chked0_0 name='options[0]' value='1'>" . _YES . "
-  <INPUT type='radio' $chked0_1 name='options[0]' value='0'>" . _NO . "
+    " . _MB_TADLINK_TADLINK_ALL_EDIT_BITEM0 . "
+    <INPUT type='radio' $chked0_0 name='options[0]' value='1'>" . _YES . "
+    <INPUT type='radio' $chked0_1 name='options[0]' value='0'>" . _NO . "
+    <br>
+    " . _MB_TADLINK_TAD_CATE_MENU . "
+    {$menu['form']}
+    <INPUT type='hidden' name='options[1]' id='bb' value='{$options[1]}'>
+    <br>
 
-  " . _MB_TADLINK_TAD_CATE_MENU . "
-  {$menu['form']}
-  <INPUT type='hidden' name='options[1]' id='bb' value='{$options[1]}'>
-  ";
+    " . _MB_TADLINK_TADLINK_LIST_TYPE . "
+    <INPUT type='radio' $opt2_dropdown name='options[2]' value='dropdown'>" . _MB_TADLINK_TADLINK_DROPDOWN . "
+    <INPUT type='radio' $opt2_list name='options[2]' value='list'>" . _MB_TADLINK_TADLINK_LIST . "
+    ";
 
     return $form;
 }

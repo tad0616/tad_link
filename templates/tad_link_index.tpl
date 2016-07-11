@@ -1,8 +1,8 @@
 <{$toolbar}>
 
 <{if $op=="tad_link_form"}>
-  <{if $isAdmin}>
-    <{includeq file="db:tad_link_form_b3.html"}>
+  <{if $post_cate_arr}>
+    <{includeq file="db:tad_link_form.tpl"}>
   <{/if}>
 <{elseif $op=="show_one_tad_link"}>
 
@@ -228,8 +228,8 @@
     </div>
   <{/if}>
 
-  <{if $isAdmin}>
-    <{includeq file="db:tad_link_form_b3.html"}>
+  <{if $post_cate_arr}>
+    <{includeq file="db:tad_link_form.tpl"}>
   <{/if}>
 
 <{/if}>

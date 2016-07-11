@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_link_index.html");
+$xoopsOption['template_main'] = "tad_link_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 
 /*-----------function區--------------*/
@@ -11,6 +11,10 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 {
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin;
 
+    //判斷某人在哪些類別中有發表(post)的權利
+    $post_cate_arr = chk_cate_power('tad_link_post');
+    $xoopsTpl->assign('post_cate_arr', $post_cate_arr);
+    // die(var_export($post_cate_arr));
     $show_num = empty($xoopsModuleConfig['show_num']) ? 10 : $xoopsModuleConfig['show_num'];
     $cate     = get_tad_link_cate_all();
 
@@ -178,6 +182,7 @@ function show_one_tad_link($link_sn = "")
 function new_tad_link_cate($of_cate_sn = '', $cate_title = '')
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
+
     if (!$isAdmin) {
         return;
     }
@@ -201,23 +206,26 @@ function new_tad_link_cate($of_cate_sn = '', $cate_title = '')
 function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
-    if (!$isAdmin) {
-        return;
-    }
+    $myts        = MyTextSanitizer::getInstance();
+    $link_title  = $myts->addSlashes($_POST['link_title']);
+    $link_url    = $myts->addSlashes($_POST['link_url']);
+    $link_desc   = $myts->addSlashes($_POST['link_desc']);
+    $unable_date = $myts->addSlashes($_POST['unable_date']);
+    $enable      = intval($_POST['enable']);
 
     if (!empty($_POST['new_cate'])) {
         $cate_sn = new_tad_link_cate($_POST['cate_sn'], $_POST['new_cate']);
     } else {
-        $cate_sn = (int) ($_POST['cate_sn']);
+        $cate_sn = intval($_POST['cate_sn']);
+    }
+
+    $post_cate_arr = chk_cate_power('tad_link_post');
+    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
+        return;
     }
 
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
-
-    $myts                = MyTextSanitizer::getInstance();
-    $_POST['link_title'] = $myts->addSlashes($_POST['link_title']);
-    $_POST['link_url']   = $myts->addSlashes($_POST['link_url']);
-    $_POST['link_desc']  = $myts->addSlashes($_POST['link_desc']);
 
     $link_sort = tad_link_max_sort();
 
@@ -225,7 +233,7 @@ function insert_tad_link()
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link") . "
   (`cate_sn` , `link_title` , `link_url` , `link_desc` , `link_sort` , `link_counter` , `unable_date` , `uid` , `post_date` , `enable`)
-  values('{$cate_sn}' , '{$_POST['link_title']}' , '{$_POST['link_url']}' , '{$_POST['link_desc']}' , '{$link_sort}' , 0 , '{$_POST['unable_date']}' , '{$uid}' , now() , '{$_POST['enable']}')";
+  values('{$cate_sn}' , '{$link_title}' , '{$link_url}' , '{$link_desc}' , '{$link_sort}' , 0 , '{$unable_date}' , '{$uid}' , now() , '{$enable}')";
     $xoopsDB->query($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
@@ -251,31 +259,40 @@ function tad_link_max_sort()
 function update_tad_link($link_sn = "")
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
-    if (!$isAdmin) {
+    $myts        = MyTextSanitizer::getInstance();
+    $link_title  = $myts->addSlashes($_POST['link_title']);
+    $link_url    = $myts->addSlashes($_POST['link_url']);
+    $link_desc   = $myts->addSlashes($_POST['link_desc']);
+    $unable_date = $myts->addSlashes($_POST['unable_date']);
+    $enable      = intval($_POST['enable']);
+
+    if (!empty($_POST['new_cate'])) {
+        $cate_sn = new_tad_link_cate($_POST['cate_sn'], $_POST['new_cate']);
+    } else {
+        $cate_sn = intval($_POST['cate_sn']);
+    }
+
+    $post_cate_arr = chk_cate_power('tad_link_post');
+    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
 
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
 
-    $myts                = MyTextSanitizer::getInstance();
-    $_POST['link_title'] = $myts->addSlashes($_POST['link_title']);
-    $_POST['link_url']   = $myts->addSlashes($_POST['link_url']);
-    $_POST['link_desc']  = $myts->addSlashes($_POST['link_desc']);
-
     //$link_sort=tad_link_max_sort();
 
     //$now=date("Y-m-d H:i:s",xoops_getUserTimestamp(time()));
 
     $sql = "update " . $xoopsDB->prefix("tad_link") . " set
-   `cate_sn` = '{$_POST['cate_sn']}' ,
-   `link_title` = '{$_POST['link_title']}' ,
-   `link_url` = '{$_POST['link_url']}' ,
-   `link_desc` = '{$_POST['link_desc']}' ,
-   `unable_date` = '{$_POST['unable_date']}' ,
+   `cate_sn` = '{$cate_sn}' ,
+   `link_title` = '{$link_title}' ,
+   `link_url` = '{$link_url}' ,
+   `link_desc` = '{$link_desc}' ,
+   `unable_date` = '{$unable_date}' ,
    `uid` = '{$uid}' ,
    `post_date` =now()
-  where link_sn='$link_sn'";
+    where link_sn='$link_sn'";
 
     $xoopsDB->queryF($sql) or web_error($sql);
 
@@ -352,30 +369,35 @@ switch ($op) {
     case "insert_tad_link":
         $link_sn = insert_tad_link();
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
+        exit;
         break;
 
     //更新資料
     case "update_tad_link":
         update_tad_link($link_sn);
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
+        exit;
         break;
 
     //重新抓圖
     case "get_pic":
         get_pic($link_sn);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
         break;
 
     //刪除資料
     case "delete_tad_link":
         delete_tad_link($link_sn);
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
+        exit;
         break;
 
     //批次刪除資料
     case "delete_all_link":
         delete_all_link($all_sn);
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
+        exit;
         break;
 
     case "go":

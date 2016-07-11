@@ -82,24 +82,15 @@ function get_tad_link_cate($cate_sn = "")
     return $data;
 }
 
-//分類底下的連結數
-function tad_link_cate_count()
-{
-    global $xoopsDB;
-    $sql    = "select cate_sn,count(*) from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
-    $result = $xoopsDB->query($sql) or web_error($sql);
-    while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
-        $all[$cate_sn] = (int) ($count);
-    }
-
-    return $all;
-}
-
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
 function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = "0", $default_of_cate_sn = "0", $unselect_level = "", $start_search_sn = "0", $level = 0)
 {
-    global $xoopsDB, $xoopsModule;
+    global $xoopsDB, $xoopsModule, $isAdmin;
 
+    $post_cate_arr = chk_cate_power('tad_link_post');
+
+    // $mod_id             = $xoopsModule->getVar('mid');
+    // $moduleperm_handler = xoops_gethandler('groupperm');
     $count = tad_link_cate_count();
 
     $sql    = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
@@ -112,6 +103,12 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
 
     $main = "";
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
+
+        // $tad_link_post = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
+        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
+            continue;
+        }
+
         if ($mode == "edit") {
             $selected = ($cate_sn == $default_of_cate_sn) ? "selected=selected" : "";
             $selected .= ($cate_sn == $default_cate_sn) ? "disabled=disabled" : "";
@@ -323,4 +320,64 @@ function delete_tad_link($link_sn = "")
     }
     $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
     $xoopsDB->queryF($sql) or web_error($sql);
+}
+
+//儲存權限
+function saveItem_Permissions($groups, $itemid, $perm_name)
+{
+    global $xoopsModule;
+    $module_id     = $xoopsModule->getVar('mid');
+    $gperm_handler = xoops_gethandler('groupperm');
+
+    // First, if the permissions are already there, delete them
+    $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
+
+    // Save the new permissions
+    if (count($groups) > 0) {
+        foreach ($groups as $group_id) {
+            $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
+        }
+    }
+}
+
+//取回權限的函數
+function getItem_Permissions($itemid, $gperm_name)
+{
+    global $xoopsModule, $xoopsDB;
+    $module_id = $xoopsModule->getVar('mid');
+    $sql       = " SELECT gperm_groupid FROM " . $xoopsDB->prefix("group_permission") . " where gperm_modid='$module_id' and gperm_itemid ='$itemid' and gperm_name='$gperm_name' ";
+    //echo $sql ;
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    while ($row = $xoopsDB->fetchArray($result)) {
+        $data[] = $row['gperm_groupid'];
+    }
+    return $data;
+}
+
+//判斷某人在哪些類別中有發表(post)的權利
+function chk_cate_power($kind = "")
+{
+    global $xoopsDB, $xoopsUser, $xoopsModule, $isAdmin;
+    $module_id = $xoopsModule->getVar('mid');
+    if (!empty($xoopsUser)) {
+        if ($isAdmin) {
+            $ok_cat[] = "0";
+        }
+        $user_array = $xoopsUser->getGroups();
+        $gsn_arr    = implode(",", $user_array);
+    } else {
+        $user_array = array(3);
+        $isAdmin    = 0;
+        $gsn_arr    = 3;
+    }
+
+    $sql = "select gperm_itemid from " . $xoopsDB->prefix("group_permission") . " where gperm_modid='$module_id' and gperm_name='$kind' and gperm_groupid in ($gsn_arr)";
+
+    $result = $xoopsDB->query($sql) or web_error($sql);
+
+    while (list($gperm_itemid) = $xoopsDB->fetchRow($result)) {
+        $ok_cat[] = $gperm_itemid;
+    }
+
+    return $ok_cat;
 }
