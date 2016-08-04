@@ -1,3 +1,8 @@
+Tad Link 2.6.1 (2016-08-04 released)
+====================================================
+ 1.Fixed problem about administrator can not modify data.
+
+
 Tad Link 2.6 (2016-07-11 released)
 ====================================================
  1.Support XOOPS 2.5.8
