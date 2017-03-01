@@ -359,10 +359,6 @@ $all_sn  = system_CleanVars($_REQUEST, 'all_sn', '', 'string');
 $cate_sn = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
 $link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
 
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("jquery", get_jquery(true));
-$xoopsTpl->assign("isAdmin", $isAdmin);
-
 switch ($op) {
 
     //新增資料
@@ -425,4 +421,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

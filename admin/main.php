@@ -245,14 +245,12 @@ switch ($op) {
         delete_tad_link_cate($cate_sn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //刪除資料
     case "delete_tad_link":
         delete_tad_link($link_sn);
         header("location: {$_SERVER['PHP_SELF']}?cate_sn=$cate_sn&g2p=$g2p");
         exit;
-        break;
 
     //預設動作
     default:

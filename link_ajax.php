@@ -47,7 +47,7 @@ function getUrlData($url)
 function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0)
 {
     $result   = false;
-    $contents = @file_get_contents($url);
+    $contents = @vita_get_url_content($url);
     // Check if we need to go somewhere else
     if (isset($contents) && is_string($contents)) {
         preg_match_all('/<[\s]*meta[\s]*http-equiv="?REFRESH"?' . '[\s]*content="?[0-9]*;[\s]*URL[\s]*=[\s]*([^>"]*)"?' . '[\s]*[\/]?[\s]*>/si', $contents, $match);

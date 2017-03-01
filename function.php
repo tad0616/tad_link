@@ -216,6 +216,12 @@ function vita_get_url_content($url)
     if (function_exists('curl_init')) {
         $ch      = curl_init();
         $timeout = 5;
+        // if (substr($url, 0, 5) == 'https') {
+        //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
+        //     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        //     curl_setopt($ch, CURLOPT_SSLVERSION, 1);
+        //     curl_setopt($ch, CURLOPT_HEADER, true);
+        // }
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);

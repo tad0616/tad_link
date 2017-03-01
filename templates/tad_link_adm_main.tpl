@@ -1,22 +1,22 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-sm-3">
       <div id="save_msg"></div>
 
       <{$ztree_code}>
 
       <a href="main.php?op=tad_link_cate_form" class="btn btn-info btn-block"><{$smarty.const._TAD_ADD}></a>
     </div>
-    <div class="col-md-9">
+    <div class="col-sm-9">
 
       <{if $cate_sn > 0}>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-sm-4">
             <h3>
               <{$cate.cate_title}>
             </h3>
           </div>
-          <div class="col-md-8 text-right">
+          <div class="col-sm-8 text-right">
             <div style="margin-top: 10px;">
               <a href="javascript:delete_tad_link_cate_func(<{$cate.cate_sn}>);" class="btn btn-danger <{if $cate_count.$cate_sn > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
               <a href="main.php?op=tad_link_cate_form&cate_sn=<{$cate_sn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
@@ -34,22 +34,22 @@
 
         <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
           <div class="form-group">
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
               <{$smarty.const._MA_TADLINK_OF_CATE_SN}>
             </label>
-            <div class="col-md-3">
+            <div class="col-sm-3">
               <select name="of_cate_sn" size=1 class="form-control">
                 <option value=""></option>
                 <{$get_tad_link_cate_options}>
               </select>
             </div>
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
               <{$smarty.const._MA_TADLINK_CATE_TITLE}>
             </label>
-            <div class="col-md-4">
+            <div class="col-sm-4">
               <input type="text" name="cate_title" value="<{$cate_title}>" id="cate_title" class="validate[required] form-control">
             </div>
-            <div class="col-md-1">
+            <div class="col-sm-1">
               <input type="hidden" name="cate_sn" value="<{$cate_sn}>">
               <input type="hidden" name="cate_sort" value="<{$cate_sort}>">
               <input type="hidden" name="op" value="<{$next_op}>">
@@ -58,10 +58,10 @@
           </div>
 
           <div class="form-group">
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
               <{$smarty.const._MA_TADLINK_SET_POST_POWER}>
             </label>
-            <div class="col-md-10">
+            <div class="col-sm-10">
               <{$enable_post_group}>
             </div>
           </div>
