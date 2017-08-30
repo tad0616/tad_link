@@ -22,7 +22,7 @@ function tad_link_show($options)
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $block = "";
+    $block = array();
     $i     = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
@@ -35,14 +35,14 @@ function tad_link_show($options)
 
         $height = 10;
         $thumb  = get_show_block_pic($link_sn);
-        $pic    = ($options[1]) ? "<a href='{$link_go}' target='_blank'><img src='$thumb' style='margin:4px auto;width:120px;' alt='{$link_title}' title='{$link_url}'>" : "";
+        $pic    = ($options[1]) ? "<a href='{$link_go}' target='_blank' title='$link_title'><img src='$thumb' alt='{$link_url}' class='img-responsive'></a>" : "";
         $height += ($options[1]) ? 100 : 5;
 
-        $title = ($options[2]) ? "<div style='font-size:11px;'><a href='{$link_go}' target='_blank'>$link_title</a></div>" : "";
+        $title = ($options[2]) ? "<a href='{$link_go}' target='_blank' title='$link_title'>$link_title</a>" : "";
 
         $height += ($options[2]) ? 30 : 0;
 
-        $url = ($options[3]) ? "<div style='font-size:11px;'><a href='{$link_go}' target='_blank'>$link_url</a></div>" : "";
+        $url = ($options[3]) ? "<a href='{$link_go}' target='_blank' title='$link_title'>$link_url</a>" : "";
 
         $height += ($options[3]) ? 25 : 0;
 
@@ -53,6 +53,7 @@ function tad_link_show($options)
         $i++;
     }
     $block['height'] = $options[7];
+    $block['col']    = $options[8];
 
     return $block;
 }
@@ -74,6 +75,12 @@ function tad_link_show_edit($options)
     $chked4_2 = ($options[4] == "sort") ? "checked" : "";
     $chked5_1 = ($options[5] == "1") ? "checked" : "";
     $chked5_0 = ($options[5] == "0") ? "checked" : "";
+    $s12      = ($options[8] == "12") ? "selected" : "";
+    $s6       = ($options[8] == "6") ? "selected" : "";
+    $s4       = ($options[8] == "4") ? "selected" : "";
+    $s3       = ($options[8] == "3") ? "selected" : "";
+    $s2       = ($options[8] == "2") ? "selected" : "";
+    $s1       = ($options[8] == "1") ? "selected" : "";
 
     $menu = block_link_cate($options[6]);
 
@@ -101,10 +108,19 @@ function tad_link_show_edit($options)
 
   " . _MB_TADLINK_TAD_CATE_MENU . "
   {$menu['form']}
-  <INPUT type='hidden' name='options[6]' id='bb' value='{$options[2]}'><br>
+  <INPUT type='hidden' name='options[6]' id='bb' value='{$options[6]}'><br>
   " . _MB_TADLINK_SHOW_HEIGHT . "
   <INPUT type='text' name='options[7]' value='{$options[7]}' size=4> px<br>
 
+  " . _MB_TADLINK_BOOTSTRAP_COL . "
+  <select name='options[8]' value='{$options[8]}'>
+    <option value='12' $s12>1</option>
+    <option value='6' $s6>2</option>
+    <option value='4' $s4>3</option>
+    <option value='3' $s3>4</option>
+    <option value='2' $s2>6</option>
+    <option value='1' $s1>12</option>
+  </select><br>
   ";
 
     return $form;
@@ -115,8 +131,8 @@ if (!function_exists('get_show_block_pic')) {
     function get_show_block_pic($link_sn)
     {
 
-        $pic      = XOOPS_URL . "/uploads/tad_link/thumbs/{$link_sn}.jpg";
-        $pic_path = XOOPS_ROOT_PATH . "/uploads/tad_link/thumbs/{$link_sn}.jpg";
+        $pic      = XOOPS_URL . "/uploads/tad_link/{$link_sn}.jpg";
+        $pic_path = XOOPS_ROOT_PATH . "/uploads/tad_link/{$link_sn}.jpg";
         $empty    = XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
 
         if (file_exists($pic_path)) {

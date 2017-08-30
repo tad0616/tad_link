@@ -8,12 +8,12 @@
         var obj = $.parseJSON(data);
          $('#LinkTitle').val(obj.title);
          $('#LinkDesc').val(obj.description);
-         $('#thumb').attr("src","http://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
+         $('#thumb').attr("src","http://120.115.2.78/img.php?w=400&h=300&url="+$('#LinkUrl').val());
        });
     });
 
     $('#thumb').click(function() {
-      $('#thumb').attr("src","http://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
+      $('#thumb').attr("src","http://120.115.2.78/img.php?w=400&h=300&url="+$('#LinkUrl').val());
     });
   });
 </script>

@@ -10,7 +10,7 @@ function tad_link_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $queryarray = $arr;
     }
-    $sql = "SELECT `link_sn`,`link_title`,`post_date`, `uid` FROM " . $xoopsDB->prefix("tad_link") . " WHERE enable='1'";
+    $sql = "SELECT `link_sn`,`link_title`,`link_url`,`post_date`, `uid` FROM " . $xoopsDB->prefix("tad_link") . " WHERE enable='1'";
     if ($userid != 0) {
         $sql .= " AND uid=" . $userid . " ";
     }
@@ -29,7 +29,7 @@ function tad_link_search($queryarray, $andor, $limit, $offset, $userid)
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[$i]['image'] = "images/mouse.png";
         $ret[$i]['link']  = "index.php?link_sn=" . $myrow['link_sn'];
-        $ret[$i]['title'] = $myrow['link_title'];
+        $ret[$i]['title'] = empty($myrow['link_title']) ? $myrow['link_url'] : $myrow['link_title'];
         $ret[$i]['time']  = strtotime($myrow['post_date']);
         $ret[$i]['uid']   = $myrow['uid'];
         $i++;

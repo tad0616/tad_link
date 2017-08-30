@@ -35,3 +35,4 @@ define('_MD_TADLINK_BACK', '回上頁');
 define('_MD_TADLINK_SELECT_ALL', '全選');
 define('_MD_TADLINK_DRAG_SORT', '可直接拖曳排序');
 define('_MD_TADLINK_OVERDUE', '過期');
+define('_MD_TADLINK_UNCATEGORIZED', '未分類');

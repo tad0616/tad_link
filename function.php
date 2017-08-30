@@ -160,9 +160,11 @@ function get_show_pic($link_sn, $mode = 'thumb')
     } else {
         get_pic($link_sn);
         if ($mode == 'thumb') {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
+            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
+            // $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
         } else {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
+            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
+            // $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
         }
 
         return $empty;
@@ -189,9 +191,9 @@ function get_pic($link_sn = '')
         }
     } else {
         $link = get_tad_link($link_sn);
-        copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
+        copyemz("http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
     }
-    tad_likn_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
+    tad_link_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
 }
 
 //複製檔案
@@ -235,13 +237,18 @@ function vita_get_url_content($url)
 }
 
 //做縮圖
-function tad_likn_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+function tad_link_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
 {
-
-    ini_set('memory_limit', '50M');
+    // die($filename);
+    if (!file_exists($filename)) {
+        return;
+    }
+    // ini_set('memory_limit', '50M');
     // Get new sizes
     list($old_width, $old_height) = getimagesize($filename);
-
+    if (empty($old_width) or empty($old_height)) {
+        return;
+    }
     $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
 
     $newwidth  = ($old_width > $old_height) ? $width : $old_width * $percent;

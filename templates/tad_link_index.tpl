@@ -12,12 +12,12 @@
         <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" border=0><img src="<{$pic}>" class="img-responsive" alt="<{$cate_title}>"></a>
       </div>
       <div class="col-sm-7">
-        <h1><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{$link_title}></a></h1>
+        <h1><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title}><{$link_title}><{else}><{$link_url}><{/if}></a></h1>
         <{$smarty.const._MD_TADLINK_LINK_URL}><{$smarty.const._TAD_FOR}><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" ><{$link_url}></a>
         <div class="row">
           <div class="col-sm-6">
             <button class="btn btn-primary btn-xs" type="button">
-              <a href="index.php?cate_sn=<{$cate_sn}>" style="color: white;"><{$cate_title}></a> <span class="badge"><{$link_counter}></span>
+              <a href="index.php?cate_sn=<{$cate_sn}>" style="color: white;"><{if $cate_sn}><{$cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a> <span class="badge"><{$link_counter}></span>
             </button>
           </div>
 
@@ -175,13 +175,13 @@
       </script>
     <{/if}>
 
-    <h1><{$cate.cate_title}></h1>
+    <h1><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h1>
     <div class="row">
       <div class="col-sm-3">
         <{$ztree_code}>
         <{if $isAdmin and $show_cate_sn!=""}>
           <div class="text-center">
-            <a href="index.php?op=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{$cate.cate_title}></a>
+            <a href="index.php?op=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
           </div>
         <{/if}>
       </div>
@@ -203,13 +203,11 @@
               <{/if}>
 
               <div style="font-size: 24px;">
-                <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{$link.link_title}></a>
+                <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></a>
               </div>
 
               <div style="font-size: 12px; margin: 10px 0px;">
-                <{if $cate.cate_title=="" and $link.cate_title}>
-                  <a href="index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a> |
-                <{/if}>
+                  <{if $link.cate_sn}><a href="index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a><{else}><span style="color:red;"><{$smarty.const._MD_TADLINK_UNCATEGORIZED}></span><{/if}> |
 
                 <a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank"><{$link.link_url}></a>
               </div>
