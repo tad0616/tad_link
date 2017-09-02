@@ -13,7 +13,7 @@ $module_id = $xoopsModule->getVar('mid');
 
 //抓取所有資料夾
 
-$sql    = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate");
+$sql = "SELECT cate_sn,cate_title FROM " . $xoopsDB->prefix("tad_link_cate");
 $result = $xoopsDB->query($sql) or web_error($sql);
 while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
     $item_list[$cate_sn] = $cate_title;

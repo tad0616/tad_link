@@ -303,7 +303,7 @@ function get_tad_link($link_sn = "")
 function get_tad_link_cate_all()
 {
     global $xoopsDB;
-    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate");
+    $sql = "SELECT * FROM " . $xoopsDB->prefix("tad_link_cate");
     $result = $xoopsDB->query($sql) or web_error($sql);
     while ($data = $xoopsDB->fetchArray($result)) {
         $cate_sn            = (int) ($data['cate_sn']);

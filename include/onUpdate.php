@@ -52,7 +52,7 @@ function chk_tad_link_block()
 function chk_chk1()
 {
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_link_files_center");
+    $sql    = "SELECT count(*) FROM " . $xoopsDB->prefix("tad_link_files_center");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -65,19 +65,19 @@ function go_update1()
 {
     global $xoopsDB;
     $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_link_files_center") . "` (
-  `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
-  `col_name` varchar(255) NOT NULL COMMENT '欄位名稱',
-  `col_sn` smallint(5) unsigned NOT NULL COMMENT '欄位編號',
-  `sort` smallint(5) unsigned NOT NULL COMMENT '排序',
-  `kind` enum('img','file') NOT NULL COMMENT '檔案種類',
-  `file_name` varchar(255) NOT NULL COMMENT '檔案名稱',
-  `file_type` varchar(255) NOT NULL COMMENT '檔案類型',
-  `file_size` int(10) unsigned NOT NULL COMMENT '檔案大小',
-  `description` text NOT NULL COMMENT '檔案說明',
-  `counter` mediumint(8) unsigned NOT NULL COMMENT '下載人次',
-  `original_filename` varchar(255) NOT NULL COMMENT '檔案名稱',
-  `hash_filename` varchar(255) NOT NULL COMMENT '加密檔案名稱',
-  `sub_dir` varchar(255) NOT NULL COMMENT '檔案子路徑',
+  `files_sn` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
+  `col_name` VARCHAR(255) NOT NULL COMMENT '欄位名稱',
+  `col_sn` SMALLINT(5) UNSIGNED NOT NULL COMMENT '欄位編號',
+  `sort` SMALLINT(5) UNSIGNED NOT NULL COMMENT '排序',
+  `kind` ENUM('img','file') NOT NULL COMMENT '檔案種類',
+  `file_name` VARCHAR(255) NOT NULL COMMENT '檔案名稱',
+  `file_type` VARCHAR(255) NOT NULL COMMENT '檔案類型',
+  `file_size` INT(10) UNSIGNED NOT NULL COMMENT '檔案大小',
+  `description` TEXT NOT NULL COMMENT '檔案說明',
+  `counter` MEDIUMINT(8) UNSIGNED NOT NULL COMMENT '下載人次',
+  `original_filename` VARCHAR(255) NOT NULL COMMENT '檔案名稱',
+  `hash_filename` VARCHAR(255) NOT NULL COMMENT '加密檔案名稱',
+  `sub_dir` VARCHAR(255) NOT NULL COMMENT '檔案子路徑',
   PRIMARY KEY (`files_sn`)
 ) ENGINE=MyISAM";
     $xoopsDB->queryF($sql);
