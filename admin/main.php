@@ -75,6 +75,7 @@ function list_tad_link_cate_tree($def_cate_sn = "")
     }
 
     $json = implode(",\n", $data);
+    $cate_count = array();
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php")) {
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
