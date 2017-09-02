@@ -97,8 +97,8 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $path     = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
-    $sql      = "select cate_sn,of_cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " order by cate_sort";
-    $result   = $xoopsDB->query($sql) or web_error($sql);
+    $sql      = "SELECT cate_sn,of_cate_sn,cate_title FROM " . $xoopsDB->prefix("tad_link_cate") . " ORDER BY cate_sort";
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $count  = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -135,7 +135,7 @@ function show_one_tad_link($link_sn = "")
 {
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin;
 
-    $push_url          = $facebook_comments          = '';
+    $push_url          = $facebook_comments = '';
     $push_url          = push_url($xoopsModuleConfig['use_social_tools']);
     $facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_link', 'index.php', 'link_sn', $link_sn);
 
@@ -248,8 +248,8 @@ function insert_tad_link()
 function tad_link_max_sort()
 {
     global $xoopsDB;
-    $sql        = "select max(`link_sort`) from " . $xoopsDB->prefix("tad_link");
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "SELECT max(`link_sort`) FROM " . $xoopsDB->prefix("tad_link");
+    $result = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;

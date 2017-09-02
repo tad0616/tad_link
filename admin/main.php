@@ -55,7 +55,7 @@ function list_tad_link_cate_tree($def_cate_sn = "")
 {
     global $xoopsDB, $xoopsTpl;
 
-    $sql    = "select count(*),cate_sn from " . $xoopsDB->prefix("tad_link") . " group by cate_sn";
+    $sql = "SELECT count(*),cate_sn FROM " . $xoopsDB->prefix("tad_link") . " GROUP BY cate_sn";
     $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($count, $cate_sn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$cate_sn] = $count;
@@ -65,7 +65,7 @@ function list_tad_link_cate_tree($def_cate_sn = "")
     $path_arr = array_keys($path);
     $data[]   = "{ id:0, pId:0, name:'All', url:'main.php', target:'_self', open:true}";
 
-    $sql    = "select cate_sn,of_cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " order by cate_sort";
+    $sql = "SELECT cate_sn,of_cate_sn,cate_title FROM " . $xoopsDB->prefix("tad_link_cate") . " ORDER BY cate_sort";
     $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $font_style      = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
@@ -116,7 +116,7 @@ function tad_link_cate_form($cate_sn = "")
     $cate_sort = (!isset($DBV['cate_sort'])) ? tad_link_cate_max_sort() : $DBV['cate_sort'];
 
     $mod_id             = $xoopsModule->getVar('mid');
-    $moduleperm_handler = xoops_gethandler('groupperm');
+    $moduleperm_handler = xoops_getHandler('groupperm');
     $tad_link_post      = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
 
     $op = (empty($cate_sn)) ? "insert_tad_link_cate" : "update_tad_link_cate";

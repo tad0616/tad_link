@@ -303,7 +303,7 @@ function get_tad_link($link_sn = "")
 function get_tad_link_cate_all()
 {
     global $xoopsDB;
-    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate");
+    $sql = "SELECT * FROM " . $xoopsDB->prefix("tad_link_cate");
     $result = $xoopsDB->query($sql) or web_error($sql);
     while ($data = $xoopsDB->fetchArray($result)) {
         $cate_sn            = (int) ($data['cate_sn']);
@@ -340,7 +340,7 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
     $module_id     = $xoopsModule->getVar('mid');
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
     $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
