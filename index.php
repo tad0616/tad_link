@@ -211,12 +211,12 @@ function insert_tad_link()
     $link_url    = $myts->addSlashes($_POST['link_url']);
     $link_desc   = $myts->addSlashes($_POST['link_desc']);
     $unable_date = $myts->addSlashes($_POST['unable_date']);
-    $enable      = intval($_POST['enable']);
+    $enable      = (int)$_POST['enable'];
 
     if (!empty($_POST['new_cate'])) {
         $cate_sn = new_tad_link_cate($_POST['cate_sn'], $_POST['new_cate']);
     } else {
-        $cate_sn = intval($_POST['cate_sn']);
+        $cate_sn = (int)$_POST['cate_sn'];
     }
 
     $post_cate_arr = chk_cate_power('tad_link_post');
@@ -264,12 +264,12 @@ function update_tad_link($link_sn = "")
     $link_url    = $myts->addSlashes($_POST['link_url']);
     $link_desc   = $myts->addSlashes($_POST['link_desc']);
     $unable_date = $myts->addSlashes($_POST['unable_date']);
-    $enable      = intval($_POST['enable']);
+    $enable      = (int)$_POST['enable'];
 
     if (!empty($_POST['new_cate'])) {
         $cate_sn = new_tad_link_cate($_POST['cate_sn'], $_POST['new_cate']);
     } else {
-        $cate_sn = intval($_POST['cate_sn']);
+        $cate_sn = (int)$_POST['cate_sn'];
     }
 
     $post_cate_arr = chk_cate_power('tad_link_post');
