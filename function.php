@@ -340,7 +340,7 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
     $module_id     = $xoopsModule->getVar('mid');
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
     $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);

@@ -116,7 +116,7 @@ function tad_link_cate_form($cate_sn = "")
     $cate_sort = (!isset($DBV['cate_sort'])) ? tad_link_cate_max_sort() : $DBV['cate_sort'];
 
     $mod_id             = $xoopsModule->getVar('mid');
-    $moduleperm_handler = xoops_gethandler('groupperm');
+    $moduleperm_handler = xoops_getHandler('groupperm');
     $tad_link_post      = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
 
     $op = (empty($cate_sn)) ? "insert_tad_link_cate" : "update_tad_link_cate";
