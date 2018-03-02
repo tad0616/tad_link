@@ -31,3 +31,6 @@ define('_MI_TADLINK_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
 define('_MI_TADLINK_HELP_OVERVIEW', 'Overview');
+
+define('_MI_CAPTURE_FROM', 'Thumbnail source');
+define('_MI_CAPTURE_FROM_DESC', '120.115.2.78 may be more unstable');

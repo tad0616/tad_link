@@ -61,7 +61,8 @@ function get_tad_link_sub_cate($cate_sn = "0")
     global $xoopsDB;
     $sql         = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$cate_sn}'";
     $result      = $xoopsDB->query($sql) or web_error($sql);
-    $cate_sn_arr = "";
+    $cate_sn_arr = array();
+
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $cate_sn_arr[$cate_sn] = $cate_title;
     }
@@ -160,11 +161,17 @@ function get_show_pic($link_sn, $mode = 'thumb')
     } else {
         get_pic($link_sn);
         if ($mode == 'thumb') {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
-            // $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
+            if ($xoopsModuleConfig['capture_from'] == "120.115.2.78") {
+                $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
+            } else {
+                $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
+            }
         } else {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
-            // $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
+            if ($xoopsModuleConfig['capture_from'] == "120.115.2.78") {
+                $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
+            } else {
+                $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
+            }
         }
 
         return $empty;
@@ -174,6 +181,7 @@ function get_show_pic($link_sn, $mode = 'thumb')
 //遠端擷取圖片
 function get_pic($link_sn = '')
 {
+    global $xoopsModuleConfig;
     if ($_FILES) {
         include_once XOOPS_ROOT_PATH . "/modules/tadtools/upload/class.upload.php";
 
@@ -191,7 +199,12 @@ function get_pic($link_sn = '')
         }
     } else {
         $link = get_tad_link($link_sn);
-        copyemz("http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
+
+        if ($xoopsModuleConfig['capture_from'] == "120.115.2.78") {
+            copyemz("http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
+        } else {
+            copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
+        }
     }
     tad_link_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
 }
@@ -303,7 +316,7 @@ function get_tad_link($link_sn = "")
 function get_tad_link_cate_all()
 {
     global $xoopsDB;
-    $sql = "SELECT * FROM " . $xoopsDB->prefix("tad_link_cate");
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_link_cate");
     $result = $xoopsDB->query($sql) or web_error($sql);
     while ($data = $xoopsDB->fetchArray($result)) {
         $cate_sn            = (int) ($data['cate_sn']);

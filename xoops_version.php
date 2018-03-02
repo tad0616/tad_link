@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADLINK_NAME;
-$modversion['version']     = 2.65;
+$modversion['version']     = 2.66;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author']      = _MI_TADLINK_AUTHOR;
 $modversion['credits']     = _MI_TADLINK_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2017-08-18';
+$modversion['release_date']        = '2018-01-24';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -132,3 +132,12 @@ $modversion['config'][$i]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
 $modversion['config'][$i]['formtype']    = 'yesno';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = '1';
+
+$i++;
+$modversion['config'][$i]['name']        = 'capture_from';
+$modversion['config'][$i]['title']       = '_MI_CAPTURE_FROM';
+$modversion['config'][$i]['description'] = '_MI_CAPTURE_FROM_DESC';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['options']     = array('capture.heartrails.com' => 'capture.heartrails.com', '120.115.2.78' => '120.115.2.78');
+$modversion['config'][$i]['default']     = 'capture.heartrails.com';

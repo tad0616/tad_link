@@ -1,39 +1,45 @@
-Tad Link 2.6.5 (2017-08-18 released)
+Tad Link 2.6.6 (released on 2018-01-24)
+================================================
+1. Support PHP7.1
+2. Add thumbnail source settings
+  
+
+Tad Link 2.6.5 (released on 17-08-18)
 ================================================
 1. Fixed an issue where the latest good sitelink setting item was incorrect
 2. Change the latest good link block to BootStrap
 
 
-Tad Link 2.6.4 (2017-06-16 released)
+Tad Link 2.6.4 (released on 17-06-16)
 ================================================
 1. Complete accessibility 2.0 A level detection
 2. Optimize website screenshots
 
 
-Tad Link 2.6.3 (2017-01-07 released)
+Tad Link 2.6.3 (released on 17-01-07)
 ================================================
  1.Change the col-md of boootstrap to col-sm
 
 
- Tad Link 2.6.2 (2016-11-03 released)
+ Tad Link 2.6.2 (released on 16-11-03)
 ====================================================
  1. Support automatic crawling of SSL URL
  2. Classification must be filled
 
 
-Tad Link 2.6.1 (2016-08-04 released)
+Tad Link 2.6.1 (released on 16-08-04)
 ====================================================
  1.Fixed problem about administrator can not modify data.
 
 
-Tad Link 2.6 (2016-07-11 released)
+Tad Link 2.6 (released on 16-07-11)
 ====================================================
  1.Support XOOPS 2.5.8
  2.New groups can post data.
  3.Added list mode to the block.
 
 
-Tad Link 2.5 (2016-05-20 released)
+Tad Link 2.5 (released on 16-05-20)
 ====================================================
  1.Support PHP7
  2.Remove BootStrap2
@@ -41,12 +47,12 @@ Tad Link 2.5 (2016-05-20 released)
  4. Adjust the web interface
 
 
-Tad Link 2.4.1 (2015-06-18 released)
+Tad Link 2.4.1 (released on 15-06-18)
 ====================================================
  1.Resolve when the update block templates can not be loaded issues
 
 
-Tad Link 2.4 (2015-06-18 released)
+Tad Link 2.4 (released on 15-06-18)
 ====================================================
  1.Modify the code to meet specifications PSR2
  2.Added Bootstrap3 Support
@@ -55,20 +61,20 @@ Tad Link 2.4 (2015-06-18 released)
  5.Added English language (thanks Michael)
 
 
-Tad Link 2.3 (2014-12-04 released)
+Tad Link 2.3 (released on 14-12-04)
 ================================================== ==
  1. Fixed block site will still be expired bug
  2. Amendments expired batch management can not see the site bug
 
 
-Tad Link 2.21 (2014-09-25 released)
+Tad Link 2.21 (released on 14-09-25)
 ================================================== ==
  1. streamline unnecessary functions
  2. Remove the block of text color
  3. Fixed code to conform to WCAG
 
 
-Tad Link 2.2 (2013-12-06 released)
+Tad Link 2.2 (released on 13-12-06)
 ================================================== ==
  1. Block diagram added option "Sort" to render
  2. Block diagram added custom height setting
@@ -76,19 +82,19 @@ Tad Link 2.2 (2013-12-06 released)
  4. Adjust Quick release interface
 
 
-Tad Link 2.1 (2013-11-21 released)
+Tad Link 2.1 (released on 13-11-21)
 ================================================== ==
  1. Fixed block menu can not be linked with no color problem
  2. Add custom favicons features
 
 
-Tad Link 2.01 (2013-11-04 released)
+Tad Link 2.01 (released on 13-11-04)
 ================================================== ==
  1. Fixed block menu will break issue table
  2. Fix "Goody Quick Links" block can display only one category of bug
 
 
-Tad Link 2.0 (2013-07-28 released)
+Tad Link 2.0 (released on 13-07-28)
 ================================================== ==
  1. The distal end of the thumbnail display function is added directly, avoiding most of the host can not download the image file.
  2. Add the system function detection in order to understand whether the current system can store thumbnail.
@@ -101,7 +107,7 @@ Tad Link 2.0 (2013-07-28 released)
  9. Reception new batch delete function, and direct dragging Sort
 
 
-Tad Link 1.0 (2011-11-16 released)
+Tad Link 1.0 (released on 11-11-16)
 ================================================== ==
  1. Add the "big picture showing width 'preferences
  2. Add "whether to show off Tweets tool" preferences of

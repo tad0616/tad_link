@@ -37,7 +37,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
@@ -98,7 +98,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $path     = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
     $sql      = "SELECT cate_sn,of_cate_sn,cate_title FROM " . $xoopsDB->prefix("tad_link_cate") . " ORDER BY cate_sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result   = $xoopsDB->query($sql) or web_error($sql);
 
     $count  = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -135,7 +135,7 @@ function show_one_tad_link($link_sn = "")
 {
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin;
 
-    $push_url          = $facebook_comments = '';
+    $push_url          = $facebook_comments          = '';
     $push_url          = push_url($xoopsModuleConfig['use_social_tools']);
     $facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_link', 'index.php', 'link_sn', $link_sn);
 
@@ -248,8 +248,8 @@ function insert_tad_link()
 function tad_link_max_sort()
 {
     global $xoopsDB;
-    $sql = "SELECT max(`link_sort`) FROM " . $xoopsDB->prefix("tad_link");
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $sql        = "SELECT max(`link_sort`) FROM " . $xoopsDB->prefix("tad_link");
+    $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -323,7 +323,7 @@ function go_url($link_sn)
 //編輯表單
 function tad_link_form($link_sn = "", $mode = "")
 {
-    global $xoopsTpl, $isAdmin;
+    global $xoopsTpl, $isAdmin, $xoopsModuleConfig;
 
     $data    = array();
     $next_op = "insert_tad_link";
@@ -349,6 +349,8 @@ function tad_link_form($link_sn = "", $mode = "")
     $xoopsTpl->assign("link_desc", $data['link_desc']);
     $xoopsTpl->assign("unable_date", $data['unable_date']);
     $xoopsTpl->assign("mode", $mode);
+    $xoopsTpl->assign("capture_from", $xoopsModuleConfig['capture_from']);
+
 }
 
 /*-----------執行動作判斷區----------*/
