@@ -75,6 +75,7 @@ function list_tad_link_cate_tree($def_cate_sn = "")
     }
 
     $json = implode(",\n", $data);
+    $cate_count = array();
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php")) {
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
@@ -151,8 +152,8 @@ function insert_tad_link_cate()
 
     $myts       = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($_POST['cate_title']);
-    $of_cate_sn = intval($_POST['of_cate_sn']);
-    $cate_sort  = intval($_POST['cate_sort']);
+    $of_cate_sn = (int)$_POST['of_cate_sn'];
+    $cate_sort  = (int)$_POST['cate_sort'];
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link_cate") . "
     (`of_cate_sn` , `cate_title` , `cate_sort`)
@@ -178,8 +179,8 @@ function update_tad_link_cate($cate_sn = "")
 
     $myts       = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($_POST['cate_title']);
-    $of_cate_sn = intval($_POST['of_cate_sn']);
-    $cate_sort  = intval($_POST['cate_sort']);
+    $of_cate_sn = (int)$_POST['of_cate_sn'];
+    $cate_sort  = (int)$_POST['cate_sort'];
 
     $sql = "update " . $xoopsDB->prefix("tad_link_cate") . " set
      `of_cate_sn` = '{$of_cate_sn}' ,
