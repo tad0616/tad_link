@@ -52,8 +52,9 @@ function tad_link_show($options)
         $block['links'][$i]['title']  = $title;
         $i++;
     }
-    $block['height'] = $options[7];
-    $block['col']    = $options[8];
+    $block['height']  = $options[7];
+    $block['col']     = $options[8];
+    $block['cate_sn'] = $options[6];
 
     return $block;
 }

@@ -15,3 +15,6 @@
     </div>
   <{/foreach}>
 </div>
+<div style="text-align:right;">
+  [ <a href="<{$xoops_url}>/modules/tad_link/index.php?cate_sn=<{$block.cate_sn}>">more...</a> ]
+</div>

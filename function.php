@@ -340,11 +340,10 @@ function tad_link_cate_max_sort($of_cate_sn = '0')
 //刪除tad_link某筆資料資料
 function delete_tad_link($link_sn = "")
 {
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
-        return;
-    }
-    $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
+    global $xoopsDB, $isAdmin, $now_uid;
+
+    $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
+    $sql     = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn' {$and_uid}";
     $xoopsDB->queryF($sql) or web_error($sql);
 }
 

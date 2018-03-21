@@ -1,7 +1,7 @@
 <{$toolbar}>
 
 <{if $op=="tad_link_form"}>
-  <{if $post_cate_arr or $isAdmin}>
+  <{if $post_cate_arr or $isAdmin or $uid==$now_uid}>
     <{includeq file="db:tad_link_form.tpl"}>
   <{/if}>
 <{elseif $op=="show_one_tad_link"}>
@@ -22,7 +22,7 @@
           </div>
 
           <div class="col-sm-6 text-right">
-            <{if $isAdmin}>
+            <{if $isAdmin or $uid==$now_uid}>
               <a href="index.php?op=tad_link_form&link_sn=<{$link_sn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
               <a href="javascript:delete_tad_link_func(<{$link_sn}>)" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
             <{/if}>
@@ -165,16 +165,6 @@
   <{if $all_content}>
     <{$fancybox_code}>
 
-    <{if $isAdmin}>
-      <script type="text/javascript">
-        function delete_tad_link_func(link_sn){
-          var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-          if (!sure)  return;
-          location.href="index.php?op=delete_tad_link&cate_sn=<{$show_cate_sn}>&link_sn=" + link_sn;
-        }
-      </script>
-    <{/if}>
-
     <h1><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h1>
     <div class="row">
       <div class="col-sm-3">
@@ -195,7 +185,7 @@
 
             <div class="col-sm-9">
 
-              <{if $isAdmin}>
+              <{if $isAdmin or $link.uid==$now_uid}>
                 <div class="pull-right">
                   <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
                   <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>

@@ -1,3 +1,9 @@
+Tad Link 2.6.7 (released on 2018-03-21)
+================================================
+1. Added more link to block
+2. Fixed an issue where links post by non-administrators cannot be modified on their own
+
+
 Tad Link 2.6.6 (released on 2018-01-24)
 ================================================
 1. Support PHP7.1
