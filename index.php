@@ -4,7 +4,7 @@ include "header.php";
 $xoopsOption['template_main'] = "tad_link_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 
-$now_uid = isset($xoopsUser) ? $xoopsUser->uid() : 0;
+$now_uid = $xoopsUser ? $xoopsUser->uid() : 0;
 /*-----------function區--------------*/
 
 //列出所有tad_link資料
@@ -183,14 +183,14 @@ function show_one_tad_link($link_sn = "")
 }
 
 //新增資料到tad_link_cate中
-function new_tad_link_cate($of_cate_sn = '', $cate_title = '')
+function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
 
     if (!$isAdmin) {
         return;
     }
-
+    $of_cate_sn = (int) $of_cate_sn;
     $myts       = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($cate_title);
     $cate_sort  = tad_link_cate_max_sort($of_cate_sn);
@@ -214,7 +214,7 @@ function insert_tad_link()
     $link_title  = $myts->addSlashes($_POST['link_title']);
     $link_url    = $myts->addSlashes($_POST['link_url']);
     $link_desc   = $myts->addSlashes($_POST['link_desc']);
-    $unable_date = $myts->addSlashes($_POST['unable_date']);
+    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $myts->addSlashes($_POST['unable_date']);
     $enable      = (int) $_POST['enable'];
 
     if (!empty($_POST['new_cate'])) {
@@ -267,7 +267,7 @@ function update_tad_link($link_sn = "")
     $link_title  = $myts->addSlashes($_POST['link_title']);
     $link_url    = $myts->addSlashes($_POST['link_url']);
     $link_desc   = $myts->addSlashes($_POST['link_desc']);
-    $unable_date = $myts->addSlashes($_POST['unable_date']);
+    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $myts->addSlashes($_POST['unable_date']);
     $enable      = (int) $_POST['enable'];
 
     if (!empty($_POST['new_cate'])) {

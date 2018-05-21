@@ -1,3 +1,10 @@
+Tad Link 2.6.8 (released on 2018-05-21)
+================================================
+1. Support database strict mode
+2. Remove the tchinese Big5 language
+3. Add the "Without RWD" option to the latest good site link block
+
+
 Tad Link 2.6.7 (released on 2018-03-21)
 ================================================
 1. Added more link to block

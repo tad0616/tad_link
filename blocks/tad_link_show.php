@@ -82,6 +82,7 @@ function tad_link_show_edit($options)
     $s3       = ($options[8] == "3") ? "selected" : "";
     $s2       = ($options[8] == "2") ? "selected" : "";
     $s1       = ($options[8] == "1") ? "selected" : "";
+    $sno      = ($options[8] == "0") ? "selected" : "";
 
     $menu = block_link_cate($options[6]);
 
@@ -115,6 +116,7 @@ function tad_link_show_edit($options)
 
   " . _MB_TADLINK_BOOTSTRAP_COL . "
   <select name='options[8]' value='{$options[8]}'>
+    <option value='0' $sno>" . _MB_TADLINK_NO_BOOTSTRAP_COL . "</option>
     <option value='12' $s12>1</option>
     <option value='6' $s6>2</option>
     <option value='4' $s4>3</option>
