@@ -35,7 +35,7 @@ function tad_link_show($options)
 
         $height = 10;
         $thumb  = get_show_block_pic($link_sn);
-        $pic    = ($options[1]) ? "<a href='{$link_go}' target='_blank' title='$link_title'><img src='$thumb' alt='{$link_url}' class='img-responsive'></a>" : "";
+        $pic    = ($options[1]) ? "<a href='{$link_go}' target='_blank' title='$link_title'><img src='$thumb' alt='{$link_url}' class='img-responsive img-fluid'></a>" : "";
         $height += ($options[1]) ? 100 : 5;
 
         $title = ($options[2]) ? "<a href='{$link_go}' target='_blank' title='$link_title'>$link_title</a>" : "";

@@ -1,3 +1,8 @@
+Tad Link 2.6.9 (released on 2019-01-01)
+================================================
+1.Support Bootstrap4
+
+
 Tad Link 2.6.8 (released on 2018-05-21)
 ================================================
 1. Support database strict mode
@@ -15,7 +20,7 @@ Tad Link 2.6.6 (released on 2018-01-24)
 ================================================
 1. Support PHP7.1
 2. Add thumbnail source settings
-  
+
 
 Tad Link 2.6.5 (released on 17-08-18)
 ================================================
