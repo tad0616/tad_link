@@ -1,6 +1,6 @@
 <?php
 include_once "header.php";
-//$_POST['url']="http://tad0616.net";
+//$_POST['url']="https://tad0616.net";
 $date['metaTags']['description']['value'] = $date['title'] = '';
 if (!empty($_POST['url'])) {
     $date               = getUrlData($_POST['url']);
