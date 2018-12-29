@@ -36,7 +36,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $total   = $PageBar['total'];
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $all_content = array();
     $i           = 0;
@@ -100,7 +100,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $path     = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
     $sql      = "SELECT cate_sn,of_cate_sn,cate_title FROM " . $xoopsDB->prefix("tad_link_cate") . " ORDER BY cate_sort";
-    $result   = $xoopsDB->query($sql) or web_error($sql);
+    $result   = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $count  = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -198,7 +198,7 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
     $sql = "insert into " . $xoopsDB->prefix("tad_link_cate") . "
   (`of_cate_sn` , `cate_title` , `cate_sort`)
   values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     //取得最後新增資料的流水編號
     $cate_sn = $xoopsDB->getInsertId();
@@ -238,7 +238,7 @@ function insert_tad_link()
     $sql = "insert into " . $xoopsDB->prefix("tad_link") . "
   (`cate_sn` , `link_title` , `link_url` , `link_desc` , `link_sort` , `link_counter` , `unable_date` , `uid` , `post_date` , `enable`)
   values('{$cate_sn}' , '{$link_title}' , '{$link_url}' , '{$link_desc}' , '{$link_sort}' , 0 , '{$unable_date}' , '{$uid}' , now() , '{$enable}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     //取得最後新增資料的流水編號
     $link_sn = $xoopsDB->getInsertId();
@@ -253,7 +253,7 @@ function tad_link_max_sort()
 {
     global $xoopsDB;
     $sql        = "SELECT max(`link_sort`) FROM " . $xoopsDB->prefix("tad_link");
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -298,7 +298,7 @@ function update_tad_link($link_sn = "")
    `post_date` =now()
     where link_sn='$link_sn'";
 
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     get_pic($link_sn);
 
@@ -312,7 +312,7 @@ function delete_all_link($all_sn = "")
 
     $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
     $sql     = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn in($all_sn) {$and_uid}";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 function go_url($link_sn)

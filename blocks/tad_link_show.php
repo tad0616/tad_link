@@ -20,7 +20,7 @@ function tad_link_show($options)
     $today = date("Y-m-d");
     $sql   = "select * from " . $xoopsDB->prefix("tad_link") . " where `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') $and_cate $order limit 0,{$options[0]}";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $block = array();
     $i     = 0;
