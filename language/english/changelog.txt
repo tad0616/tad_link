@@ -1,6 +1,7 @@
 Tad Link 2.6.9 (released on 2019-01-01)
 ================================================
 1.Support Bootstrap4
+2.Support PHP7.3
 
 
 Tad Link 2.6.8 (released on 2018-05-21)

@@ -66,19 +66,29 @@ function tad_link_all_edit($options)
     $menu = block_link_cate($options[1]);
 
     $form = "{$menu['js']}
-    " . _MB_TADLINK_TADLINK_ALL_EDIT_BITEM0 . "
-    <INPUT type='radio' $chked0_0 name='options[0]' value='1'>" . _YES . "
-    <INPUT type='radio' $chked0_1 name='options[0]' value='0'>" . _NO . "
-    <br>
-    " . _MB_TADLINK_TAD_CATE_MENU . "
-    {$menu['form']}
-    <INPUT type='hidden' name='options[1]' id='bb' value='{$options[1]}'>
-    <br>
-
-    " . _MB_TADLINK_TADLINK_LIST_TYPE . "
-    <INPUT type='radio' $opt2_dropdown name='options[2]' value='dropdown'>" . _MB_TADLINK_TADLINK_DROPDOWN . "
-    <INPUT type='radio' $opt2_list name='options[2]' value='list'>" . _MB_TADLINK_TADLINK_LIST . "
-    ";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_TADLINK_ALL_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked0_0 name='options[0]' value='1'>" . _YES . "
+                <input type='radio' $chked0_1 name='options[0]' value='0'>" . _NO . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_TAD_CATE_MENU . "</lable>
+            <div class='my-content'>
+                {$menu['form']}
+                <input type='hidden' name='options[1]' id='bb' value='{$options[1]}'>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_TADLINK_LIST_TYPE . "</lable>
+            <div class='my-content'>
+                <input type='radio' $opt2_dropdown name='options[2]' value='dropdown'>" . _MB_TADLINK_TADLINK_DROPDOWN . "
+                <input type='radio' $opt2_list name='options[2]' value='list'>" . _MB_TADLINK_TADLINK_LIST . "
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }

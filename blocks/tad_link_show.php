@@ -87,44 +87,77 @@ function tad_link_show_edit($options)
     $menu = block_link_cate($options[6]);
 
     $form = "{$menu['js']}
-  " . _MB_TADLINK_SHOW_EDIT_BITEM0 . "
-  <INPUT type='text' name='options[0]' value='{$options[0]}'><br>
-
-  " . _MB_TADLINK_SHOW_EDIT_BITEM1 . "
-  <INPUT type='radio' name='options[1]' value='1' $chked1_1>" . _YES . "
-  <INPUT type='radio' name='options[1]' value='0' $chked1_0>" . _NO . "<br>
-  " . _MB_TADLINK_SHOW_EDIT_BITEM2 . "
-  <INPUT type='radio' name='options[2]' value='1' $chked2_1>" . _YES . "
-  <INPUT type='radio' name='options[2]' value='0' $chked2_0>" . _NO . "<br>
-  " . _MB_TADLINK_SHOW_EDIT_BITEM3 . "
-  <INPUT type='radio' name='options[3]' value='1' $chked3_1>" . _YES . "
-  <INPUT type='radio' name='options[3]' value='0' $chked3_0>" . _NO . "<br>
-  " . _MB_TADLINK_SHOW_SORT . "
-  <INPUT type='radio' name='options[4]' value='new' $chked4_1>" . _MB_TADLINK_SHOW_EDIT_BITEM4 . "
-  <INPUT type='radio' name='options[4]' value='rand' $chked4_0>" . _MB_TADLINK_SHOW_EDIT_BITEM5 . "
-  <INPUT type='radio' name='options[4]' value='sort' $chked4_2>" . _MB_TADLINK_SHOW_EDIT_BITEM7 . "<br>
-
-  " . _MB_TADLINK_SHOW_EDIT_BITEM6 . "
-  <INPUT type='radio' name='options[5]' value='1' $chked5_1>" . _YES . "
-  <INPUT type='radio' name='options[5]' value='0' $chked5_0>" . _NO . "<br>
-
-  " . _MB_TADLINK_TAD_CATE_MENU . "
-  {$menu['form']}
-  <INPUT type='hidden' name='options[6]' id='bb' value='{$options[6]}'><br>
-  " . _MB_TADLINK_SHOW_HEIGHT . "
-  <INPUT type='text' name='options[7]' value='{$options[7]}' size=4> px<br>
-
-  " . _MB_TADLINK_BOOTSTRAP_COL . "
-  <select name='options[8]' value='{$options[8]}'>
-    <option value='0' $sno>" . _MB_TADLINK_NO_BOOTSTRAP_COL . "</option>
-    <option value='12' $s12>1</option>
-    <option value='6' $s6>2</option>
-    <option value='4' $s4>3</option>
-    <option value='3' $s3>4</option>
-    <option value='2' $s2>6</option>
-    <option value='1' $s1>12</option>
-  </select><br>
-  ";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                <input type='text' name='options[0]' class='my-input' value='{$options[0]}' size=3>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM1 . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[1]' value='1' $chked1_1>" . _YES . "
+                <input type='radio' name='options[1]' value='0' $chked1_0>" . _NO . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM2 . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[2]' value='1' $chked2_1>" . _YES . "
+                <input type='radio' name='options[2]' value='0' $chked2_0>" . _NO . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM3 . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[3]' value='1' $chked3_1>" . _YES . "
+                <input type='radio' name='options[3]' value='0' $chked3_0>" . _NO . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM3 . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[4]' value='new' $chked4_1>" . _MB_TADLINK_SHOW_EDIT_BITEM4 . "
+                <input type='radio' name='options[4]' value='rand' $chked4_0>" . _MB_TADLINK_SHOW_EDIT_BITEM5 . "
+                <input type='radio' name='options[4]' value='sort' $chked4_2>" . _MB_TADLINK_SHOW_EDIT_BITEM7 . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM6 . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[5]' value='1' $chked5_1>" . _YES . "
+                <input type='radio' name='options[5]' value='0' $chked5_0>" . _NO . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_TAD_CATE_MENU . "</lable>
+            <div class='my-content'>
+                {$menu['form']}
+                <input type='hidden' name='options[6]' id='bb' value='{$options[6]}'>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_HEIGHT . "</lable>
+            <div class='my-content'>
+                <input type='text' name='options[7]' class='my-input' value='{$options[7]}' size=4> px
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_BOOTSTRAP_COL . "</lable>
+            <div class='my-content'>
+                <select name='options[8]' class='my-input' value='{$options[8]}'>
+                    <option value='0' $sno>" . _MB_TADLINK_NO_BOOTSTRAP_COL . "</option>
+                    <option value='12' $s12>1</option>
+                    <option value='6' $s6>2</option>
+                    <option value='4' $s4>3</option>
+                    <option value='3' $s3>4</option>
+                    <option value='2' $s2>6</option>
+                    <option value='1' $s1>12</option>
+                </select>
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }
