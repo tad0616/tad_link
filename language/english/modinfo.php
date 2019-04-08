@@ -7,6 +7,7 @@ define('_MI_TADLINK_CREDITS', 'Michael');
 define('_MI_TADLINK_DESC', 'Tad Links Module');
 define('_MI_TADLINK_ADMENU1', 'Management');
 define('_MI_TADLINK_ADMENU2', 'Category');
+define('_MI_TADLINK_ADMENU3', 'Permission');
 define('_MI_TADLINK_TEMPLATE_DESC1', 'tad_link_index.html template file.');
 define('_MI_TADLINK_BNAME1', 'New Links');
 define('_MI_TADLINK_BDESC1', 'New Links (tad_link_show)');
@@ -30,3 +31,6 @@ define('_MI_TADLINK_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
 define('_MI_TADLINK_HELP_OVERVIEW', 'Overview');
+
+define('_MI_CAPTURE_FROM', 'Thumbnail source');
+define('_MI_CAPTURE_FROM_DESC', '120.115.2.78 may be more unstable');

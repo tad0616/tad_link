@@ -13,6 +13,11 @@ $adminmenu[$i]['title'] = _MI_TADLINK_ADMENU2;
 $adminmenu[$i]['link']  = "admin/main.php";
 $adminmenu[$i]['desc']  = _MI_TADLINK_ADMENU2;
 $adminmenu[$i]['icon']  = "images/admin/category.png";
+$i++;
+$adminmenu[$i]['title'] = _MI_TADLINK_ADMENU3;
+$adminmenu[$i]['link']  = "admin/power.php";
+$adminmenu[$i]['desc']  = _MI_TADLINK_ADMENU3;
+$adminmenu[$i]['icon']  = "images/admin/keys.png";
 
 $i++;
 $adminmenu[$i]['title'] = _MI_TAD_ADMIN_ABOUT;

@@ -1,16 +1,21 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_link_index.html");
+$xoopsOption['template_main'] = "tad_link_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 
+$now_uid = $xoopsUser ? $xoopsUser->uid() : 0;
 /*-----------function區--------------*/
 
 //列出所有tad_link資料
 function list_tad_link($show_cate_sn = '', $mode = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin, $xoopsUser, $now_uid;
 
+    //判斷某人在哪些類別中有發表(post)的權利
+    $post_cate_arr = chk_cate_power('tad_link_post');
+    $xoopsTpl->assign('post_cate_arr', $post_cate_arr);
+    // die(var_export($post_cate_arr));
     $show_num = empty($xoopsModuleConfig['show_num']) ? 10 : $xoopsModuleConfig['show_num'];
     $cate     = get_tad_link_cate_all();
 
@@ -22,7 +27,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $and_unable = ($mode == 'batch') ? "" : "and (unable_date='0000-00-00' or unable_date >='$today')";
     $sql        = "select * from " . $xoopsDB->prefix("tad_link") . " where enable='1' $and_unable  $and_cate";
-
+    $bar        = '';
     if ($mode != 'batch') {
         //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = getPageBar($sql, $show_num, 10);
@@ -31,9 +36,9 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $total   = $PageBar['total'];
     }
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = "";
+    $all_content = array();
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
@@ -59,6 +64,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $all_content[$i]['link_desc']    = $link_desc;
         $all_content[$i]['link_counter'] = $link_counter;
         $all_content[$i]['overdue']      = $overdue;
+        $all_content[$i]['uid']          = $uid;
         $i++;
     }
 
@@ -93,8 +99,8 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $path     = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
-    $sql      = "select cate_sn,of_cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " order by cate_sort";
-    $result   = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql      = "SELECT cate_sn,of_cate_sn,cate_title FROM " . $xoopsDB->prefix("tad_link_cate") . " ORDER BY cate_sort";
+    $result   = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $count  = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -113,12 +119,24 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $ztree      = new ztree("link_tree", $json, "", "", "of_cate_sn", "cate_sn");
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
+
+    if ($isAdmin or $post_cate_arr) {
+        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
+            redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+        }
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
+        $sweet_alert = new sweet_alert();
+        $sweet_alert->render("delete_all_link_func", "index.php?op=delete_all_link&mode=batch&cate_sn={$show_cate_sn}&all_sn=", 'all_sn');
+
+        $sweet_alert2 = new sweet_alert();
+        $sweet_alert2->render("delete_tad_link_func", "index.php?op=delete_tad_link&mode=batch&cate_sn={$show_cate_sn}&link_sn=", 'link_sn');
+    }
 }
 
 //以流水號秀出某筆tad_link資料內容
 function show_one_tad_link($link_sn = "")
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin, $xoopsUser, $now_uid;
 
     $push_url          = $facebook_comments          = '';
     $push_url          = push_url($xoopsModuleConfig['use_social_tools']);
@@ -148,32 +166,39 @@ function show_one_tad_link($link_sn = "")
     $xoopsTpl->assign('link_desc', $link_desc);
     $xoopsTpl->assign('link_sn', $link_sn);
     $xoopsTpl->assign('cate_sn', $cate_sn);
+    $xoopsTpl->assign('uid', $uid);
     $xoopsTpl->assign('link_counter', $link_counter);
     $xoopsTpl->assign("facebook_comments", $facebook_comments);
     $xoopsTpl->assign("push_url", $push_url);
     $xoopsTpl->assign("op", "show_one_tad_link");
 
-    //計數器欄位值 +1
-    //add_tad_link_counter($link_sn);
-
+    if ($isAdmin or $now_uid == $uid) {
+        if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
+            redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+        }
+        include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
+        $sweet_alert2 = new sweet_alert();
+        $sweet_alert2->render("delete_tad_link_func", "index.php?op=delete_tad_link&link_sn=", 'link_sn');
+    }
 }
 
 //新增資料到tad_link_cate中
-function new_tad_link_cate($of_cate_sn = '', $cate_title = '')
+function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
+
     if (!$isAdmin) {
         return;
     }
-
-    $myts       = &MyTextSanitizer::getInstance();
+    $of_cate_sn = (int) $of_cate_sn;
+    $myts       = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($cate_title);
     $cate_sort  = tad_link_cate_max_sort($of_cate_sn);
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link_cate") . "
   (`of_cate_sn` , `cate_title` , `cate_sort`)
   values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $cate_sn = $xoopsDB->getInsertId();
@@ -185,23 +210,26 @@ function new_tad_link_cate($of_cate_sn = '', $cate_title = '')
 function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
-    if (!$isAdmin) {
-        return;
-    }
+    $myts        = MyTextSanitizer::getInstance();
+    $link_title  = $myts->addSlashes($_POST['link_title']);
+    $link_url    = $myts->addSlashes($_POST['link_url']);
+    $link_desc   = $myts->addSlashes($_POST['link_desc']);
+    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $myts->addSlashes($_POST['unable_date']);
+    $enable      = (int) $_POST['enable'];
 
     if (!empty($_POST['new_cate'])) {
         $cate_sn = new_tad_link_cate($_POST['cate_sn'], $_POST['new_cate']);
     } else {
-        $cate_sn = (int) ($_POST['cate_sn']);
+        $cate_sn = (int) $_POST['cate_sn'];
+    }
+
+    $post_cate_arr = chk_cate_power('tad_link_post');
+    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
+        return;
     }
 
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
-
-    $myts                = &MyTextSanitizer::getInstance();
-    $_POST['link_title'] = $myts->addSlashes($_POST['link_title']);
-    $_POST['link_url']   = $myts->addSlashes($_POST['link_url']);
-    $_POST['link_desc']  = $myts->addSlashes($_POST['link_desc']);
 
     $link_sort = tad_link_max_sort();
 
@@ -209,8 +237,8 @@ function insert_tad_link()
 
     $sql = "insert into " . $xoopsDB->prefix("tad_link") . "
   (`cate_sn` , `link_title` , `link_url` , `link_desc` , `link_sort` , `link_counter` , `unable_date` , `uid` , `post_date` , `enable`)
-  values('{$cate_sn}' , '{$_POST['link_title']}' , '{$_POST['link_url']}' , '{$_POST['link_desc']}' , '{$link_sort}' , 0 , '{$_POST['unable_date']}' , '{$uid}' , now() , '{$_POST['enable']}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+  values('{$cate_sn}' , '{$link_title}' , '{$link_url}' , '{$link_desc}' , '{$link_sort}' , 0 , '{$unable_date}' , '{$uid}' , now() , '{$enable}')";
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $link_sn = $xoopsDB->getInsertId();
@@ -224,8 +252,8 @@ function insert_tad_link()
 function tad_link_max_sort()
 {
     global $xoopsDB;
-    $sql        = "select max(`link_sort`) from " . $xoopsDB->prefix("tad_link");
-    $result     = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql        = "SELECT max(`link_sort`) FROM " . $xoopsDB->prefix("tad_link");
+    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -235,59 +263,56 @@ function tad_link_max_sort()
 function update_tad_link($link_sn = "")
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
-    if (!$isAdmin) {
+    $myts        = MyTextSanitizer::getInstance();
+    $link_title  = $myts->addSlashes($_POST['link_title']);
+    $link_url    = $myts->addSlashes($_POST['link_url']);
+    $link_desc   = $myts->addSlashes($_POST['link_desc']);
+    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $myts->addSlashes($_POST['unable_date']);
+    $enable      = (int) $_POST['enable'];
+
+    if (!empty($_POST['new_cate'])) {
+        $cate_sn = new_tad_link_cate($_POST['cate_sn'], $_POST['new_cate']);
+    } else {
+        $cate_sn = (int) $_POST['cate_sn'];
+    }
+
+    $post_cate_arr = chk_cate_power('tad_link_post');
+    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
 
     //取得使用者編號
     $uid = ($xoopsUser) ? $xoopsUser->getVar('uid') : "";
 
-    $myts                = &MyTextSanitizer::getInstance();
-    $_POST['link_title'] = $myts->addSlashes($_POST['link_title']);
-    $_POST['link_url']   = $myts->addSlashes($_POST['link_url']);
-    $_POST['link_desc']  = $myts->addSlashes($_POST['link_desc']);
-
     //$link_sort=tad_link_max_sort();
 
     //$now=date("Y-m-d H:i:s",xoops_getUserTimestamp(time()));
 
     $sql = "update " . $xoopsDB->prefix("tad_link") . " set
-   `cate_sn` = '{$_POST['cate_sn']}' ,
-   `link_title` = '{$_POST['link_title']}' ,
-   `link_url` = '{$_POST['link_url']}' ,
-   `link_desc` = '{$_POST['link_desc']}' ,
-   `unable_date` = '{$_POST['unable_date']}' ,
+   `cate_sn` = '{$cate_sn}' ,
+   `link_title` = '{$link_title}' ,
+   `link_url` = '{$link_url}' ,
+   `link_desc` = '{$link_desc}' ,
+   `unable_date` = '{$unable_date}' ,
    `uid` = '{$uid}' ,
    `post_date` =now()
-  where link_sn='$link_sn'";
+    where link_sn='$link_sn'";
 
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     get_pic($link_sn);
 
     return $link_sn;
 }
 
-//刪除tad_link某筆資料資料
-function delete_tad_link($link_sn = "")
-{
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
-        return;
-    }
-    $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-}
-
 //批次刪除tad_link某筆資料資料
 function delete_all_link($all_sn = "")
 {
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
-        return;
-    }
-    $sql = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn in($all_sn)";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    global $xoopsDB, $isAdmin, $now_uid;
+
+    $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
+    $sql     = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn in($all_sn) {$and_uid}";
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 function go_url($link_sn)
@@ -301,7 +326,7 @@ function go_url($link_sn)
 //編輯表單
 function tad_link_form($link_sn = "", $mode = "")
 {
-    global $xoopsTpl, $isAdmin;
+    global $xoopsTpl, $isAdmin, $xoopsModuleConfig;
 
     $data    = array();
     $next_op = "insert_tad_link";
@@ -317,6 +342,7 @@ function tad_link_form($link_sn = "", $mode = "")
         $data['unable_date'] = "";
     }
 
+    // die(var_dump($data));
     $xoopsTpl->assign('get_tad_link_cate_options', get_tad_link_cate_options('', 'show', $data['cate_sn']));
     $xoopsTpl->assign("op", "tad_link_form");
     $xoopsTpl->assign("next_op", $next_op);
@@ -326,7 +352,10 @@ function tad_link_form($link_sn = "", $mode = "")
     $xoopsTpl->assign("link_url", $data['link_url']);
     $xoopsTpl->assign("link_desc", $data['link_desc']);
     $xoopsTpl->assign("unable_date", $data['unable_date']);
+    $xoopsTpl->assign("uid", $data['uid']);
     $xoopsTpl->assign("mode", $mode);
+    $xoopsTpl->assign("capture_from", $xoopsModuleConfig['capture_from']);
+
 }
 
 /*-----------執行動作判斷區----------*/
@@ -337,41 +366,37 @@ $all_sn  = system_CleanVars($_REQUEST, 'all_sn', '', 'string');
 $cate_sn = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
 $link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
 
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("jquery", get_jquery(true));
-$xoopsTpl->assign("isAdmin", $isAdmin);
-
 switch ($op) {
 
     //新增資料
     case "insert_tad_link":
         $link_sn = insert_tad_link();
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
-        break;
+        exit;
 
     //更新資料
     case "update_tad_link":
         update_tad_link($link_sn);
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
-        break;
+        exit;
 
     //重新抓圖
     case "get_pic":
         get_pic($link_sn);
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     //刪除資料
     case "delete_tad_link":
         delete_tad_link($link_sn);
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
-        break;
+        exit;
 
     //批次刪除資料
     case "delete_all_link":
         delete_all_link($all_sn);
         header("location: {$_SERVER['PHP_SELF']}?op=$mode&cate_sn=$cate_sn");
-        break;
+        exit;
 
     case "go":
         go_url($link_sn);
@@ -398,4 +423,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("isAdmin", $isAdmin);
+$xoopsTpl->assign('now_uid', $now_uid);
 include_once XOOPS_ROOT_PATH . '/footer.php';

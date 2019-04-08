@@ -52,7 +52,7 @@ function chk_tad_link_block()
 function chk_chk1()
 {
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_link_files_center");
+    $sql    = "SELECT count(*) FROM " . $xoopsDB->prefix("tad_link_files_center");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -65,97 +65,106 @@ function go_update1()
 {
     global $xoopsDB;
     $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_link_files_center") . "` (
-  `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
-  `col_name` varchar(255) NOT NULL COMMENT '欄位名稱',
-  `col_sn` smallint(5) unsigned NOT NULL COMMENT '欄位編號',
-  `sort` smallint(5) unsigned NOT NULL COMMENT '排序',
-  `kind` enum('img','file') NOT NULL COMMENT '檔案種類',
-  `file_name` varchar(255) NOT NULL COMMENT '檔案名稱',
-  `file_type` varchar(255) NOT NULL COMMENT '檔案類型',
-  `file_size` int(10) unsigned NOT NULL COMMENT '檔案大小',
-  `description` text NOT NULL COMMENT '檔案說明',
-  `counter` mediumint(8) unsigned NOT NULL COMMENT '下載人次',
-  `original_filename` varchar(255) NOT NULL COMMENT '檔案名稱',
-  `hash_filename` varchar(255) NOT NULL COMMENT '加密檔案名稱',
-  `sub_dir` varchar(255) NOT NULL COMMENT '檔案子路徑',
+  `files_sn` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
+  `col_name` VARCHAR(255) NOT NULL COMMENT '欄位名稱',
+  `col_sn` SMALLINT(5) UNSIGNED NOT NULL COMMENT '欄位編號',
+  `sort` SMALLINT(5) UNSIGNED NOT NULL COMMENT '排序',
+  `kind` ENUM('img','file') NOT NULL COMMENT '檔案種類',
+  `file_name` VARCHAR(255) NOT NULL COMMENT '檔案名稱',
+  `file_type` VARCHAR(255) NOT NULL COMMENT '檔案類型',
+  `file_size` INT(10) UNSIGNED NOT NULL COMMENT '檔案大小',
+  `description` TEXT NOT NULL COMMENT '檔案說明',
+  `counter` MEDIUMINT(8) UNSIGNED NOT NULL COMMENT '下載人次',
+  `original_filename` VARCHAR(255) NOT NULL COMMENT '檔案名稱',
+  `hash_filename` VARCHAR(255) NOT NULL COMMENT '加密檔案名稱',
+  `sub_dir` VARCHAR(255) NOT NULL COMMENT '檔案子路徑',
   PRIMARY KEY (`files_sn`)
 ) ENGINE=MyISAM";
     $xoopsDB->queryF($sql);
 }
 
+
+
 //建立目錄
-function mk_dir($dir = "")
-{
-    //若無目錄名稱秀出警告訊息
-    if (empty($dir)) {
-        return;
-    }
-    //若目錄不存在的話建立目錄
-    if (!is_dir($dir)) {
-        umask(000);
-        //若建立失敗秀出警告訊息
-        mkdir($dir, 0777);
+if (!function_exists('mk_dir')) {
+    function mk_dir($dir = "")
+    {
+        //若無目錄名稱秀出警告訊息
+        if (empty($dir)) {
+            return;
+        }
+
+        //若目錄不存在的話建立目錄
+        if (!is_dir($dir)) {
+            umask(000);
+            //若建立失敗秀出警告訊息
+            mkdir($dir, 0777);
+        }
     }
 }
 
 //拷貝目錄
-function full_copy($source = "", $target = "")
-{
-    if (is_dir($source)) {
-        @mkdir($target);
-        $d = dir($source);
-        while (false !== ($entry = $d->read())) {
-            if ($entry == '.' || $entry == '..') {
-                continue;
-            }
+if (!function_exists('full_copy')) {
+    function full_copy($source = "", $target = "")
+    {
+        if (is_dir($source)) {
+            @mkdir($target);
+            $d = dir($source);
+            while (false !== ($entry = $d->read())) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
 
-            $Entry = $source . '/' . $entry;
-            if (is_dir($Entry)) {
-                full_copy($Entry, $target . '/' . $entry);
-                continue;
+                $Entry = $source . '/' . $entry;
+                if (is_dir($Entry)) {
+                    full_copy($Entry, $target . '/' . $entry);
+                    continue;
+                }
+                copy($Entry, $target . '/' . $entry);
             }
-            copy($Entry, $target . '/' . $entry);
+            $d->close();
+        } else {
+            copy($source, $target);
         }
-        $d->close();
-    } else {
-        copy($source, $target);
     }
 }
 
-function rename_win($oldfile, $newfile)
-{
-    if (!rename($oldfile, $newfile)) {
-        if (copy($oldfile, $newfile)) {
-            unlink($oldfile);
-
-            return true;
+if (!function_exists('rename_win')) {
+    function rename_win($oldfile, $newfile)
+    {
+        if (!rename($oldfile, $newfile)) {
+            if (copy($oldfile, $newfile)) {
+                unlink($oldfile);
+                return true;
+            }
+            return false;
         }
-
-        return false;
+        return true;
     }
-
-    return true;
 }
 
-function delete_directory($dirname)
-{
-    if (is_dir($dirname)) {
-        $dir_handle = opendir($dirname);
-    }
-    if (!$dir_handle) {
-        return false;
-    }
-    while ($file = readdir($dir_handle)) {
-        if ($file != "." && $file != "..") {
-            if (!is_dir($dirname . "/" . $file)) {
-                unlink($dirname . "/" . $file);
-            } else {
-                delete_directory($dirname . '/' . $file);
+if (!function_exists('delete_directory')) {
+    function delete_directory($dirname)
+    {
+        if (is_dir($dirname)) {
+            $dir_handle = opendir($dirname);
+        }
+
+        if (!$dir_handle) {
+            return false;
+        }
+
+        while ($file = readdir($dir_handle)) {
+            if ($file != "." && $file != "..") {
+                if (!is_dir($dirname . "/" . $file)) {
+                    unlink($dirname . "/" . $file);
+                } else {
+                    delete_directory($dirname . '/' . $file);
+                }
             }
         }
+        closedir($dir_handle);
+        rmdir($dirname);
+        return true;
     }
-    closedir($dir_handle);
-    rmdir($dirname);
-
-    return true;
 }

@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADLINK_NAME;
-$modversion['version']     = 2.41;
+$modversion['version']     = 2.69;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author']      = _MI_TADLINK_AUTHOR;
 $modversion['credits']     = _MI_TADLINK_CREDITS;
@@ -14,13 +14,13 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2015/06/18';
-$modversion['module_website_url']  = 'http://tad0616.net/';
+$modversion['release_date']        = '2019-01-01';
+$modversion['module_website_url']  = 'https://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
-$modversion['author_website_url']  = 'http://tad0616.net/';
+$modversion['author_website_url']  = 'https://tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
-$modversion['min_php']             = 5.3;
+$modversion['min_php']             = 5.4;
 $modversion['min_xoops']           = '2.5.7';
 
 //---paypal資訊---//
@@ -54,28 +54,20 @@ $modversion['onUninstall'] = "include/onUninstall.php";
 //---樣板設定---//
 $modversion['templates']                    = array();
 $i                                          = 1;
-$modversion['templates'][$i]['file']        = 'tad_link_index.html';
-$modversion['templates'][$i]['description'] = 'tad_link_index.html';
+$modversion['templates'][$i]['file']        = 'tad_link_index.tpl';
+$modversion['templates'][$i]['description'] = 'tad_link_index.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_link_index_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_link_index_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_link_adm_main.tpl';
+$modversion['templates'][$i]['description'] = 'tad_link_adm_main.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_link_adm_main.html';
-$modversion['templates'][$i]['description'] = 'tad_link_adm_main.html';
+$modversion['templates'][$i]['file']        = 'tad_link_form.tpl';
+$modversion['templates'][$i]['description'] = 'tad_link_form.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_link_adm_main_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_link_adm_main_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tad_link_form.html';
-$modversion['templates'][$i]['description'] = 'tad_link_form.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tad_link_form_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_link_form_b3.html';
+$modversion['templates'][$i]['file']        = 'tad_link_adm_power.tpl';
+$modversion['templates'][$i]['description'] = 'tad_link_adm_power.tpl';
 
 //---搜尋設定---//
 $modversion['hasSearch']      = 1;
@@ -87,17 +79,17 @@ $modversion['blocks'][1]['file']        = "tad_link_show.php";
 $modversion['blocks'][1]['name']        = _MI_TADLINK_BNAME1;
 $modversion['blocks'][1]['description'] = _MI_TADLINK_BDESC1;
 $modversion['blocks'][1]['show_func']   = "tad_link_show";
-$modversion['blocks'][1]['template']    = "tad_link_block_show.html";
+$modversion['blocks'][1]['template']    = "tad_link_block_show.tpl";
 $modversion['blocks'][1]['edit_func']   = "tad_link_show_edit";
-$modversion['blocks'][1]['options']     = "10|1|1|0|new|1||110";
+$modversion['blocks'][1]['options']     = "10|1|1|0|new|1||0|3";
 
 $modversion['blocks'][2]['file']        = "tad_link_all.php";
 $modversion['blocks'][2]['name']        = _MI_TADLINK_BNAME2;
 $modversion['blocks'][2]['description'] = _MI_TADLINK_BDESC2;
 $modversion['blocks'][2]['show_func']   = "tad_link_all";
-$modversion['blocks'][2]['template']    = "tad_link_block_all.html";
+$modversion['blocks'][2]['template']    = "tad_link_block_all.tpl";
 $modversion['blocks'][2]['edit_func']   = "tad_link_all_edit";
-$modversion['blocks'][2]['options']     = "1";
+$modversion['blocks'][2]['options']     = "1||dropdown";
 
 $i = 0;
 
@@ -140,3 +132,12 @@ $modversion['config'][$i]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
 $modversion['config'][$i]['formtype']    = 'yesno';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = '1';
+
+$i++;
+$modversion['config'][$i]['name']        = 'capture_from';
+$modversion['config'][$i]['title']       = '_MI_CAPTURE_FROM';
+$modversion['config'][$i]['description'] = '_MI_CAPTURE_FROM_DESC';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
+$modversion['config'][$i]['options']     = array('capture.heartrails.com' => 'capture.heartrails.com', '120.115.2.78' => '120.115.2.78');
+$modversion['config'][$i]['default']     = 'capture.heartrails.com';

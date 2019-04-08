@@ -33,3 +33,4 @@ define('_MD_TADLINK_BATCH_DEL', 'Batch delete');
 define('_MD_TADLINK_BACK', 'Back');
 define('_MD_TADLINK_SELECT_ALL', 'Select');
 define('_MD_TADLINK_DRAG_SORT', 'Sort by Directly drag');
+define('_MD_TADLINK_UNCATEGORIZED', 'uncategorized');

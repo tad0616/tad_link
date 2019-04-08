@@ -1,6 +1,6 @@
 <?php
 include_once "header.php";
-//$_POST['url']="http://tad0616.net";
+//$_POST['url']="https://tad0616.net";
 $date['metaTags']['description']['value'] = $date['title'] = '';
 if (!empty($_POST['url'])) {
     $date               = getUrlData($_POST['url']);
@@ -47,7 +47,7 @@ function getUrlData($url)
 function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0)
 {
     $result   = false;
-    $contents = @file_get_contents($url);
+    $contents = @vita_get_url_content($url);
     // Check if we need to go somewhere else
     if (isset($contents) && is_string($contents)) {
         preg_match_all('/<[\s]*meta[\s]*http-equiv="?REFRESH"?' . '[\s]*content="?[0-9]*;[\s]*URL[\s]*=[\s]*([^>"]*)"?' . '[\s]*[\/]?[\s]*>/si', $contents, $match);

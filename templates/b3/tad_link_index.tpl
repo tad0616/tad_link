@@ -1,28 +1,28 @@
 <{$toolbar}>
 
 <{if $op=="tad_link_form"}>
-  <{if $post_cate_arr or $isAdmin}>
+  <{if $post_cate_arr or $isAdmin or $uid==$now_uid}>
     <{includeq file="db:tad_link_form.tpl"}>
   <{/if}>
 <{elseif $op=="show_one_tad_link"}>
 
   <div class="well">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-sm-5">
         <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" border=0><img src="<{$pic}>" class="img-responsive" alt="<{$cate_title}>"></a>
       </div>
-      <div class="col-md-7">
-        <h1><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{$link_title}></a></h1>
+      <div class="col-sm-7">
+        <h1><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title}><{$link_title}><{else}><{$link_url}><{/if}></a></h1>
         <{$smarty.const._MD_TADLINK_LINK_URL}><{$smarty.const._TAD_FOR}><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" ><{$link_url}></a>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-sm-6">
             <button class="btn btn-primary btn-xs" type="button">
-              <a href="index.php?cate_sn=<{$cate_sn}>" style="color: white;"><{$cate_title}></a> <span class="badge"><{$link_counter}></span>
+              <a href="index.php?cate_sn=<{$cate_sn}>" style="color: white;"><{if $cate_sn}><{$cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a> <span class="badge"><{$link_counter}></span>
             </button>
           </div>
 
-          <div class="col-md-6 text-right">
-            <{if $isAdmin}>
+          <div class="col-sm-6 text-right">
+            <{if $isAdmin or $uid==$now_uid}>
               <a href="index.php?op=tad_link_form&link_sn=<{$link_sn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
               <a href="javascript:delete_tad_link_func(<{$link_sn}>)" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
             <{/if}>
@@ -93,16 +93,16 @@
     </script>
 
     <div class="row">
-      <div class="col-md-2 text-right">
+      <div class="col-sm-2 text-right">
         <{$smarty.const._MD_TADLINK_SHOW_CATE}><{$smarty.const._TAD_FOR}>
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <select name="show_cate_sn" class="form-control" id="show_cate_sn" onChange="location.href='index.php?op=batch&cate_sn='+this.value;">
           <option value="" ></option>
           <{$get_tad_link_cate_options}>
         </select>
       </div>
-      <div class="col-md-4">
+      <div class="col-sm-4">
         <{if $isAdmin and $show_cate_sn!=""}>
           <a href="index.php?cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BACK}></a>
         <{/if}>
@@ -110,7 +110,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-sm-12">
         <form action="index.php" method="post" class="form" role="form">
 
 
@@ -165,37 +165,27 @@
   <{if $all_content}>
     <{$fancybox_code}>
 
-    <{if $isAdmin}>
-      <script type="text/javascript">
-        function delete_tad_link_func(link_sn){
-          var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-          if (!sure)  return;
-          location.href="index.php?op=delete_tad_link&cate_sn=<{$show_cate_sn}>&link_sn=" + link_sn;
-        }
-      </script>
-    <{/if}>
-
-    <h1><{$cate.cate_title}></h1>
+    <h1><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h1>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <{$ztree_code}>
         <{if $isAdmin and $show_cate_sn!=""}>
           <div class="text-center">
-            <a href="index.php?op=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{$cate.cate_title}></a>
+            <a href="index.php?op=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
           </div>
         <{/if}>
       </div>
 
-      <div class="col-md-9">
+      <div class="col-sm-9">
         <{foreach item=link from=$all_content}>
           <div class="row" id="link<{$link.link_sn}>" style="margin:10px 0px; padding:10px 0px; border-bottom: 1px dotted #cfcfcf;">
-            <div class="col-md-3 text-center">
+            <div class="col-sm-3 text-center">
               <a href="<{$link.pic}>" class="fancybox" title="<{$link.link_title}>"><img src="<{$link.thumb}>" alt="<{$link.link_title}>"></a>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-sm-9">
 
-              <{if $isAdmin}>
+              <{if $isAdmin or $link.uid==$now_uid}>
                 <div class="pull-right">
                   <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
                   <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
@@ -203,13 +193,11 @@
               <{/if}>
 
               <div style="font-size: 24px;">
-                <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{$link.link_title}></a>
+                <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></a>
               </div>
 
               <div style="font-size: 12px; margin: 10px 0px;">
-                <{if $cate.cate_title=="" and $link.cate_title}>
-                  <a href="index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a> |
-                <{/if}>
+                  <{if $link.cate_sn}><a href="index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a><{else}><span style="color:red;"><{$smarty.const._MD_TADLINK_UNCATEGORIZED}></span><{/if}> |
 
                 <a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank"><{$link.link_url}></a>
               </div>
