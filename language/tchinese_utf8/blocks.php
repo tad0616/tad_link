@@ -17,3 +17,4 @@ define('_MB_TADLINK_TADLINK_DROPDOWN', '下拉選單');
 define('_MB_TADLINK_TADLINK_LIST', '條列呈現');
 define('_MB_TADLINK_BOOTSTRAP_COL', '一列秀出幾個？');
 define('_MB_TADLINK_NO_BOOTSTRAP_COL', '不使用自適應');
+define('_MB_TADLINK_SHOW_TITLE', '是否顯示分類標題？');

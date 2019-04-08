@@ -1,3 +1,8 @@
+Tad Link 2.7 (released on 2019-01-28)
+================================================
+1.Added the setting of "Do you want to display the classification title" in the block?
+
+
 Tad Link 2.6.9 (released on 2019-01-01)
 ================================================
 1.Support Bootstrap4

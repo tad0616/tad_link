@@ -17,3 +17,4 @@ define('_MB_TADLINK_TADLINK_DROPDOWN', 'DropDown');
 define('_MB_TADLINK_TADLINK_LIST', 'List');
 define('_MB_TADLINK_BOOTSTRAP_COL', 'How many pictures are shown on a line?');
 define('_MB_TADLINK_NO_BOOTSTRAP_COL', 'Without RWD');
+define('_MB_TADLINK_SHOW_TITLE', 'Do you want to display the category title?');

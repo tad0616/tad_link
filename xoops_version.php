@@ -89,7 +89,7 @@ $modversion['blocks'][2]['description'] = _MI_TADLINK_BDESC2;
 $modversion['blocks'][2]['show_func']   = "tad_link_all";
 $modversion['blocks'][2]['template']    = "tad_link_block_all.tpl";
 $modversion['blocks'][2]['edit_func']   = "tad_link_all_edit";
-$modversion['blocks'][2]['options']     = "1||dropdown";
+$modversion['blocks'][2]['options']     = "1||dropdown|1";
 
 $i = 0;
 

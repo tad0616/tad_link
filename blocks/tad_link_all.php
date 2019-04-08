@@ -49,6 +49,7 @@ function tad_link_all($options)
 
     }
     $block['display_type'] = $options[2];
+    $block['show_title']   = $options[3];
     // die(var_export($block));
     return $block;
 }
@@ -60,6 +61,8 @@ function tad_link_all_edit($options)
     include_once XOOPS_ROOT_PATH . "/modules/tad_link/function_block.php";
     $chked0_0      = ($options[0] == "1") ? "checked" : "";
     $chked0_1      = ($options[0] == "0") ? "checked" : "";
+    $chked3_0      = ($options[0] == "1") ? "checked" : "";
+    $chked3_1      = ($options[0] == "0") ? "checked" : "";
     $opt2_dropdown = ($options[2] != "list") ? "checked" : "";
     $opt2_list     = ($options[2] == "list") ? "checked" : "";
 
@@ -86,6 +89,13 @@ function tad_link_all_edit($options)
             <div class='my-content'>
                 <input type='radio' $opt2_dropdown name='options[2]' value='dropdown'>" . _MB_TADLINK_TADLINK_DROPDOWN . "
                 <input type='radio' $opt2_list name='options[2]' value='list'>" . _MB_TADLINK_TADLINK_LIST . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADLINK_SHOW_TITLE . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked3_0 name='options[3]' value='1'>" . _YES . "
+                <input type='radio' $chked3_1 name='options[3]' value='0'>" . _NO . "
             </div>
         </li>
     </ol>";
