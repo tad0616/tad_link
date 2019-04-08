@@ -26,7 +26,7 @@ define('_MI_TADLINK_DIRECT_LINK', 'Direct link thumbnail?');
 define('_MI_TADLINK_DIRECT_LINK_DESC', 'If Thumbnail has not been created when adding the link, should we use a remote connection thumbnail? <br/>Choose "Yes" is slow, but perhaps you can see thumbnail. <br/>Choose "No", then will be pre-alternative set of thumbnails, faster, but you can not see thumbnail ');
 
 define('_MI_TADLINK_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADLINK_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADLINK_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADLINK_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
