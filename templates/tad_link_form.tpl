@@ -46,14 +46,18 @@
       <{if $get_tad_link_cate_options}>
         <div class="col-md-6">
           <select name="cate_sn" size=1 id="cate_sn" class="form-control">
-            <option value=""></option>
+            <{if $isAdmin}>
+              <option value=""></option>
+            <{/if}>
             <{$get_tad_link_cate_options}>
           </select>
         </div>
         <div class="col-md-6">
+          <{if $isAdmin}>
           <input type="text" name="new_cate" class="form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_NEW_CATE}>">
+          <{/if}>
         </div>
-      <{else}>
+      <{elseif $isAdmin}>
         <div class="col-md-12">
          <input type="text" name="new_cate" class="form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_ADD_NEW_CATE}>">
        </div>

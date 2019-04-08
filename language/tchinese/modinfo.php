@@ -25,7 +25,7 @@ define('_MI_TADLINK_DIRECT_LINK', '直接連結縮圖？');
 define('_MI_TADLINK_DIRECT_LINK_DESC', '當縮圖一直無法下載儲存時，是否使用遠端連線縮圖？選「是」速度較慢，但或許可以看得見縮圖。選「否」的話會以預設的縮圖替代之，速度較快，但看不到縮圖。');
 
 define('_MI_TADLINK_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADLINK_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADLINK_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADLINK_BACK_2_ADMIN', '管理');
 
 //help
