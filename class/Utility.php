@@ -105,7 +105,7 @@ class Utility
     }
 
     //刪除錯誤的重複欄位及樣板檔
-    function chk_tad_link_block()
+    public static function chk_tad_link_block()
     {
         global $xoopsDB;
         //die(var_export($xoopsConfig));
