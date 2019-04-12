@@ -27,7 +27,7 @@ function list_tad_link($cate_sn = "")
 
     $i = 0;
 
-    $data = array();
+    $data = [];
     while ($all = $xoopsDB->fetchArray($result)) {
 
         $data[$i] = $all;
@@ -75,7 +75,7 @@ function list_tad_link_cate_tree($def_cate_sn = "")
     }
 
     $json = implode(",\n", $data);
-    $cate_count = array();
+    $cate_count = [];
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php")) {
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
@@ -99,7 +99,7 @@ function tad_link_cate_form($cate_sn = "")
     if (!empty($cate_sn)) {
         $DBV = get_tad_link_cate($cate_sn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定

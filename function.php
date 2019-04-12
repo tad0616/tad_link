@@ -61,7 +61,7 @@ function get_tad_link_sub_cate($cate_sn = "0")
     global $xoopsDB;
     $sql         = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$cate_sn}'";
     $result      = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $cate_sn_arr = array();
+    $cate_sn_arr = [];
 
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $cate_sn_arr[$cate_sn] = $cate_title;
@@ -391,7 +391,7 @@ function chk_cate_power($kind = "")
         $user_array = $xoopsUser->getGroups();
         $gsn_arr    = implode(",", $user_array);
     } else {
-        $user_array = array(3);
+        $user_array = [3];
         $isAdmin    = 0;
         $gsn_arr    = 3;
     }

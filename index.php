@@ -38,7 +38,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $all_content = array();
+    $all_content = [];
     $i           = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
@@ -328,7 +328,7 @@ function tad_link_form($link_sn = "", $mode = "")
 {
     global $xoopsTpl, $isAdmin, $xoopsModuleConfig;
 
-    $data    = array();
+    $data    = [];
     $next_op = "insert_tad_link";
     $pic     = "images/pic_thumb.png";
 

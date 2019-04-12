@@ -22,7 +22,7 @@ function tad_link_show($options)
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $block = array();
+    $block = [];
     $i     = 0;
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable

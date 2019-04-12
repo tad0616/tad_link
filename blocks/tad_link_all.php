@@ -5,7 +5,7 @@ function tad_link_all($options)
 {
     global $xoopsDB;
     $i        = 0;
-    $block    = array();
+    $block    = [];
     $and_cate = empty($options[1]) ? "" : "where cate_sn in({$options[1]})";
     //今天日期
     $today  = date("Y-m-d");
