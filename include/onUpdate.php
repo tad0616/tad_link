@@ -11,4 +11,3 @@ function xoops_module_update_tad_link(&$module, $old_version)
 
     return true;
 }
-

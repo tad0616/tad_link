@@ -5,24 +5,23 @@ define('_TADLINK_THUMB_PIC_URL', XOOPS_URL . '/uploads/tad_link/thumbs');
 define('_TADLINK_THUMB_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link/thumbs');
 
 //引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
-    redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
+if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
+    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
-include_once "function_block.php";
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+include_once 'function_block.php';
 
 /********************* 自訂函數 *********************/
 //取得路徑
-function get_tad_link_cate_path($the_cate_sn = "", $include_self = true)
+function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
 {
     global $xoopsDB;
 
-    $arr[0]['cate_sn']    = "0";
+    $arr[0]['cate_sn'] = '0';
     $arr[0]['cate_title'] = "<i class='fa fa-home'></i>";
-    $arr[0]['sub']        = get_tad_link_sub_cate(0);
+    $arr[0]['sub'] = get_tad_link_sub_cate(0);
     if (!empty($the_cate_sn)) {
-
-        $tbl = $xoopsDB->prefix("tad_link_cate");
+        $tbl = $xoopsDB->prefix('tad_link_cate');
         $sql = "SELECT t1.cate_sn AS lev1, t2.cate_sn as lev2, t3.cate_sn as lev3, t4.cate_sn as lev4, t5.cate_sn as lev5, t6.cate_sn as lev6, t7.cate_sn as lev7
             FROM `{$tbl}` t1
             LEFT JOIN `{$tbl}` t2 ON t2.of_cate_sn = t1.cate_sn
@@ -34,14 +33,14 @@ function get_tad_link_cate_path($the_cate_sn = "", $include_self = true)
             WHERE t1.of_cate_sn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
-            if (in_array($the_cate_sn, $all)) {
+            if (in_array($the_cate_sn, $all, true)) {
                 //$main.="-";
                 foreach ($all as $cate_sn) {
                     if (!empty($cate_sn)) {
                         if (!$include_self and $cate_sn == $the_cate_sn) {
                             break;
                         }
-                        $arr[$cate_sn]        = get_tad_link_cate($cate_sn);
+                        $arr[$cate_sn] = get_tad_link_cate($cate_sn);
                         $arr[$cate_sn]['sub'] = get_tad_link_sub_cate($cate_sn);
                         if ($cate_sn == $the_cate_sn) {
                             break;
@@ -53,38 +52,40 @@ function get_tad_link_cate_path($the_cate_sn = "", $include_self = true)
             }
         }
     }
+
     return $arr;
 }
 
-function get_tad_link_sub_cate($cate_sn = "0")
+function get_tad_link_sub_cate($cate_sn = '0')
 {
     global $xoopsDB;
-    $sql         = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$cate_sn}'";
-    $result      = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql = 'select cate_sn,cate_title from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$cate_sn}'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $cate_sn_arr = [];
 
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $cate_sn_arr[$cate_sn] = $cate_title;
     }
+
     return $cate_sn_arr;
 }
 
 //以流水號取得某筆tad_link_cate資料
-function get_tad_link_cate($cate_sn = "")
+function get_tad_link_cate($cate_sn = '')
 {
     global $xoopsDB;
     if (empty($cate_sn)) {
         return;
     }
-    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " where cate_sn='$cate_sn'";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " where cate_sn='$cate_sn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
 
     return $data;
 }
 
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
-function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = "0", $default_of_cate_sn = "0", $unselect_level = "", $start_search_sn = "0", $level = 0)
+function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = '0', $default_of_cate_sn = '0', $unselect_level = '', $start_search_sn = '0', $level = 0)
 {
     global $xoopsDB, $xoopsModule, $isAdmin;
 
@@ -94,53 +95,50 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     // $moduleperm_handler = xoops_gethandler('groupperm');
     $count = tad_link_cate_count();
 
-    $sql    = "select cate_sn,cate_title from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
+    $sql = 'select cate_sn,cate_title from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $prefix = str_repeat("&nbsp;&nbsp;", $level);
+    $prefix = str_repeat('&nbsp;&nbsp;', $level);
     $level++;
 
-    $unselect = explode(",", $unselect_level);
+    $unselect = explode(',', $unselect_level);
 
-    $main = "";
+    $main = '';
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
-
         // $tad_link_post = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
-        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
+        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr, true)) {
             continue;
         }
 
-        if ($mode == "edit") {
-            $selected = ($cate_sn == $default_of_cate_sn) ? "selected=selected" : "";
-            $selected .= ($cate_sn == $default_cate_sn) ? "disabled=disabled" : "";
-            $selected .= (in_array($level, $unselect)) ? "disabled=disabled" : "";
+        if ('edit' == $mode) {
+            $selected = ($cate_sn == $default_of_cate_sn) ? 'selected=selected' : '';
+            $selected .= ($cate_sn == $default_cate_sn) ? 'disabled=disabled' : '';
+            $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
         } else {
             if (is_array($default_cate_sn)) {
-                $selected = in_array($cate_sn, $default_cate_sn) ? "selected=selected" : "";
+                $selected = in_array($cate_sn, $default_cate_sn, true) ? 'selected=selected' : '';
             } else {
-                $selected = ($cate_sn == $default_cate_sn) ? "selected=selected" : "";
+                $selected = ($cate_sn == $default_cate_sn) ? 'selected=selected' : '';
             }
-            $selected .= (in_array($level, $unselect)) ? "disabled=disabled" : "";
+            $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
         }
-        if ($page == "none" or empty($count[$cate_sn])) {
-            $counter = "";
+        if ('none' == $page or empty($count[$cate_sn])) {
+            $counter = '';
         } else {
-            $w       = ($page == "admin") ? _MA_TADLINK_CATE_COUNT : _MD_TADLINK_CATE_COUNT;
-            $counter = " (" . sprintf($w, $count[$cate_sn]) . ") ";
+            $w = ('admin' == $page) ? _MA_TADLINK_CATE_COUNT : _MD_TADLINK_CATE_COUNT;
+            $counter = ' (' . sprintf($w, $count[$cate_sn]) . ') ';
         }
         $main .= "<option value=$cate_sn $selected>{$prefix}{$cate_title}{$counter}</option>";
         $main .= get_tad_link_cate_options($page, $mode, $default_cate_sn, $default_of_cate_sn, $unselect_level, $cate_sn, $level);
-
     }
 
     return $main;
 }
 
 //連結內容格式化
-function mk_big_content($link_sn = null, $click_mode = 'normal', $link_cate_title = "", $link_url = "", $cate_sn = "", $cate_title = "", $link_desc = "", $link_counter = "")
+function mk_big_content($link_sn = null, $click_mode = 'normal', $link_cate_title = '', $link_url = '', $cate_sn = '', $cate_title = '', $link_desc = '', $link_counter = '')
 {
     global $xoopsModuleConfig, $isAdmin, $xoopsTpl;
-
 }
 
 //顯示圖片
@@ -148,34 +146,33 @@ function get_show_pic($link_sn, $mode = 'thumb')
 {
     global $xoopsModuleConfig;
     $link = get_tad_link($link_sn);
-    if ($mode == 'thumb') {
-        $pic      = _TADLINK_THUMB_PIC_URL . "/{$link_sn}.jpg";
+    if ('thumb' == $mode) {
+        $pic = _TADLINK_THUMB_PIC_URL . "/{$link_sn}.jpg";
         $pic_path = _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg";
     } else {
-        $pic      = _TADLINK_PIC_URL . "/{$link_sn}.jpg";
+        $pic = _TADLINK_PIC_URL . "/{$link_sn}.jpg";
         $pic_path = _TADLINK_PIC_PATH . "/{$link_sn}.jpg";
     }
 
     if (file_exists($pic_path)) {
         return $pic;
-    } else {
-        get_pic($link_sn);
-        if ($mode == 'thumb') {
-            if ($xoopsModuleConfig['capture_from'] == "120.115.2.78") {
-                $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
-            } else {
-                $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_thumb.png";
-            }
-        } else {
-            if ($xoopsModuleConfig['capture_from'] == "120.115.2.78") {
-                $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
-            } else {
-                $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . "/modules/tad_link/images/pic_big.png";
-            }
-        }
-
-        return $empty;
     }
+    get_pic($link_sn);
+    if ('thumb' == $mode) {
+        if ('120.115.2.78' == $xoopsModuleConfig['capture_from']) {
+            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
+        } else {
+            $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
+        }
+    } else {
+        if ('120.115.2.78' == $xoopsModuleConfig['capture_from']) {
+            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
+        } else {
+            $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
+        }
+    }
+
+    return $empty;
 }
 
 //遠端擷取圖片
@@ -183,24 +180,24 @@ function get_pic($link_sn = '')
 {
     global $xoopsModuleConfig;
     if ($_FILES) {
-        include_once XOOPS_ROOT_PATH . "/modules/tadtools/upload/class.upload.php";
+        include_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
 
         $handle = new upload($_FILES['pic'], 'zh_TW'); // 將上傳物件實體化
         if ($handle->uploaded) {
             // 如果檔案已經上傳到 tmp
             $handle->file_new_name_body = $link_sn; // 重新設定新檔名
-            $handle->file_overwrite     = true;
-            $handle->image_resize       = true; // 重設圖片大小
-            $handle->image_x            = 400; // 設定寬度為 400 px
-            $handle->image_ratio_y      = true; // 按比例縮放高度
-            $handle->image_convert      = 'jpg';
+            $handle->file_overwrite = true;
+            $handle->image_resize = true; // 重設圖片大小
+            $handle->image_x = 400; // 設定寬度為 400 px
+            $handle->image_ratio_y = true; // 按比例縮放高度
+            $handle->image_convert = 'jpg';
             $handle->process(_TADLINK_PIC_PATH); // 檔案搬移到目的地
             $handle->clean(); // 若搬移成功，則釋放記憶體
         }
     } else {
         $link = get_tad_link($link_sn);
 
-        if ($xoopsModuleConfig['capture_from'] == "120.115.2.78") {
+        if ('120.115.2.78' == $xoopsModuleConfig['capture_from']) {
             copyemz("http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
         } else {
             copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
@@ -212,11 +209,11 @@ function get_pic($link_sn = '')
 //複製檔案
 function copyemz($file1, $file2)
 {
-    $contentx   = @vita_get_url_content($file1);
-    $openedfile = fopen($file2, "w");
+    $contentx = @vita_get_url_content($file1);
+    $openedfile = fopen($file2, 'wb');
     fwrite($openedfile, $contentx);
     fclose($openedfile);
-    if ($contentx === false) {
+    if (false === $contentx) {
         $status = false;
     } else {
         $status = true;
@@ -229,7 +226,7 @@ function copyemz($file1, $file2)
 function vita_get_url_content($url)
 {
     if (function_exists('curl_init')) {
-        $ch      = curl_init();
+        $ch = curl_init();
         $timeout = 5;
         // if (substr($url, 0, 5) == 'https') {
         //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
@@ -250,7 +247,7 @@ function vita_get_url_content($url)
 }
 
 //做縮圖
-function tad_link_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+function tad_link_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '120')
 {
     // die($filename);
     if (!file_exists($filename)) {
@@ -264,26 +261,26 @@ function tad_link_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
     }
     $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
 
-    $newwidth  = ($old_width > $old_height) ? $width : $old_width * $percent;
+    $newwidth = ($old_width > $old_height) ? $width : $old_width * $percent;
     $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
 
     // Load
     $thumb = imagecreatetruecolor($newwidth, $newheight);
-    if ($type == "image/jpeg" or $type == "image/jpg" or $type == "image/pjpg" or $type == "image/pjpeg") {
+    if ('image/jpeg' == $type or 'image/jpg' == $type or 'image/pjpg' == $type or 'image/pjpeg' == $type) {
         $source = imagecreatefromjpeg($filename);
-        $type   = "image/jpeg";
-    } elseif ($type == "image/png") {
+        $type = 'image/jpeg';
+    } elseif ('image/png' == $type) {
         $source = imagecreatefrompng($filename);
-        $type   = "image/png";
-    } elseif ($type == "image/gif") {
+        $type = 'image/png';
+    } elseif ('image/gif' == $type) {
         $source = imagecreatefromgif($filename);
-        $type   = "image/gif";
+        $type = 'image/gif';
     }
 
     // Resize
     imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
     //die($thumb_name);
-    header("Content-type: image/png");
+    header('Content-type: image/png');
     imagepng($thumb, $thumb_name);
 
     return;
@@ -294,20 +291,20 @@ function tad_link_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
 function add_tad_link_counter($link_sn = '')
 {
     global $xoopsDB, $xoopsModule;
-    $sql = "update " . $xoopsDB->prefix("tad_link") . " set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_link') . " set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 //以流水號取得某筆tad_link資料
-function get_tad_link($link_sn = "")
+function get_tad_link($link_sn = '')
 {
     global $xoopsDB;
     if (empty($link_sn)) {
         return;
     }
-    $sql    = "select * from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn'";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where link_sn='$link_sn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
 
     return $data;
 }
@@ -316,10 +313,10 @@ function get_tad_link($link_sn = "")
 function get_tad_link_cate_all()
 {
     global $xoopsDB;
-    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_link_cate");
+    $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_link_cate');
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($data = $xoopsDB->fetchArray($result)) {
-        $cate_sn            = (int) ($data['cate_sn']);
+        $cate_sn = (int) ($data['cate_sn']);
         $data_arr[$cate_sn] = $data;
     }
 
@@ -330,20 +327,20 @@ function get_tad_link_cate_all()
 function tad_link_cate_max_sort($of_cate_sn = '0')
 {
     global $xoopsDB;
-    $sql        = "select max(`cate_sort`) from " . $xoopsDB->prefix("tad_link_cate") . " where of_cate_sn='{$of_cate_sn}'";
-    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql = 'select max(`cate_sort`) from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$of_cate_sn}'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
 }
 
 //刪除tad_link某筆資料資料
-function delete_tad_link($link_sn = "")
+function delete_tad_link($link_sn = '')
 {
     global $xoopsDB, $isAdmin, $now_uid;
 
     $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
-    $sql     = "delete from " . $xoopsDB->prefix("tad_link") . " where link_sn='$link_sn' {$and_uid}";
+    $sql = 'delete from ' . $xoopsDB->prefix('tad_link') . " where link_sn='$link_sn' {$and_uid}";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
@@ -351,7 +348,7 @@ function delete_tad_link($link_sn = "")
 function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
-    $module_id     = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->getVar('mid');
     $gperm_handler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
@@ -370,33 +367,34 @@ function getItem_Permissions($itemid, $gperm_name)
 {
     global $xoopsModule, $xoopsDB;
     $module_id = $xoopsModule->getVar('mid');
-    $sql       = " SELECT gperm_groupid FROM " . $xoopsDB->prefix("group_permission") . " where gperm_modid='$module_id' and gperm_itemid ='$itemid' and gperm_name='$gperm_name' ";
+    $sql = ' SELECT gperm_groupid FROM ' . $xoopsDB->prefix('group_permission') . " where gperm_modid='$module_id' and gperm_itemid ='$itemid' and gperm_name='$gperm_name' ";
     //echo $sql ;
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($row = $xoopsDB->fetchArray($result)) {
         $data[] = $row['gperm_groupid'];
     }
+
     return $data;
 }
 
 //判斷某人在哪些類別中有發表(post)的權利
-function chk_cate_power($kind = "")
+function chk_cate_power($kind = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $isAdmin;
     $module_id = $xoopsModule->getVar('mid');
     if (!empty($xoopsUser)) {
         if ($isAdmin) {
-            $ok_cat[] = "0";
+            $ok_cat[] = '0';
         }
         $user_array = $xoopsUser->getGroups();
-        $gsn_arr    = implode(",", $user_array);
+        $gsn_arr = implode(',', $user_array);
     } else {
         $user_array = [3];
-        $isAdmin    = 0;
-        $gsn_arr    = 3;
+        $isAdmin = 0;
+        $gsn_arr = 3;
     }
 
-    $sql = "select gperm_itemid from " . $xoopsDB->prefix("group_permission") . " where gperm_modid='$module_id' and gperm_name='$kind' and gperm_groupid in ($gsn_arr)";
+    $sql = 'select gperm_itemid from ' . $xoopsDB->prefix('group_permission') . " where gperm_modid='$module_id' and gperm_name='$kind' and gperm_groupid in ($gsn_arr)";
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
