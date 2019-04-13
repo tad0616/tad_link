@@ -25,10 +25,10 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $today = date('Y-m-d');
     $now = time();
 
-    $and_unable = ('batch' == $mode) ? '' : "and (unable_date='0000-00-00' or unable_date >='$today')";
+    $and_unable = ('batch' === $mode) ? '' : "and (unable_date='0000-00-00' or unable_date >='$today')";
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where enable='1' $and_unable  $and_cate";
     $bar = '';
-    if ('batch' != $mode) {
+    if ('batch' !== $mode) {
         //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = getPageBar($sql, $show_num, 10);
         $bar = $PageBar['bar'];

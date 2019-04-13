@@ -61,8 +61,8 @@ function tad_link_all_edit($options)
     $chked0_1 = ('0' == $options[0]) ? 'checked' : '';
     $chked3_0 = ('1' == $options[0]) ? 'checked' : '';
     $chked3_1 = ('0' == $options[0]) ? 'checked' : '';
-    $opt2_dropdown = ('list' != $options[2]) ? 'checked' : '';
-    $opt2_list = ('list' == $options[2]) ? 'checked' : '';
+    $opt2_dropdown = ('list' !== $options[2]) ? 'checked' : '';
+    $opt2_list = ('list' === $options[2]) ? 'checked' : '';
 
     $menu = block_link_cate($options[1]);
 

@@ -110,7 +110,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
             continue;
         }
 
-        if ('edit' == $mode) {
+        if ('edit' === $mode) {
             $selected = ($cate_sn == $default_of_cate_sn) ? 'selected=selected' : '';
             $selected .= ($cate_sn == $default_cate_sn) ? 'disabled=disabled' : '';
             $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
@@ -122,10 +122,10 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
             }
             $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
         }
-        if ('none' == $page or empty($count[$cate_sn])) {
+        if ('none' === $page or empty($count[$cate_sn])) {
             $counter = '';
         } else {
-            $w = ('admin' == $page) ? _MA_TADLINK_CATE_COUNT : _MD_TADLINK_CATE_COUNT;
+            $w = ('admin' === $page) ? _MA_TADLINK_CATE_COUNT : _MD_TADLINK_CATE_COUNT;
             $counter = ' (' . sprintf($w, $count[$cate_sn]) . ') ';
         }
         $main .= "<option value=$cate_sn $selected>{$prefix}{$cate_title}{$counter}</option>";
@@ -146,7 +146,7 @@ function get_show_pic($link_sn, $mode = 'thumb')
 {
     global $xoopsModuleConfig;
     $link = get_tad_link($link_sn);
-    if ('thumb' == $mode) {
+    if ('thumb' === $mode) {
         $pic = _TADLINK_THUMB_PIC_URL . "/{$link_sn}.jpg";
         $pic_path = _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg";
     } else {
@@ -158,14 +158,14 @@ function get_show_pic($link_sn, $mode = 'thumb')
         return $pic;
     }
     get_pic($link_sn);
-    if ('thumb' == $mode) {
-        if ('120.115.2.78' == $xoopsModuleConfig['capture_from']) {
+    if ('thumb' === $mode) {
+        if ('120.115.2.78' === $xoopsModuleConfig['capture_from']) {
             $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
         } else {
             $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
         }
     } else {
-        if ('120.115.2.78' == $xoopsModuleConfig['capture_from']) {
+        if ('120.115.2.78' === $xoopsModuleConfig['capture_from']) {
             $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
         } else {
             $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
@@ -197,7 +197,7 @@ function get_pic($link_sn = '')
     } else {
         $link = get_tad_link($link_sn);
 
-        if ('120.115.2.78' == $xoopsModuleConfig['capture_from']) {
+        if ('120.115.2.78' === $xoopsModuleConfig['capture_from']) {
             copyemz("http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
         } else {
             copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
@@ -266,13 +266,13 @@ function tad_link_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpe
 
     // Load
     $thumb = imagecreatetruecolor($newwidth, $newheight);
-    if ('image/jpeg' == $type or 'image/jpg' == $type or 'image/pjpg' == $type or 'image/pjpeg' == $type) {
+    if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
         $source = imagecreatefromjpeg($filename);
         $type = 'image/jpeg';
-    } elseif ('image/png' == $type) {
+    } elseif ('image/png' === $type) {
         $source = imagecreatefrompng($filename);
         $type = 'image/png';
-    } elseif ('image/gif' == $type) {
+    } elseif ('image/gif' === $type) {
         $source = imagecreatefromgif($filename);
         $type = 'image/gif';
     }

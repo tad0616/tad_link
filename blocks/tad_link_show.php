@@ -7,9 +7,9 @@ function tad_link_show($options)
         $options[0] = 10;
     }
 
-    if ('new' == $options[4]) {
+    if ('new' === $options[4]) {
         $order = 'order by post_date desc';
-    } elseif ('rand' == $options[4]) {
+    } elseif ('rand' === $options[4]) {
         $order = 'order by rand()';
     } else {
         $order = 'order by link_sort';
@@ -70,9 +70,9 @@ function tad_link_show_edit($options)
     $chked2_0 = ('0' == $options[2]) ? 'checked' : '';
     $chked3_1 = ('1' == $options[3]) ? 'checked' : '';
     $chked3_0 = ('0' == $options[3]) ? 'checked' : '';
-    $chked4_1 = ('new' == $options[4]) ? 'checked' : '';
-    $chked4_0 = ('rand' == $options[4]) ? 'checked' : '';
-    $chked4_2 = ('sort' == $options[4]) ? 'checked' : '';
+    $chked4_1 = ('new' === $options[4]) ? 'checked' : '';
+    $chked4_0 = ('rand' === $options[4]) ? 'checked' : '';
+    $chked4_2 = ('sort' === $options[4]) ? 'checked' : '';
     $chked5_1 = ('1' == $options[5]) ? 'checked' : '';
     $chked5_0 = ('0' == $options[5]) ? 'checked' : '';
     $s12 = ('12' == $options[8]) ? 'selected' : '';

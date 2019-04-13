@@ -13,11 +13,11 @@ add_tad_link_counter($link_sn);
 
 $cate = get_tad_link_cate_all();
 
-if ('hide' == $op) {
+if ('hide' === $op) {
     $main = mk_content($link_sn, $xoopsModuleConfig['show_mode'], $link_title, $link_url, $cate_sn, $cate[$cate_sn]['cate_title'], $link_desc, $link_counter);
-} elseif ('show' == $op) {
+} elseif ('show' === $op) {
     $main = mk_big_content($link_sn, $xoopsModuleConfig['show_mode'], $link_title, $link_url, $cate_sn, $cate[$cate_sn]['cate_title'], $link_desc, $link_counter);
-} elseif ('light' == $op) {
+} elseif ('light' === $op) {
     $width = empty($xoopsModuleConfig['pic_width']) ? 400 : $xoopsModuleConfig['pic_width'];
     $width_div = $width + 250;
 
