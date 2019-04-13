@@ -60,23 +60,14 @@
             <{$get_tad_link_cate_options}>
           </select>
         </div>
-<<<<<<< HEAD:templates/tad_link_form.tpl
         <div class="col-md-6">
-=======
-        <div class="col-sm-6">
->>>>>>> a83a41449d4b553e8e19032eb315cafb9cf28ec6:templates/b3/tad_link_form.tpl
           <{if $isAdmin}>
           <input type="text" name="new_cate" class="form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_NEW_CATE}>">
           <{/if}>
         </div>
       <{elseif $isAdmin}>
-<<<<<<< HEAD:templates/tad_link_form.tpl
         <div class="col-md-12">
          <input type="text" name="new_cate" class="form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_ADD_NEW_CATE}>">
-=======
-        <div class="col-sm-12">
-         <input type="text" name="new_cate" class="validate[required] form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_ADD_NEW_CATE}>">
->>>>>>> a83a41449d4b553e8e19032eb315cafb9cf28ec6:templates/b3/tad_link_form.tpl
        </div>
       <{/if}>
     </div>
