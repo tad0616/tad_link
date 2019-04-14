@@ -4,12 +4,12 @@
 function tad_link_all($options)
 {
     global $xoopsDB;
-    $i        = 0;
-    $block    = array();
-    $and_cate = empty($options[1]) ? "" : "where cate_sn in({$options[1]})";
+    $i = 0;
+    $block = [];
+    $and_cate = empty($options[1]) ? '' : "where cate_sn in({$options[1]})";
     //今天日期
-    $today  = date("Y-m-d");
-    $sql    = "select * from " . $xoopsDB->prefix("tad_link_cate") . " $and_cate order by of_cate_sn,cate_sort";
+    $today = date('Y-m-d');
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " $and_cate order by of_cate_sn,cate_sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $cate_sn , $of_cate_sn , $cate_title , $cate_sort
@@ -18,38 +18,37 @@ function tad_link_all($options)
         }
         $color = cate_sn2color($cate_sn);
 
-        $link_js = ($options[0] == 1) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
+        $link_js = (1 == $options[0]) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
 
-        $sql2    = "select * from " . $xoopsDB->prefix("tad_link") . " where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
+        $sql2 = 'select * from ' . $xoopsDB->prefix('tad_link') . " where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
         $result2 = $xoopsDB->query($sql2) or web_error($sql2);
-        $total   = $xoopsDB->getRowsNum($result2);
+        $total = $xoopsDB->getRowsNum($result2);
         if (empty($total)) {
             continue;
         }
 
-        $block['data'][$i]['link_js']    = $link_js;
-        $block['data'][$i]['color']      = $color;
+        $block['data'][$i]['link_js'] = $link_js;
+        $block['data'][$i]['color'] = $color;
         $block['data'][$i]['cate_title'] = $cate_title;
-        $block['data'][$i]['cate_sn']    = $cate_sn;
-        $j                               = 0;
+        $block['data'][$i]['cate_sn'] = $cate_sn;
+        $j = 0;
         while ($all2 = $xoopsDB->fetchArray($result2)) {
             //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
             foreach ($all2 as $k => $v) {
                 $$k = $v;
             }
-            $val = ($options[0] == 1) ? $link_url : $link_sn;
+            $val = (1 == $options[0]) ? $link_url : $link_sn;
             if (empty($val)) {
-                $val = "#";
+                $val = '#';
             }
             $block['data'][$i]['item'][$j]['link_title'] = $link_title;
-            $block['data'][$i]['item'][$j]['val']        = $val;
+            $block['data'][$i]['item'][$j]['val'] = $val;
             $j++;
         }
         $i++;
-
     }
     $block['display_type'] = $options[2];
-    $block['show_title']   = $options[3];
+    $block['show_title'] = $options[3];
     // die(var_export($block));
     return $block;
 }
@@ -57,14 +56,13 @@ function tad_link_all($options)
 //區塊編輯函式
 function tad_link_all_edit($options)
 {
-
-    include_once XOOPS_ROOT_PATH . "/modules/tad_link/function_block.php";
-    $chked0_0      = ($options[0] == "1") ? "checked" : "";
-    $chked0_1      = ($options[0] == "0") ? "checked" : "";
-    $chked3_0      = ($options[0] == "1") ? "checked" : "";
-    $chked3_1      = ($options[0] == "0") ? "checked" : "";
-    $opt2_dropdown = ($options[2] != "list") ? "checked" : "";
-    $opt2_list     = ($options[2] == "list") ? "checked" : "";
+    include_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
+    $chked0_0 = ('1' == $options[0]) ? 'checked' : '';
+    $chked0_1 = ('0' == $options[0]) ? 'checked' : '';
+    $chked3_0 = ('1' == $options[0]) ? 'checked' : '';
+    $chked3_1 = ('0' == $options[0]) ? 'checked' : '';
+    $opt2_dropdown = ('list' !== $options[2]) ? 'checked' : '';
+    $opt2_list = ('list' === $options[2]) ? 'checked' : '';
 
     $menu = block_link_cate($options[1]);
 
@@ -95,10 +93,10 @@ function tad_link_all_edit($options)
             <lable class='my-label'>" . _MB_TADLINK_SHOW_TITLE . "</lable>
             <div class='my-content'>
                 <input type='radio' $chked3_0 name='options[3]' value='1'>" . _YES . "
-                <input type='radio' $chked3_1 name='options[3]' value='0'>" . _NO . "
+                <input type='radio' $chked3_1 name='options[3]' value='0'>" . _NO . '
             </div>
         </li>
-    </ol>";
+    </ol>';
 
     return $form;
 }
@@ -107,27 +105,27 @@ if (!function_exists('cate_sn2color')) {
     //自動取得顏色
     function cate_sn2color($cate_sn = '')
     {
-        $R      = $G      = $B      = 255;
-        $m      = ceil($cate_sn / 6);
-        $n      = $cate_sn % 6;
+        $R = $G = $B = 255;
+        $m = ceil($cate_sn / 6);
+        $n = $cate_sn % 6;
         $degree = (int) ($cate_sn) * 3 * $m;
 
-        if ($n == 0) {
+        if (0 == $n) {
             $R -= $degree;
-        } elseif ($n == 1) {
+        } elseif (1 == $n) {
             $G -= $degree;
-        } elseif ($n == 2) {
+        } elseif (2 == $n) {
             $B -= $degree;
-        } elseif ($n == 3) {
+        } elseif (3 == $n) {
             $R -= $degree;
             $G -= $degree;
-        } elseif ($n == 4) {
+        } elseif (4 == $n) {
             $R -= $degree;
             $B -= $degree;
-        } elseif ($n == 5) {
+        } elseif (5 == $n) {
             $G -= $degree;
             $B -= $degree;
-        } elseif ($n == 6) {
+        } elseif (6 == $n) {
             $R -= $degree;
             $G -= $degree;
             $B -= $degree;
