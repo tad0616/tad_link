@@ -26,7 +26,7 @@ function tad_link_search($queryarray, $andor, $limit, $offset, $userid)
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret = [];
     $i = 0;
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[$i]['image'] = 'images/mouse.png';
         $ret[$i]['link'] = 'index.php?link_sn=' . $myrow['link_sn'];
         $ret[$i]['title'] = empty($myrow['link_title']) ? $myrow['link_url'] : $myrow['link_title'];

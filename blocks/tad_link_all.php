@@ -11,7 +11,7 @@ function tad_link_all($options)
     $today = date('Y-m-d');
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " $and_cate order by of_cate_sn,cate_sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $cate_sn , $of_cate_sn , $cate_title , $cate_sort
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -32,7 +32,7 @@ function tad_link_all($options)
         $block['data'][$i]['cate_title'] = $cate_title;
         $block['data'][$i]['cate_sn'] = $cate_sn;
         $j = 0;
-        while ($all2 = $xoopsDB->fetchArray($result2)) {
+        while (false !== ($all2 = $xoopsDB->fetchArray($result2))) {
             //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
             foreach ($all2 as $k => $v) {
                 $$k = $v;
@@ -56,7 +56,7 @@ function tad_link_all($options)
 //區塊編輯函式
 function tad_link_all_edit($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
     $chked0_0 = ('1' == $options[0]) ? 'checked' : '';
     $chked0_1 = ('0' == $options[0]) ? 'checked' : '';
     $chked3_0 = ('1' == $options[0]) ? 'checked' : '';

@@ -1,5 +1,5 @@
 <?php
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
+require_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
 
 define('_MI_TADLINK_NAME', 'Tad Links');
 define('_MI_TADLINK_AUTHOR', 'Tad');
@@ -23,7 +23,7 @@ define('_MI_TADLINK_SHOW_PUSH_DESC', 'Set in the "Link detail page" whether to s
 define('_MI_TADLINK_PIC_WIDTH', 'Picture width');
 define('_MI_TADLINK_PIC_WIDTH_DESC', 'Set the width for a large image (upper limit is 400)');
 define('_MI_TADLINK_DIRECT_LINK', 'Direct link thumbnail?');
-define('_MI_TADLINK_DIRECT_LINK_DESC', 'If Thumbnail has not been created when adding the link, should we use a remote connection thumbnail? <br/>Choose "Yes" is slow, but perhaps you can see thumbnail. <br/>Choose "No", then will be pre-alternative set of thumbnails, faster, but you can not see thumbnail ');
+define('_MI_TADLINK_DIRECT_LINK_DESC', 'If Thumbnail has not been created when adding the link, should we use a remote connection thumbnail? <br>Choose "Yes" is slow, but perhaps you can see thumbnail. <br>Choose "No", then will be pre-alternative set of thumbnails, faster, but you can not see thumbnail ');
 
 define('_MI_TADLINK_DIRNAME', basename(dirname(dirname(__DIR__))));
 define('_MI_TADLINK_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');

@@ -7,7 +7,7 @@ if (!function_exists('tad_link_cate_count')) {
         global $xoopsDB;
         $sql = 'SELECT cate_sn,count(*) FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($cate_sn, $count) = $xoopsDB->fetchRow($result))) {
             $all[$cate_sn] = (int)($count);
         }
 
@@ -34,7 +34,7 @@ if (!function_exists('block_link_cate')) {
         $sql = 'SELECT cate_sn,cate_title FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY of_cate_sn,cate_sort';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
             $cate_counter = isset($counter[$cate_sn]) ? '(' . $counter[$cate_sn] . ')' : '';
             $js .= "if(document.getElementById('c{$cate_sn}').checked){
          arr[i] = document.getElementById('c{$cate_sn}').value;

@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-include '../../../include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 $of_cate_sn = (int) (str_replace('node-_', '', $_POST['of_cate_sn']));
 $cate_sn = (int) (str_replace('node-_', '', $_POST['cate_sn']));
@@ -23,7 +23,7 @@ function chk_cate_path($cate_sn, $to_cate_sn)
     //抓出子目錄的編號
     $sql = 'select cate_sn from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$cate_sn}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($sub_cate_sn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($sub_cate_sn) = $xoopsDB->fetchRow($result))) {
         if (chk_cate_path($sub_cate_sn, $to_cate_sn)) {
             return true;
         }

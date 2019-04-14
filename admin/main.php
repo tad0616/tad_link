@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_link_adm_main.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_link_adm_main.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 $isAdmin = true;
 /*-----------function區--------------*/
 //列出所有tad_link資料
@@ -28,7 +28,7 @@ function list_tad_link($cate_sn = '')
     $i = 0;
 
     $data = [];
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $data[$i] = $all;
 
         $i++;
@@ -42,7 +42,7 @@ function list_tad_link($cate_sn = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert = new sweet_alert();
     $sweet_alert->render('delete_tad_link_cate_func', 'main.php?op=delete_tad_link_cate&cate_sn=', 'cate_sn');
     $sweet_alert2 = new sweet_alert();
@@ -56,7 +56,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 
     $sql = 'SELECT count(*),cate_sn FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($count, $cate_sn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($count, $cate_sn) = $xoopsDB->fetchRow($result))) {
         $cate_count[$cate_sn] = $count;
     }
 
@@ -66,7 +66,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 
     $sql = 'SELECT cate_sn,of_cate_sn,cate_title FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
         $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($cate_sn, $path_arr, true) ? 'true' : 'false';
         $display_counter = empty($cate_count[$cate_sn]) ? '' : " ({$cate_count[$cate_sn]})";
@@ -79,7 +79,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
     $ztree = new ztree('cate_tree', $json, 'save_drag.php', 'save_sort.php', 'of_cate_sn', 'cate_sn');
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
@@ -92,7 +92,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 function tad_link_cate_form($cate_sn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl, $xoopsModule;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($cate_sn)) {
@@ -116,15 +116,15 @@ function tad_link_cate_form($cate_sn = '')
     $cate_sort = (!isset($DBV['cate_sort'])) ? tad_link_cate_max_sort() : $DBV['cate_sort'];
 
     $mod_id = $xoopsModule->getVar('mid');
-    $moduleperm_handler = xoops_getHandler('groupperm');
-    $tad_link_post = $moduleperm_handler->getGroupIds('tad_link_post', $cate_sn, $mod_id);
+    $modulepermHandler = xoops_getHandler('groupperm');
+    $tad_link_post = $modulepermHandler->getGroupIds('tad_link_post', $cate_sn, $mod_id);
 
     $op = (empty($cate_sn)) ? 'insert_tad_link_cate' : 'update_tad_link_cate';
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -213,7 +213,7 @@ function delete_tad_link_cate($cate_sn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $cate_sn = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
 $link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
@@ -260,4 +260,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';
