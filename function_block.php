@@ -8,7 +8,7 @@ if (!function_exists('tad_link_cate_count')) {
         $sql = 'SELECT cate_sn,count(*) FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
-            $all[$cate_sn] = (int)($count);
+            $all[$cate_sn] = (int) ($count);
         }
 
         return $all;
@@ -40,7 +40,7 @@ if (!function_exists('block_link_cate')) {
          arr[i] = document.getElementById('c{$cate_sn}').value;
            i++;
           }";
-            $ckecked = (in_array($cate_sn, $sc, true)) ? 'checked' : '';
+            $ckecked = (in_array($cate_sn, $sc)) ? 'checked' : '';
             $option .= "
             <span style='white-space:nowrap;'>
               <input type='checkbox' id='c{$cate_sn}' value='{$cate_sn}' class='bbv' onChange=bbv() $ckecked><label for='c{$cate_sn}'>$cate_title {$cate_counter}</label>

@@ -68,7 +68,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($cate_sn, $path_arr, true) ? 'true' : 'false';
+        $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$cate_sn]) ? '' : " ({$cate_count[$cate_sn]})";
         $data[] = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'main.php?cate_sn={$cate_sn}', open: {$open} ,target:'_self' {$font_style}}";
     }
@@ -150,8 +150,8 @@ function insert_tad_link_cate()
 
     $myts = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($_POST['cate_title']);
-    $of_cate_sn = (int)$_POST['of_cate_sn'];
-    $cate_sort = (int)$_POST['cate_sort'];
+    $of_cate_sn = (int) $_POST['of_cate_sn'];
+    $cate_sort = (int) $_POST['cate_sort'];
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_link_cate') . "
     (`of_cate_sn` , `cate_title` , `cate_sort`)
@@ -178,8 +178,8 @@ function update_tad_link_cate($cate_sn = '')
 
     $myts = MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($_POST['cate_title']);
-    $of_cate_sn = (int)$_POST['of_cate_sn'];
-    $cate_sort = (int)$_POST['cate_sort'];
+    $of_cate_sn = (int) $_POST['of_cate_sn'];
+    $cate_sort = (int) $_POST['cate_sort'];
 
     $sql = 'update ' . $xoopsDB->prefix('tad_link_cate') . " set
      `of_cate_sn` = '{$of_cate_sn}' ,

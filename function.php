@@ -33,7 +33,7 @@ function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
             WHERE t1.of_cate_sn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
-            if (in_array($the_cate_sn, $all, true)) {
+            if (in_array($the_cate_sn, $all)) {
                 //$main.="-";
                 foreach ($all as $cate_sn) {
                     if (!empty($cate_sn)) {
@@ -106,21 +106,21 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $main = '';
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         // $tad_link_post = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
-        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr, true)) {
+        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
             continue;
         }
 
         if ('edit' === $mode) {
             $selected = ($cate_sn == $default_of_cate_sn) ? 'selected=selected' : '';
             $selected .= ($cate_sn == $default_cate_sn) ? 'disabled=disabled' : '';
-            $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
+            $selected .= (in_array($level, $unselect)) ? 'disabled=disabled' : '';
         } else {
             if (is_array($default_cate_sn)) {
-                $selected = in_array($cate_sn, $default_cate_sn, true) ? 'selected=selected' : '';
+                $selected = in_array($cate_sn, $default_cate_sn) ? 'selected=selected' : '';
             } else {
                 $selected = ($cate_sn == $default_cate_sn) ? 'selected=selected' : '';
             }
-            $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
+            $selected .= (in_array($level, $unselect)) ? 'disabled=disabled' : '';
         }
         if ('none' === $page or empty($count[$cate_sn])) {
             $counter = '';
