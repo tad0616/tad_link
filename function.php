@@ -33,7 +33,7 @@ function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
             WHERE t1.of_cate_sn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
-            if (in_array($the_cate_sn, $all, true)) {
+            if (in_array($the_cate_sn, $all)) {
                 //$main.="-";
                 foreach ($all as $cate_sn) {
                     if (!empty($cate_sn)) {
@@ -63,7 +63,7 @@ function get_tad_link_sub_cate($cate_sn = '0')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $cate_sn_arr = [];
 
-    while (false !== (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $cate_sn_arr[$cate_sn] = $cate_title;
     }
 
@@ -104,23 +104,23 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $unselect = explode(',', $unselect_level);
 
     $main = '';
-    while (false !== (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         // $tad_link_post = $modulepermHandler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
-        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr, true)) {
+        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
             continue;
         }
 
         if ('edit' === $mode) {
             $selected = ($cate_sn == $default_of_cate_sn) ? 'selected=selected' : '';
             $selected .= ($cate_sn == $default_cate_sn) ? 'disabled=disabled' : '';
-            $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
+            $selected .= (in_array($level, $unselect)) ? 'disabled=disabled' : '';
         } else {
             if (is_array($default_cate_sn)) {
-                $selected = in_array($cate_sn, $default_cate_sn, true) ? 'selected=selected' : '';
+                $selected = in_array($cate_sn, $default_cate_sn) ? 'selected=selected' : '';
             } else {
                 $selected = ($cate_sn == $default_cate_sn) ? 'selected=selected' : '';
             }
-            $selected .= (in_array($level, $unselect, true)) ? 'disabled=disabled' : '';
+            $selected .= (in_array($level, $unselect)) ? 'disabled=disabled' : '';
         }
         if ('none' === $page or empty($count[$cate_sn])) {
             $counter = '';
@@ -398,7 +398,7 @@ function chk_cate_power($kind = '')
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (false !== (list($gperm_itemid) = $xoopsDB->fetchRow($result))) {
+    while (list($gperm_itemid) = $xoopsDB->fetchRow($result)) {
         $ok_cat[] = $gperm_itemid;
     }
 

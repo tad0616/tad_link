@@ -106,7 +106,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
     while (false !== (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
         $font_style = $show_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($cate_sn, $path_arr, true) ? 'true' : 'false';
+        $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($count[$cate_sn]) ? '' : " ({$count[$cate_sn]})";
         $data[] = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'index.php?cate_sn={$cate_sn}', target:'_self', open:{$open} {$font_style}}";
     }
@@ -224,7 +224,7 @@ function insert_tad_link()
     }
 
     $post_cate_arr = chk_cate_power('tad_link_post');
-    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr, true)) {
+    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
 
@@ -277,7 +277,7 @@ function update_tad_link($link_sn = '')
     }
 
     $post_cate_arr = chk_cate_power('tad_link_post');
-    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr, true)) {
+    if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
 
