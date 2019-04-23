@@ -34,3 +34,6 @@ define('_MI_TADLINK_HELP_OVERVIEW', '概要');
 
 define('_MI_CAPTURE_FROM', '縮圖擷取來源');
 define('_MI_CAPTURE_FROM_DESC', '120.115.2.78 為自架主機，可能會比較不穩');
+
+define('_MI_TADLINK_NO_FUNCTION', 'No function exist');
+define('_MI_TADLINK_FUNCTION_OK', 'Function is OK');

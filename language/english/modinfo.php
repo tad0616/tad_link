@@ -34,3 +34,6 @@ define('_MI_TADLINK_HELP_OVERVIEW', 'Overview');
 
 define('_MI_CAPTURE_FROM', 'Thumbnail source');
 define('_MI_CAPTURE_FROM_DESC', '120.115.2.78 may be more unstable');
+
+define('_MI_TADLINK_NO_FUNCTION', 'No function exist');
+define('_MI_TADLINK_FUNCTION_OK', 'Function is OK');
