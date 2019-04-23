@@ -40,7 +40,7 @@ function list_tad_link($cate_sn = '')
     $xoopsTpl->assign('cate', $cate);
     $xoopsTpl->assign('bar', $bar);
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert = new sweet_alert();
@@ -77,7 +77,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
     $cate_count = [];
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
     $ztree = new ztree('cate_tree', $json, 'save_drag.php', 'save_sort.php', 'of_cate_sn', 'cate_sn');
@@ -122,7 +122,7 @@ function tad_link_cate_form($cate_sn = '')
     $op = (empty($cate_sn)) ? 'insert_tad_link_cate' : 'update_tad_link_cate';
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
@@ -137,7 +137,7 @@ function tad_link_cate_form($cate_sn = '')
     $xoopsTpl->assign('formValidator_code', $formValidator_code);
 
     //可上傳群組
-    $SelectGroup_name = new XoopsFormSelectGroup('tad_link_post', 'tad_link_post', true, $tad_link_post, 6, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('tad_link_post', 'tad_link_post', true, $tad_link_post, 6, true);
     $SelectGroup_name->setExtra("class='form-control' id='tad_link_post'");
     $enable_post_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_post_group', $enable_post_group);
