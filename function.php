@@ -11,7 +11,11 @@ if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 require_once __DIR__ . '/function_block.php';
 
-/********************* 自訂函數 *********************/
+/********************* 自訂函數 ********************
+ * @param string $the_cate_sn
+ * @param bool   $include_self
+ * @return mixed
+ */
 //取得路徑
 function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
 {
