@@ -4,6 +4,7 @@
 if (!function_exists('tad_link_cate_count')) {
     function tad_link_cate_count()
     {
+        $all = [];
         global $xoopsDB;
         $sql = 'SELECT cate_sn,count(*) FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
