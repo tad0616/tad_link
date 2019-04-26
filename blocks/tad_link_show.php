@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 //區塊主函式 (最新好站連結(tad_link_show))
 function tad_link_show($options)
 {
@@ -20,7 +21,7 @@ function tad_link_show($options)
     $today = date('Y-m-d');
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') $and_cate $order limit 0,{$options[0]}";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $block = [];
     $i = 0;

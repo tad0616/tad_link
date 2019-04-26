@@ -1,5 +1,5 @@
 <?php
-
+use XoopsModules\Tadtools\Utility;
 //區塊主函式 (好站推薦快速連結(tad_link_all))
 function tad_link_all($options)
 {
@@ -10,7 +10,7 @@ function tad_link_all($options)
     //今天日期
     $today = date('Y-m-d');
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " $and_cate order by of_cate_sn,cate_sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         //以下會產生這些變數： $cate_sn , $of_cate_sn , $cate_title , $cate_sort
         foreach ($all as $k => $v) {
@@ -21,7 +21,7 @@ function tad_link_all($options)
         $link_js = (1 == $options[0]) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
 
         $sql2 = 'select * from ' . $xoopsDB->prefix('tad_link') . " where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
-        $result2 = $xoopsDB->query($sql2) or web_error($sql2);
+        $result2 = $xoopsDB->query($sql2) or Utility::web_error($sql2);
         $total = $xoopsDB->getRowsNum($result2);
         if (empty($total)) {
             continue;

@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tad_link_index.tpl';
@@ -29,14 +30,14 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where enable='1' $and_unable  $and_cate";
     $bar = '';
     if ('batch' !== $mode) {
-        //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-        $PageBar = getPageBar($sql, $show_num, 10);
+        //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
+        $PageBar = Utility::getPageBar($sql, $show_num, 10);
         $bar = $PageBar['bar'];
         $sql = $PageBar['sql'];
         $total = $PageBar['total'];
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
     $i = 0;
@@ -68,10 +69,10 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $i++;
     }
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -100,7 +101,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $path = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
     $sql = 'SELECT cate_sn,of_cate_sn,cate_title FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $count = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -139,8 +140,8 @@ function show_one_tad_link($link_sn = '')
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $isAdmin, $xoopsUser, $now_uid;
 
     $push_url = $facebook_comments = '';
-    $push_url = push_url($xoopsModuleConfig['use_social_tools']);
-    $facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_link', 'index.php', 'link_sn', $link_sn);
+    $push_url = Utility::push_url($xoopsModuleConfig['use_social_tools']);
+    $facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_link', 'index.php', 'link_sn', $link_sn);
 
     $width = empty($xoopsModuleConfig['pic_width']) ? 400 : $xoopsModuleConfig['pic_width'];
     $width_div = $width + 10;
@@ -198,7 +199,7 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
     $sql = 'insert into ' . $xoopsDB->prefix('tad_link_cate') . "
   (`of_cate_sn` , `cate_title` , `cate_sort`)
   values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $cate_sn = $xoopsDB->getInsertId();
@@ -238,7 +239,7 @@ function insert_tad_link()
     $sql = 'insert into ' . $xoopsDB->prefix('tad_link') . "
   (`cate_sn` , `link_title` , `link_url` , `link_desc` , `link_sort` , `link_counter` , `unable_date` , `uid` , `post_date` , `enable`)
   values('{$cate_sn}' , '{$link_title}' , '{$link_url}' , '{$link_desc}' , '{$link_sort}' , 0 , '{$unable_date}' , '{$uid}' , now() , '{$enable}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $link_sn = $xoopsDB->getInsertId();
@@ -253,7 +254,7 @@ function tad_link_max_sort()
 {
     global $xoopsDB;
     $sql = 'SELECT max(`link_sort`) FROM ' . $xoopsDB->prefix('tad_link');
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -298,7 +299,7 @@ function update_tad_link($link_sn = '')
    `post_date` =now()
     where link_sn='$link_sn'";
 
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     get_pic($link_sn);
 
@@ -312,7 +313,7 @@ function delete_all_link($all_sn = '')
 
     $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
     $sql = 'delete from ' . $xoopsDB->prefix('tad_link') . " where link_sn in($all_sn) {$and_uid}";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 function go_url($link_sn)
@@ -417,7 +418,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 $xoopsTpl->assign('now_uid', $now_uid);
 include_once XOOPS_ROOT_PATH . '/footer.php';
