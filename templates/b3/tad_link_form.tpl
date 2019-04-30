@@ -1,5 +1,3 @@
-<{$formValidator_code}>
-
 <script type="text/javascript">
   $(document).ready(function(){
     $('#LinkGet').click(function() {

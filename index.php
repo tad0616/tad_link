@@ -1,5 +1,9 @@
 <?php
+use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tad_link_index.tpl';
@@ -69,14 +73,9 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $i++;
     }
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
     $xoopsTpl->assign('get_tad_link_cate_options', get_tad_link_cate_options('', 'show', $show_cate_sn));
     $xoopsTpl->assign('all_content', $all_content);
     $xoopsTpl->assign('bar', $bar);
@@ -90,13 +89,8 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $xoopsTpl->assign('count', ++$i);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
-    $fancybox = new fancybox('.fancybox');
-    $fancybox_code = $fancybox->render();
-    $xoopsTpl->assign('fancybox_code', $fancybox_code);
+    $FancyBox = new FancyBox('.fancybox');
+    $FancyBox->render();
 
     $path = get_tad_link_cate_path($show_cate_sn);
     $path_arr = array_keys($path);
@@ -113,24 +107,17 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     }
     $json = implode(',', $data);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
-    $ztree = new ztree('link_tree', $json, '', '', 'of_cate_sn', 'cate_sn');
-    $ztree_code = $ztree->render();
+    $Ztree = new Ztree('link_tree', $json, '', '', 'of_cate_sn', 'cate_sn');
+    $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
 
     if ($isAdmin or $post_cate_arr) {
-        if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-            redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-        }
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-        $sweet_alert = new sweet_alert();
-        $sweet_alert->render('delete_all_link_func', "index.php?op=delete_all_link&mode=batch&cate_sn={$show_cate_sn}&all_sn=", 'all_sn');
 
-        $sweet_alert2 = new sweet_alert();
-        $sweet_alert2->render('delete_tad_link_func', "index.php?op=delete_tad_link&mode=batch&cate_sn={$show_cate_sn}&link_sn=", 'link_sn');
+        $SweetAlert = new SweetAlert();
+        $SweetAlert->render('delete_all_link_func', "index.php?op=delete_all_link&mode=batch&cate_sn={$show_cate_sn}&all_sn=", 'all_sn');
+
+        $SweetAlert2 = new SweetAlert();
+        $SweetAlert2->render('delete_tad_link_func', "index.php?op=delete_tad_link&mode=batch&cate_sn={$show_cate_sn}&link_sn=", 'link_sn');
     }
 }
 
@@ -174,12 +161,8 @@ function show_one_tad_link($link_sn = '')
     $xoopsTpl->assign('op', 'show_one_tad_link');
 
     if ($isAdmin or $now_uid == $uid) {
-        if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-            redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-        }
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-        $sweet_alert2 = new sweet_alert();
-        $sweet_alert2->render('delete_tad_link_func', 'index.php?op=delete_tad_link&link_sn=', 'link_sn');
+        $SweetAlert2 = new SweetAlert();
+        $SweetAlert2->render('delete_tad_link_func', 'index.php?op=delete_tad_link&link_sn=', 'link_sn');
     }
 }
 
@@ -192,7 +175,7 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
         return;
     }
     $of_cate_sn = (int) $of_cate_sn;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($cate_title);
     $cate_sort = tad_link_cate_max_sort($of_cate_sn);
 
@@ -211,7 +194,7 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $link_title = $myts->addSlashes($_POST['link_title']);
     $link_url = $myts->addSlashes($_POST['link_url']);
     $link_desc = $myts->addSlashes($_POST['link_desc']);
@@ -264,7 +247,7 @@ function tad_link_max_sort()
 function update_tad_link($link_sn = '')
 {
     global $xoopsDB, $xoopsUser, $isAdmin;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $link_title = $myts->addSlashes($_POST['link_title']);
     $link_url = $myts->addSlashes($_POST['link_url']);
     $link_desc = $myts->addSlashes($_POST['link_desc']);
