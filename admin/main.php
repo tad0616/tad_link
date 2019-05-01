@@ -1,8 +1,8 @@
 <?php
+use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
-use XoopsModules\Tadtools\FormValidator;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_link_adm_main.tpl';
 include_once 'header.php';
@@ -118,7 +118,6 @@ function tad_link_cate_form($cate_sn = '')
 
     $op = (empty($cate_sn)) ? 'insert_tad_link_cate' : 'update_tad_link_cate';
 
-
     $FormValidator = new FormValidator('#myForm', true);
     $FormValidator->render();
 
@@ -130,7 +129,7 @@ function tad_link_cate_form($cate_sn = '')
     $xoopsTpl->assign('get_tad_link_cate_options', get_tad_link_cate_options('none', 'edit', $cate_sn, $of_cate_sn));
 
     //可上傳群組
-    $SelectGroup_name = new XoopsFormSelectGroup('tad_link_post', 'tad_link_post', true, $tad_link_post, 6, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('tad_link_post', 'tad_link_post', true, $tad_link_post, 6, true);
     $SelectGroup_name->setExtra("class='form-control' id='tad_link_post'");
     $enable_post_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_post_group', $enable_post_group);
