@@ -1,6 +1,8 @@
-Tad Link 2.7 (released on 2019-01-28)
-================================================
-1.Added the setting of "Do you want to display the classification title" in the block?
+Tad Link 2.7 (released from 2019-05-10)
+==========================================================
+1. Support XOOPS 2.5.10
+2. No longer supports PHP 5.3
+3.Added the setting of "Do you want to display the classification title" in the block?
 
 
 Tad Link 2.6.9 (released on 2019-01-01)
