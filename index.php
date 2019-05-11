@@ -104,7 +104,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $count = tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
-    while (false !== (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $font_style = $show_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($count[$cate_sn]) ? '' : " ({$count[$cate_sn]})";

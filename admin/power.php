@@ -15,7 +15,7 @@ $module_id = $xoopsModule->getVar('mid');
 
 $sql = 'SELECT cate_sn,cate_title FROM ' . $xoopsDB->prefix('tad_link_cate');
 $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-while (false !== (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
+while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
     $item_list[$cate_sn] = $cate_title;
 }
 

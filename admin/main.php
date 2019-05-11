@@ -56,7 +56,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 
     $sql = 'SELECT count(*),cate_sn FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($count, $cate_sn) = $xoopsDB->fetchRow($result))) {
+    while (list($count, $cate_sn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$cate_sn] = $count;
     }
 
@@ -66,7 +66,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 
     $sql = 'SELECT cate_sn,of_cate_sn,cate_title FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$cate_sn]) ? '' : " ({$cate_count[$cate_sn]})";
