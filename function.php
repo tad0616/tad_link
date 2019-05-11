@@ -1,15 +1,11 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+xoops_loadLanguage('main', 'tadtools');
+require_once __DIR__ . '/function_block.php';
 define('_TADLINK_PIC_URL', XOOPS_URL . '/uploads/tad_link');
 define('_TADLINK_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link');
 define('_TADLINK_THUMB_PIC_URL', XOOPS_URL . '/uploads/tad_link/thumbs');
 define('_TADLINK_THUMB_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link/thumbs');
-
-//引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
-    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-}
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
-require_once __DIR__ . '/function_block.php';
 
 /********************* 自訂函數 ********************
  * @param string $the_cate_sn
@@ -35,7 +31,7 @@ function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
             LEFT JOIN `{$tbl}` t6 ON t6.of_cate_sn = t5.cate_sn
             LEFT JOIN `{$tbl}` t7 ON t7.of_cate_sn = t6.cate_sn
             WHERE t1.of_cate_sn = '0'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
             if (in_array($the_cate_sn, $all)) {
                 //$main.="-";
@@ -64,7 +60,7 @@ function get_tad_link_sub_cate($cate_sn = '0')
 {
     global $xoopsDB;
     $sql = 'select cate_sn,cate_title from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$cate_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $cate_sn_arr = [];
 
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
@@ -82,7 +78,7 @@ function get_tad_link_cate($cate_sn = '')
         return;
     }
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " where cate_sn='$cate_sn'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -100,7 +96,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $count = tad_link_cate_count();
 
     $sql = 'select cate_sn,cate_title from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $prefix = str_repeat('&nbsp;&nbsp;', $level);
     $level++;
@@ -296,7 +292,7 @@ function add_tad_link_counter($link_sn = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'update ' . $xoopsDB->prefix('tad_link') . " set `link_counter`=`link_counter`+1 where `link_sn`='{$link_sn}'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //以流水號取得某筆tad_link資料
@@ -307,7 +303,7 @@ function get_tad_link($link_sn = '')
         return;
     }
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where link_sn='$link_sn'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -318,7 +314,7 @@ function get_tad_link_cate_all()
 {
     global $xoopsDB;
     $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_link_cate');
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $cate_sn = (int) ($data['cate_sn']);
         $data_arr[$cate_sn] = $data;
@@ -332,7 +328,7 @@ function tad_link_cate_max_sort($of_cate_sn = '0')
 {
     global $xoopsDB;
     $sql = 'select max(`cate_sort`) from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$of_cate_sn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -345,7 +341,7 @@ function delete_tad_link($link_sn = '')
 
     $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
     $sql = 'delete from ' . $xoopsDB->prefix('tad_link') . " where link_sn='$link_sn' {$and_uid}";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //儲存權限
@@ -373,7 +369,7 @@ function getItem_Permissions($itemid, $gperm_name)
     $module_id = $xoopsModule->getVar('mid');
     $sql = ' SELECT gperm_groupid FROM ' . $xoopsDB->prefix('group_permission') . " where gperm_modid='$module_id' and gperm_itemid ='$itemid' and gperm_name='$gperm_name' ";
     //echo $sql ;
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $data[] = $row['gperm_groupid'];
     }
@@ -400,7 +396,7 @@ function chk_cate_power($kind = '')
 
     $sql = 'select gperm_itemid from ' . $xoopsDB->prefix('group_permission') . " where gperm_modid='$module_id' and gperm_name='$kind' and gperm_groupid in ($gsn_arr)";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($gperm_itemid) = $xoopsDB->fetchRow($result)) {
         $ok_cat[] = $gperm_itemid;

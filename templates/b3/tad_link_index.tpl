@@ -163,7 +163,6 @@
 <{else}>
 
   <{if $all_content}>
-    <{$fancybox_code}>
 
     <h1><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h1>
     <div class="row">

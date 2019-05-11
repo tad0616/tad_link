@@ -30,8 +30,6 @@
       <{if $op=="tad_link_cate_form"}>
         <h2><{$smarty.const._MA_TADLINK_CATE_FORM}></h2>
 
-        <{$formValidator_code}>
-
         <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form">
           <div class="form-group row">
             <label class="col-sm-2 col-form-label text-sm-right">
