@@ -1,13 +1,13 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_link_adm_power.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_link_adm_power.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
-include_once XOOPS_ROOT_PATH . '/Frameworks/art/functions.php';
-include_once XOOPS_ROOT_PATH . '/Frameworks/art/functions.admin.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+require_once XOOPS_ROOT_PATH . '/Frameworks/art/functions.php';
+require_once XOOPS_ROOT_PATH . '/Frameworks/art/functions.admin.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 /*-----------function區--------------*/
 $module_id = $xoopsModule->getVar('mid');
@@ -31,4 +31,4 @@ $permission_content = $formi->render();
 $xoopsTpl->assign('permission_content', $permission_content);
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

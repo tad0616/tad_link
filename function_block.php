@@ -6,11 +6,12 @@ use XoopsModules\Tadtools\Utility;
 if (!function_exists('tad_link_cate_count')) {
     function tad_link_cate_count()
     {
+        $all = [];
         global $xoopsDB;
         $sql = 'SELECT cate_sn,count(*) FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
-            $all[$cate_sn] = (int) ($count);
+            $all[$cate_sn] = (int)($count);
         }
 
         return $all;

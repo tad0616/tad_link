@@ -1,6 +1,6 @@
 <?php
-include_once 'header.php';
-include_once 'function.php';
+require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/function.php';
 $updateRecordsArray = $_POST['tr'];
 
 $sort = 1;

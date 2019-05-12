@@ -5,9 +5,9 @@ use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
-include 'header.php';
-$xoopsOption['template_main'] = 'tad_link_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require __DIR__ . '/header.php';
+$xoopsOption['template_main']  = 'tad_link_index.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $now_uid = $xoopsUser ? $xoopsUser->uid() : 0;
 /*-----------function區--------------*/
@@ -45,7 +45,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 
     $all_content = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -342,7 +342,7 @@ function tad_link_form($link_sn = '', $mode = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $mode = system_CleanVars($_REQUEST, 'mode', '', 'string');
 $all_sn = system_CleanVars($_REQUEST, 'all_sn', '', 'string');
@@ -404,4 +404,4 @@ switch ($op) {
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 $xoopsTpl->assign('now_uid', $now_uid);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

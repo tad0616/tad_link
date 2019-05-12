@@ -4,9 +4,9 @@ use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_link_adm_main.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$xoopsOption['template_main' = 'tad_link_adm_main.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 $isAdmin = true;
 /*-----------function區--------------*/
 //列出所有tad_link資料
@@ -32,7 +32,7 @@ function list_tad_link($cate_sn = '')
     $i = 0;
 
     $data = [];
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $data[$i] = $all;
 
         $i++;
@@ -89,7 +89,7 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 function tad_link_cate_form($cate_sn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl, $xoopsModule;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($cate_sn)) {
@@ -113,8 +113,8 @@ function tad_link_cate_form($cate_sn = '')
     $cate_sort = (!isset($DBV['cate_sort'])) ? tad_link_cate_max_sort() : $DBV['cate_sort'];
 
     $mod_id = $xoopsModule->getVar('mid');
-    $moduleperm_handler = xoops_getHandler('groupperm');
-    $tad_link_post = $moduleperm_handler->getGroupIds('tad_link_post', $cate_sn, $mod_id);
+    $modulepermHandler = xoops_getHandler('groupperm');
+    $tad_link_post = $modulepermHandler->getGroupIds('tad_link_post', $cate_sn, $mod_id);
 
     $op = (empty($cate_sn)) ? 'insert_tad_link_cate' : 'update_tad_link_cate';
 
@@ -205,7 +205,7 @@ function delete_tad_link_cate($cate_sn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $cate_sn = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
 $link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
@@ -252,4 +252,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

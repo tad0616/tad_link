@@ -1,13 +1,17 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 xoops_loadLanguage('main', 'tadtools');
-require_once "function_block.php";
+require_once __DIR__ . '/function_block.php';
 define('_TADLINK_PIC_URL', XOOPS_URL . '/uploads/tad_link');
 define('_TADLINK_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link');
 define('_TADLINK_THUMB_PIC_URL', XOOPS_URL . '/uploads/tad_link/thumbs');
 define('_TADLINK_THUMB_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link/thumbs');
 
-/********************* 自訂函數 *********************/
+/********************* 自訂函數 ********************
+ * @param string $the_cate_sn
+ * @param bool   $include_self
+ * @return mixed
+ */
 //取得路徑
 function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
 {
@@ -28,7 +32,7 @@ function get_tad_link_cate_path($the_cate_sn = '', $include_self = true)
             LEFT JOIN `{$tbl}` t7 ON t7.of_cate_sn = t6.cate_sn
             WHERE t1.of_cate_sn = '0'";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        while ($all = $xoopsDB->fetchArray($result)) {
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
             if (in_array($the_cate_sn, $all)) {
                 //$main.="-";
                 foreach ($all as $cate_sn) {
@@ -88,7 +92,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $post_cate_arr = chk_cate_power('tad_link_post');
 
     // $mod_id             = $xoopsModule->getVar('mid');
-    // $moduleperm_handler = xoops_gethandler('groupperm');
+    // $modulepermHandler = xoops_getHandler('groupperm');
     $count = tad_link_cate_count();
 
     $sql = 'select cate_sn,cate_title from ' . $xoopsDB->prefix('tad_link_cate') . " where of_cate_sn='{$start_search_sn}' order by cate_sort";
@@ -101,7 +105,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
 
     $main = '';
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
-        // $tad_link_post = $moduleperm_handler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
+        // $tad_link_post = $modulepermHandler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
         if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
             continue;
         }
@@ -176,7 +180,7 @@ function get_pic($link_sn = '')
 {
     global $xoopsModuleConfig;
     if ($_FILES) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
+        require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
 
         $handle = new upload($_FILES['pic'], 'zh_TW'); // 將上傳物件實體化
         if ($handle->uploaded) {
@@ -311,7 +315,7 @@ function get_tad_link_cate_all()
     global $xoopsDB;
     $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_link_cate');
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $cate_sn = (int) ($data['cate_sn']);
         $data_arr[$cate_sn] = $data;
     }
@@ -345,15 +349,15 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
 {
     global $xoopsModule;
     $module_id = $xoopsModule->getVar('mid');
-    $gperm_handler = xoops_getHandler('groupperm');
+    $gpermHandler = xoops_getHandler('groupperm');
 
     // First, if the permissions are already there, delete them
-    $gperm_handler->deleteByModule($module_id, $perm_name, $itemid);
+    $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
 
     // Save the new permissions
     if (count($groups) > 0) {
         foreach ($groups as $group_id) {
-            $gperm_handler->addRight($perm_name, $itemid, $group_id, $module_id);
+            $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
         }
     }
 }
@@ -366,7 +370,7 @@ function getItem_Permissions($itemid, $gperm_name)
     $sql = ' SELECT gperm_groupid FROM ' . $xoopsDB->prefix('group_permission') . " where gperm_modid='$module_id' and gperm_itemid ='$itemid' and gperm_name='$gperm_name' ";
     //echo $sql ;
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $data[] = $row['gperm_groupid'];
     }
 

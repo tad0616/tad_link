@@ -25,7 +25,7 @@ function tad_link_show($options)
 
     $block = [];
     $i = 0;
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -63,7 +63,7 @@ function tad_link_show($options)
 //區塊編輯函式
 function tad_link_show_edit($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
 
     $chked1_1 = ('1' == $options[1]) ? 'checked' : '';
     $chked1_0 = ('0' == $options[1]) ? 'checked' : '';
