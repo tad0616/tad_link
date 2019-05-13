@@ -41,7 +41,7 @@ class Update
         }
 
         //找出目前所有的樣板檔
-        $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix('newblocks') . "`
+        $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
         WHERE `dirname` = 'tad_link' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
         while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
@@ -79,7 +79,7 @@ class Update
     public static function go_update1()
     {
         global $xoopsDB;
-        $sql = "CREATE TABLE `" . $xoopsDB->prefix('tad_link_files_center') . "` (
+        $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_link_files_center') . "` (
         `files_sn` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
         `col_name` VARCHAR(255) NOT NULL COMMENT '欄位名稱',
         `col_sn` SMALLINT(5) UNSIGNED NOT NULL COMMENT '欄位編號',
