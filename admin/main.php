@@ -4,7 +4,7 @@ use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main' = 'tad_link_adm_main.tpl';
+$xoopsOption['template_main'] = 'tad_link_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 $isAdmin = true;
