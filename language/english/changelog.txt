@@ -1,3 +1,8 @@
+Tad Link 2.8 (released from 2020-03-10)
+=====================================================
+1. Modify the call upload method
+2. Fixed the issue that the batch cannot be deleted
+
 Tad Link 2.7 (released from 2019-05-10)
 ==========================================================
 1. Support XOOPS 2.5.10

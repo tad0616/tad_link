@@ -85,7 +85,7 @@
                   </td>
                   <td>
                     <a href="<{$xoops_url}>/modules/tad_link/index.php?link_sn=<{$link.link_sn}>"><{$link.link_title}></a>
-                    <span style="color:gray;font-size:12px;"> (<{$link.link_counter}>)</span>
+                    <span style="color:gray;font-size: 0.75em;"> (<{$link.link_counter}>)</span>
                   </td>
                   <td><{$link.link_url}></td>
                   <td>

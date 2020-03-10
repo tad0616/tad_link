@@ -12,7 +12,7 @@
         <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" border=0><img src="<{$pic}>" class="img-fluid" alt="<{$cate_title}>"></a>
       </div>
       <div class="col-sm-7">
-        <h1><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title}><{$link_title}><{else}><{$link_url}><{/if}></a></h1>
+        <h2><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title}><{$link_title}><{else}><{$link_url}><{/if}></a></h2>
         <{$smarty.const._MD_TADLINK_LINK_URL}><{$smarty.const._TAD_FOR}><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" ><{$link_url}></a>
         <div class="row">
           <div class="col-sm-6">
@@ -153,7 +153,7 @@
                       <input type="checkbox" name="link_sn[]" value="<{$link.link_sn}>" class="link_sn">
                       <{$link.link_title}>
 
-                      <span style="font-size:12px;"><{$link.link_url}></span>
+                      <span style="font-size: 0.75em;"><{$link.link_url}></span>
                       <span class="badge badge-info"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
 
                       <{if $link.overdue}>
@@ -181,7 +181,7 @@
 
   <{if $all_content}>
 
-    <h1><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h1>
+    <h2><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h2>
     <div class="row">
       <div class="col-sm-3">
         <{$ztree_code}>
@@ -208,17 +208,17 @@
                 </div>
               <{/if}>
 
-              <div style="font-size: 24px;">
+              <div style="font-size: 1.5em;">
                 <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></a>
               </div>
 
-              <div style="font-size: 12px; margin: 10px 0px;">
+              <div style="font-size: 0.75em; margin: 10px 0px;">
                   <{if $link.cate_sn}><a href="index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a><{else}><span style="color:red;"><{$smarty.const._MD_TADLINK_UNCATEGORIZED}></span><{/if}> |
 
                 <a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank"><{$link.link_url}></a>
               </div>
 
-                <div style="color:#404040; font-size: 12px; line-height: 1.8;"><{$link.link_desc}></div>
+                <div style="color:#404040; font-size: 0.75em; line-height: 1.8;"><{$link.link_desc}></div>
 
             </div>
           </div>

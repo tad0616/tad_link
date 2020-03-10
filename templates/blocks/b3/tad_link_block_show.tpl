@@ -3,8 +3,8 @@
     <div style="float: left; text-align: center; width: 130px; height: <{if $block.height}><{$block.height}><{else}><{$web.height}><{/if}>px; overflow: hidden;">
       <{$web.pic}>
       <{if $web.title or $web.url}>
-        <{if $web.title}><p style="font-size: 12px;height: 15px; overflow: hidden;"><{$web.title}></p><{/if}>
-        <{if $web.url}><p style="font-size: 11px; height: 15px; overflow: hidden;"><{$web.url}></p><{/if}>
+        <{if $web.title}><p style="font-size: 0.75em;height: 15px; overflow: hidden;"><{$web.title}></p><{/if}>
+        <{if $web.url}><p style="font-size: 0.6875em; height: 15px; overflow: hidden;"><{$web.url}></p><{/if}>
       <{/if}>
     </div>
   <{/foreach}>
@@ -17,8 +17,8 @@
           <{$web.pic}>
           <{if $web.title or $web.url}>
           <div class="caption">
-            <{if $web.title}><p style="font-size: 12px;height: 15px; overflow: hidden;"><{$web.title}></p><{/if}>
-            <{if $web.url}><p style="font-size: 11px; height: 15px; overflow: hidden;"><{$web.url}></p><{/if}>
+            <{if $web.title}><p style="font-size: 0.75em;height: 15px; overflow: hidden;"><{$web.title}></p><{/if}>
+            <{if $web.url}><p style="font-size: 0.6875em; height: 15px; overflow: hidden;"><{$web.url}></p><{/if}>
           </div>
           <{/if}>
         </div>
