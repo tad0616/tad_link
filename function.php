@@ -182,7 +182,7 @@ function get_pic($link_sn = '')
     if ($_FILES) {
         require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
 
-        $handle = new upload($_FILES['pic'], 'zh_TW'); // 將上傳物件實體化
+        $handle = new \Verot\Upload\Upload($_FILES['pic'], 'zh_TW'); // 將上傳物件實體化
         if ($handle->uploaded) {
             // 如果檔案已經上傳到 tmp
             $handle->file_new_name_body = $link_sn; // 重新設定新檔名

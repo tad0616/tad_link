@@ -59,16 +59,16 @@
 
         $("#clickAll").click(function() {
 
-           if($("#clickAll").attr("checked"))
+           if($("#clickAll").prop("checked"))
            {
              $("input[name='link_sn[]']").each(function() {
-                 $(this).attr("checked", true);
+                 $(this).prop("checked", true);
              });
            }
            else
            {
              $("input[name='link_sn[]']").each(function() {
-                 $(this).attr("checked", false);
+                 $(this).prop("checked", false);
              });
            }
            get_all_sn();
@@ -83,13 +83,30 @@
         var i=0;
         var arr = new Array();
         $("input[name='link_sn[]']").each(function() {
-           if($(this).attr("checked")){
+           if($(this).prop("checked")){
             arr[i] = $(this).val();
             i++;
            }
         });
         $('#all_sn').val(arr.join(','));
       };
+
+
+      function delete_all_link_func(){
+        swal({
+          title: '<{$smarty.const._TAD_DEL_CONFIRM}>',
+          text: '<{$smarty.const._TAD_DEL_CONFIRM_TEXT}>',
+          type: 'warning',
+          showCancelButton: 1,
+          confirmButtonColor: '#DD6B55',
+          confirmButtonText: '<{$smarty.const._TAD_DEL_CONFIRM_BTN}>',
+          closeOnConfirm: false ,
+          allowOutsideClick: true
+        },
+        function(){
+          location.href='index.php?op=delete_all_link&mode=batch&cate_sn=10&all_sn=' + $('#all_sn').val();
+        });
+      }
     </script>
 
     <div class="row">

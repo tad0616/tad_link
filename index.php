@@ -6,7 +6,7 @@ use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
-$xoopsOption['template_main']  = 'tad_link_index.tpl';
+$xoopsOption['template_main'] = 'tad_link_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 $now_uid = $xoopsUser ? $xoopsUser->uid() : 0;
@@ -112,9 +112,6 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $xoopsTpl->assign('ztree_code', $ztree_code);
 
     if ($isAdmin or $post_cate_arr) {
-
-        $SweetAlert = new SweetAlert();
-        $SweetAlert->render('delete_all_link_func', "index.php?op=delete_all_link&mode=batch&cate_sn={$show_cate_sn}&all_sn=", 'all_sn');
 
         $SweetAlert2 = new SweetAlert();
         $SweetAlert2->render('delete_tad_link_func', "index.php?op=delete_tad_link&mode=batch&cate_sn={$show_cate_sn}&link_sn=", 'link_sn');
