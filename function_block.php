@@ -11,7 +11,7 @@ if (!function_exists('tad_link_cate_count')) {
         $sql = 'SELECT cate_sn,count(*) FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
-            $all[$cate_sn] = (int)($count);
+            $all[$cate_sn] = (int) ($count);
         }
 
         return $all;
@@ -30,7 +30,7 @@ if (!function_exists('block_link_cate')) {
         }
 
         $js = '<script>
-      function bbv(){
+        function bbv(){
         i=0;
         var arr = new Array();';
 
@@ -40,19 +40,19 @@ if (!function_exists('block_link_cate')) {
         while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
             $cate_counter = isset($counter[$cate_sn]) ? '(' . $counter[$cate_sn] . ')' : '';
             $js .= "if(document.getElementById('c{$cate_sn}').checked){
-              arr[i] = document.getElementById('c{$cate_sn}').value;
-              i++;
+                arr[i] = document.getElementById('c{$cate_sn}').value;
+                i++;
             }";
             $ckecked = (in_array($cate_sn, $sc)) ? 'checked' : '';
             $option .= "
             <span style='white-space:nowrap;'>
-              <input type='checkbox' id='c{$cate_sn}' value='{$cate_sn}' class='bbv' onChange=bbv() $ckecked><label for='c{$cate_sn}'>$cate_title {$cate_counter}</label>
+                <input type='checkbox' id='c{$cate_sn}' value='{$cate_sn}' class='bbv' onChange=bbv() $ckecked><label for='c{$cate_sn}'>$cate_title {$cate_counter}</label>
             </span> ";
         }
 
         $js .= "document.getElementById('bb').value=arr.join(',');
-      }
-      </script>";
+        }
+        </script>";
 
         $main['js'] = $js;
         $main['form'] = $option;

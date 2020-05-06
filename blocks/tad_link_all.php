@@ -3,7 +3,8 @@ use XoopsModules\Tadtools\Utility;
 //區塊主函式 (好站推薦快速連結(tad_link_all))
 function tad_link_all($options)
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoTheme;
+    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
     $i = 0;
     $block = [];
     $and_cate = empty($options[1]) ? '' : "where cate_sn in({$options[1]})";
