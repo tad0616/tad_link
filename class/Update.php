@@ -64,37 +64,67 @@ class Update
         }
     }
 
+    //新增檔案欄位
     public static function chk_chk1()
     {
         global $xoopsDB;
-        $sql = 'SELECT count(*) FROM ' . $xoopsDB->prefix('tad_link_files_center');
+        $sql = 'SELECT count(`cate_bg`) FROM ' . $xoopsDB->prefix('tad_link_cate');
         $result = $xoopsDB->query($sql);
         if (empty($result)) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public static function go_update1()
     {
         global $xoopsDB;
-        $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_link_files_center') . "` (
-        `files_sn` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
-        `col_name` VARCHAR(255) NOT NULL COMMENT '欄位名稱',
-        `col_sn` SMALLINT(5) UNSIGNED NOT NULL COMMENT '欄位編號',
-        `sort` SMALLINT(5) UNSIGNED NOT NULL COMMENT '排序',
-        `kind` ENUM('img','file') NOT NULL COMMENT '檔案種類',
-        `file_name` VARCHAR(255) NOT NULL COMMENT '檔案名稱',
-        `file_type` VARCHAR(255) NOT NULL COMMENT '檔案類型',
-        `file_size` INT(10) UNSIGNED NOT NULL COMMENT '檔案大小',
-        `description` TEXT NOT NULL COMMENT '檔案說明',
-        `counter` MEDIUMINT(8) UNSIGNED NOT NULL COMMENT '下載人次',
-        `original_filename` VARCHAR(255) NOT NULL COMMENT '檔案名稱',
-        `hash_filename` VARCHAR(255) NOT NULL COMMENT '加密檔案名稱',
-        `sub_dir` VARCHAR(255) NOT NULL COMMENT '檔案子路徑',
-        PRIMARY KEY (`files_sn`)
-        ) ENGINE=MyISAM";
-        $xoopsDB->queryF($sql);
+        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_link_cate') . "
+        ADD `cate_bg` varchar(255) NOT NULL COMMENT '背景色',
+        ADD `cate_color` varchar(255) NOT NULL COMMENT '文字顏色'
+        ";
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $xoopsDB->error());
+
+        $sql = 'select cate_sn from ' . $xoopsDB->prefix('tad_link_cate') . " order by of_cate_sn,cate_sort";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($cate_sn) = $xoopsDB->fetchRow($result)) {
+            $color = self::cate_sn2color($cate_sn);
+
+            $sql2 = 'update ' . $xoopsDB->prefix('tad_link_cate') . " set `cate_bg`='$color', `cate_color`='rgb(0,0,0)' where `cate_sn` = '{$cate_sn}' ";
+            $xoopsDB->queryF($sql2) or die($sql2);
+        }
+    }
+
+    //自動取得顏色
+    private static function cate_sn2color($cate_sn = '')
+    {
+        $R = $G = $B = 255;
+        $m = ceil($cate_sn / 6);
+        $n = $cate_sn % 6;
+        $degree = (int) ($cate_sn) * 3 * $m;
+
+        if (0 == $n) {
+            $R -= $degree;
+        } elseif (1 == $n) {
+            $G -= $degree;
+        } elseif (2 == $n) {
+            $B -= $degree;
+        } elseif (3 == $n) {
+            $R -= $degree;
+            $G -= $degree;
+        } elseif (4 == $n) {
+            $R -= $degree;
+            $B -= $degree;
+        } elseif (5 == $n) {
+            $G -= $degree;
+            $B -= $degree;
+        } elseif (6 == $n) {
+            $R -= $degree;
+            $G -= $degree;
+            $B -= $degree;
+        }
+
+        return "rgb({$R},{$G},{$B})";
     }
 }

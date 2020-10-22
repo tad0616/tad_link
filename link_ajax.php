@@ -1,9 +1,12 @@
 <?php
 require_once __DIR__ . '/header.php';
-//$_POST['url']="https://tad0616.net";
+
+$myts = \MyTextSanitizer::getInstance();
+$url = $myts->addSlashes($_POST['url']);
+
 $date['metaTags']['description']['value'] = $date['title'] = '';
-if (!empty($_POST['url'])) {
-    $date = getUrlData($_POST['url']);
+if (!empty($url)) {
+    $date = getUrlData($url);
     $web['title'] = $date['title'];
     $web['description'] = $date['metaTags']['description']['value'];
     echo json_encode($web);

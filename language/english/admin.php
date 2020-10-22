@@ -1,10 +1,6 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
 
-if (!defined('_TAD_NEED_TADTOOLS')) {
-    define('_TAD_NEED_TADTOOLS', 'This module needs TadTools module. You can download TadTools from <a href="https://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.');
-}
-
 //cate.php
 define('_MA_TADLINK_CATE_SN', 'Category');
 define('_MA_TADLINK_OF_CATE_SN', 'Parent category');
@@ -29,3 +25,5 @@ define('_MA_TADLINK_QUICK_ADD', 'Quick Add');
 define('_MA_TADLINK_CATE_COUNT', 'There are %s links');
 define('_MA_TADLINK_EMPTY', 'Empty');
 define('_MA_TADLINK_SET_POST_POWER', 'Post Groups');
+define('_MA_TADLINK_CATE_BG', 'Category Background Color');
+define('_MA_TADLINK_CATE_COLOR', 'Category Text Color');

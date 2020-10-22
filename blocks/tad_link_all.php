@@ -1,6 +1,6 @@
 <?php
 use XoopsModules\Tadtools\Utility;
-//區塊主函式 (好站推薦快速連結(tad_link_all))
+//區塊主函式 (文字連結(tad_link_all))
 function tad_link_all($options)
 {
     global $xoopsDB, $xoTheme;
@@ -12,12 +12,12 @@ function tad_link_all($options)
     $today = date('Y-m-d');
     $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " $and_cate order by of_cate_sn,cate_sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $myts = MyTextSanitizer::getInstance();
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $cate_sn , $of_cate_sn , $cate_title , $cate_sort
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        $color = cate_sn2color($cate_sn);
 
         $link_js = (1 == $options[0]) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
 
@@ -28,16 +28,23 @@ function tad_link_all($options)
             continue;
         }
 
+        $cate_title = $myts->htmlSpecialChars($cate_title);
+
         $block['data'][$i]['link_js'] = $link_js;
-        $block['data'][$i]['color'] = $color;
         $block['data'][$i]['cate_title'] = $cate_title;
         $block['data'][$i]['cate_sn'] = $cate_sn;
+        $block['data'][$i]['cate_color'] = $cate_color;
+        $block['data'][$i]['cate_bg'] = $cate_bg;
         $j = 0;
         while (false !== ($all2 = $xoopsDB->fetchArray($result2))) {
             //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
             foreach ($all2 as $k => $v) {
                 $$k = $v;
             }
+
+            $link_url = $myts->htmlSpecialChars($link_url);
+            $link_title = $myts->htmlSpecialChars($link_title);
+
             $val = (1 == $options[0]) ? $link_url : $link_sn;
             if (empty($val)) {
                 $val = '#';
@@ -100,38 +107,4 @@ function tad_link_all_edit($options)
     </ol>';
 
     return $form;
-}
-
-if (!function_exists('cate_sn2color')) {
-    //自動取得顏色
-    function cate_sn2color($cate_sn = '')
-    {
-        $R = $G = $B = 255;
-        $m = ceil($cate_sn / 6);
-        $n = $cate_sn % 6;
-        $degree = (int) ($cate_sn) * 3 * $m;
-
-        if (0 == $n) {
-            $R -= $degree;
-        } elseif (1 == $n) {
-            $G -= $degree;
-        } elseif (2 == $n) {
-            $B -= $degree;
-        } elseif (3 == $n) {
-            $R -= $degree;
-            $G -= $degree;
-        } elseif (4 == $n) {
-            $R -= $degree;
-            $B -= $degree;
-        } elseif (5 == $n) {
-            $G -= $degree;
-            $B -= $degree;
-        } elseif (6 == $n) {
-            $R -= $degree;
-            $G -= $degree;
-            $B -= $degree;
-        }
-
-        return "rgb({$R},{$G},{$B})";
-    }
 }

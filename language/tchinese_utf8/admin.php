@@ -1,6 +1,5 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
-define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 
 //cate.php
 define('_MA_TADLINK_CATE_SN', '分類');
@@ -26,3 +25,5 @@ define('_MA_TADLINK_QUICK_ADD', '快速新增');
 define('_MA_TADLINK_CATE_COUNT', '有 %s 個連結');
 define('_MA_TADLINK_EMPTY', '尚無資料');
 define('_MA_TADLINK_SET_POST_POWER', '可發布群組');
+define('_MA_TADLINK_CATE_BG', '分類背景顏色');
+define('_MA_TADLINK_CATE_COLOR', '分類文字顏色');

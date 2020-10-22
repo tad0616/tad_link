@@ -1,7 +1,16 @@
+Tad Link 3.0 (Released on 2020-10-21)
+=================================================
+1. Fix the incorrect block style problem.
+2. Support XOOPS 2.5.11.
+3. Enhanced output data security filtering
+4. Remove the capture_from setting
+5. Merge Template
+6. New Category Color Settings
+
+
 Tad Link 2.9 (released 2020-03-14)
 =================================================
 1. Correction for accessibility 2.0 AA standard
-
 
 Tad Link 2.8 (released from 2020-03-10)
 =====================================================

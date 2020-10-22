@@ -6,7 +6,7 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADLINK_NAME;
-$modversion['version'] = 2.9;
+$modversion['version'] = 3.0;
 $modversion['description'] = _MI_TADLINK_DESC;
 $modversion['author'] = _MI_TADLINK_AUTHOR;
 $modversion['credits'] = _MI_TADLINK_CREDITS;
@@ -17,7 +17,7 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2020/03/14';
+$modversion['release_date'] = '2020/10/21';
 $modversion['module_website_url'] = 'https://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -61,12 +61,8 @@ $modversion['templates'][$i]['file'] = 'tad_link_index.tpl';
 $modversion['templates'][$i]['description'] = 'tad_link_index.tpl';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tad_link_adm_main.tpl';
-$modversion['templates'][$i]['description'] = 'tad_link_adm_main.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_link_form.tpl';
-$modversion['templates'][$i]['description'] = 'tad_link_form.tpl';
+$modversion['templates'][$i]['file'] = 'tad_link_admin.tpl';
+$modversion['templates'][$i]['description'] = 'tad_link_admin.tpl';
 
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_link_adm_power.tpl';
@@ -135,12 +131,3 @@ $modversion['config'][$i]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
 $modversion['config'][$i]['formtype'] = 'yesno';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '1';
-
-$i++;
-$modversion['config'][$i]['name'] = 'capture_from';
-$modversion['config'][$i]['title'] = '_MI_CAPTURE_FROM';
-$modversion['config'][$i]['description'] = '_MI_CAPTURE_FROM_DESC';
-$modversion['config'][$i]['formtype'] = 'select';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['options'] = ['capture.heartrails.com' => 'capture.heartrails.com', '120.115.2.78' => '120.115.2.78'];
-$modversion['config'][$i]['default'] = 'capture.heartrails.com';

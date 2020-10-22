@@ -11,5 +11,9 @@ function xoops_module_update_tad_link(&$module, $old_version)
 
     Update::chk_tad_link_block();
 
+    if (Update::chk_chk1()) {
+        Update::go_update1();
+    }
+
     return true;
 }

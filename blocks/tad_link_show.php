@@ -1,6 +1,6 @@
 <?php
 use XoopsModules\Tadtools\Utility;
-//區塊主函式 (最新好站連結(tad_link_show))
+//區塊主函式 (圖片連結(tad_link_show))
 function tad_link_show($options)
 {
     global $xoopsDB;
@@ -25,11 +25,15 @@ function tad_link_show($options)
 
     $block = [];
     $i = 0;
+    $myts = MyTextSanitizer::getInstance();
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $link_sn , $cate_sn , $link_title , $link_url , $link_desc , $link_sort , $link_counter , $unable_date , $uid , $post_date , $enable
         foreach ($all as $k => $v) {
             $$k = $v;
         }
+
+        $link_url = $myts->htmlSpecialChars($link_url);
+        $link_title = $myts->htmlSpecialChars($link_title);
 
         $val = ($options[5]) ? $link_url : $link_sn;
         $link_go = ($options[5]) ? $link_url : '' . XOOPS_URL . "/modules/tad_link/index.php?link_sn={$link_sn}";
@@ -116,7 +120,7 @@ function tad_link_show_edit($options)
             </div>
         </li>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADLINK_SHOW_EDIT_BITEM3 . "</lable>
+            <lable class='my-label'>" . _MB_TADLINK_TADLINK_LIST_TYPE . "</lable>
             <div class='my-content'>
                 <input type='radio' name='options[4]' value='new' $chked4_1>" . _MB_TADLINK_SHOW_EDIT_BITEM4 . "
                 <input type='radio' name='options[4]' value='rand' $chked4_0>" . _MB_TADLINK_SHOW_EDIT_BITEM5 . "

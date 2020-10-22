@@ -3,6 +3,8 @@ CREATE TABLE `tad_link_cate` (
   `of_cate_sn` smallint(5) unsigned NOT NULL COMMENT '父分類',
   `cate_title` varchar(255) NOT NULL COMMENT '分類標題',
   `cate_sort` smallint(5) unsigned NOT NULL COMMENT '分類排序',
+  `cate_bg` varchar(255) NOT NULL COMMENT '背景色',
+  `cate_color` varchar(255) NOT NULL COMMENT '文字顏色',
 PRIMARY KEY (`cate_sn`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

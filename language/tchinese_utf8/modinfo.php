@@ -9,10 +9,10 @@ define('_MI_TADLINK_ADMENU1', '主管理介面');
 define('_MI_TADLINK_ADMENU2', '分類設定');
 define('_MI_TADLINK_ADMENU3', '權限設定');
 define('_MI_TADLINK_TEMPLATE_DESC1', 'tad_link_index.html的樣板檔。');
-define('_MI_TADLINK_BNAME1', '最新好站連結');
-define('_MI_TADLINK_BDESC1', '最新好站連結(tad_link_show)');
-define('_MI_TADLINK_BNAME2', '好站推薦快速連結');
-define('_MI_TADLINK_BDESC2', '好站推薦快速連結(tad_link_all)');
+define('_MI_TADLINK_BNAME1', '圖片連結');
+define('_MI_TADLINK_BDESC1', '圖片連結(tad_link_show)');
+define('_MI_TADLINK_BNAME2', '文字連結');
+define('_MI_TADLINK_BDESC2', '文字連結(tad_link_all)');
 
 define('_MI_TADLINK_SHOW_NUM', '一次顯示幾個連結');
 define('_MI_TADLINK_SHOW_NUM_DESC', '首頁顯示連結的數量，作為分頁依據');

@@ -1,16 +1,17 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_link_adm_main.tpl';
+$xoopsOption['template_main'] = 'tad_link_admin.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
-$isAdmin = true;
 /*-----------function區--------------*/
 //列出所有tad_link資料
-function list_tad_link($cate_sn = '')
+function list_tad_link_data($cate_sn = '')
 {
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $g2p;
 
@@ -65,10 +66,10 @@ function list_tad_link_cate_tree($def_cate_sn = '')
     $path_arr = array_keys($path);
     $data[] = "{ id:0, pId:0, name:'All', url:'main.php', target:'_self', open:true}";
 
-    $sql = 'SELECT cate_sn,of_cate_sn,cate_title FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
+    $sql = 'SELECT cate_sn, of_cate_sn, cate_title, cate_bg, cate_color FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
-        $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
+    while (list($cate_sn, $of_cate_sn, $cate_title, $cate_bg, $cate_color) = $xoopsDB->fetchRow($result)) {
+        $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : ", font:{'background-color':'$cate_bg', 'color':'$cate_color'}";
         $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$cate_sn]) ? '' : " ({$cate_count[$cate_sn]})";
         $data[] = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'main.php?cate_sn={$cate_sn}', open: {$open} ,target:'_self' {$font_style}}";
@@ -99,18 +100,12 @@ function tad_link_cate_form($cate_sn = '')
     }
 
     //預設值設定
-
-    //設定「cate_sn」欄位預設值
     $cate_sn = (!isset($DBV['cate_sn'])) ? '' : $DBV['cate_sn'];
-
-    //設定「of_cate_sn」欄位預設值
     $of_cate_sn = (!isset($DBV['of_cate_sn'])) ? '' : $DBV['of_cate_sn'];
-
-    //設定「cate_title」欄位預設值
     $cate_title = (!isset($DBV['cate_title'])) ? '' : $DBV['cate_title'];
-
-    //設定「cate_sort」欄位預設值
     $cate_sort = (!isset($DBV['cate_sort'])) ? tad_link_cate_max_sort() : $DBV['cate_sort'];
+    $cate_bg = (!isset($DBV['cate_bg'])) ? '' : $DBV['cate_bg'];
+    $cate_color = (!isset($DBV['cate_color'])) ? '' : $DBV['cate_color'];
 
     $mod_id = $xoopsModule->getVar('mid');
     $modulepermHandler = xoops_getHandler('groupperm');
@@ -126,6 +121,8 @@ function tad_link_cate_form($cate_sn = '')
     $xoopsTpl->assign('cate_sn', $cate_sn);
     $xoopsTpl->assign('cate_sort', $cate_sort);
     $xoopsTpl->assign('cate_title', $cate_title);
+    $xoopsTpl->assign('cate_bg', $cate_bg);
+    $xoopsTpl->assign('cate_color', $cate_color);
     $xoopsTpl->assign('get_tad_link_cate_options', get_tad_link_cate_options('none', 'edit', $cate_sn, $of_cate_sn));
 
     //可上傳群組
@@ -133,6 +130,10 @@ function tad_link_cate_form($cate_sn = '')
     $SelectGroup_name->setExtra("class='form-control' id='tad_link_post'");
     $enable_post_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_post_group', $enable_post_group);
+
+    $MColorPicker = new MColorPicker('.color');
+    $MColorPicker->render();
+
 }
 
 //新增資料到tad_link_cate中
@@ -142,12 +143,14 @@ function insert_tad_link_cate()
 
     $myts = \MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($_POST['cate_title']);
+    $cate_bg = $myts->addSlashes($_POST['cate_bg']);
+    $cate_color = $myts->addSlashes($_POST['cate_color']);
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_link_cate') . "
-    (`of_cate_sn` , `cate_title` , `cate_sort`)
-    values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}')";
+    (`of_cate_sn` , `cate_title` , `cate_sort`, `cate_bg`, `cate_color`)
+    values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}', '{$cate_bg}', '{$cate_color}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
@@ -170,13 +173,17 @@ function update_tad_link_cate($cate_sn = '')
 
     $myts = \MyTextSanitizer::getInstance();
     $cate_title = $myts->addSlashes($_POST['cate_title']);
+    $cate_bg = $myts->addSlashes($_POST['cate_bg']);
+    $cate_color = $myts->addSlashes($_POST['cate_color']);
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
     $sql = 'update ' . $xoopsDB->prefix('tad_link_cate') . " set
-     `of_cate_sn` = '{$of_cate_sn}' ,
-     `cate_title` = '{$cate_title}' ,
-     `cate_sort` = '{$cate_sort}'
+    `of_cate_sn` = '{$of_cate_sn}' ,
+    `cate_title` = '{$cate_title}' ,
+    `cate_sort` = '{$cate_sort}',
+    `cate_bg` = '{$cate_bg}',
+    `cate_color` = '{$cate_color}'
     where cate_sn='$cate_sn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -205,11 +212,10 @@ function delete_tad_link_cate($cate_sn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$cate_sn = system_CleanVars($_REQUEST, 'cate_sn', 0, 'int');
-$link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
-$g2p = system_CleanVars($_REQUEST, 'g2p', 1, 'int');
+$op = Request::getString('op');
+$g2p = Request::getInt('g2p');
+$cate_sn = Request::getInt('cate_sn');
+$link_sn = Request::getInt('link_sn');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -219,18 +225,13 @@ switch ($op) {
         $cate_sn = insert_tad_link_cate();
         header("location: {$_SERVER['PHP_SELF']}?cate_sn=$cate_sn");
         exit;
-        break;
+
     //更新資料
     case 'update_tad_link_cate':
         update_tad_link_cate($cate_sn);
         header("location: {$_SERVER['PHP_SELF']}?cate_sn=$cate_sn");
         exit;
-        break;
-    //輸入表格
-    case 'tad_link_cate_form':
-        list_tad_link_cate_tree($cate_sn);
-        tad_link_cate_form($cate_sn);
-        break;
+
     //刪除資料
     case 'delete_tad_link_cate':
         delete_tad_link_cate($cate_sn);
@@ -243,13 +244,23 @@ switch ($op) {
         header("location: {$_SERVER['PHP_SELF']}?cate_sn=$cate_sn&g2p=$g2p");
         exit;
 
+    //輸入表格
+    case 'tad_link_cate_form':
+        list_tad_link_cate_tree($cate_sn);
+        tad_link_cate_form($cate_sn);
+        break;
+
     //預設動作
     default:
         list_tad_link_cate_tree($cate_sn);
-        list_tad_link($cate_sn);
+        list_tad_link_data($cate_sn);
+        $op = 'list_tad_link_data';
         break;
         /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_link/css/module.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/font-awesome/css/font-awesome.css');
+$xoopsTpl->assign('now_op', $op);
 require_once __DIR__ . '/footer.php';

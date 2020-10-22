@@ -87,7 +87,7 @@ function get_tad_link_cate($cate_sn = '')
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
 function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = '0', $default_of_cate_sn = '0', $unselect_level = '', $start_search_sn = '0', $level = 0)
 {
-    global $xoopsDB, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsModule;
 
     $post_cate_arr = chk_cate_power('tad_link_post');
 
@@ -106,7 +106,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $main = '';
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         // $tad_link_post = $modulepermHandler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
-        if (!$isAdmin and !in_array($cate_sn, $post_cate_arr)) {
+        if (!$_SESSION['tad_link_adm'] and !in_array($cate_sn, $post_cate_arr)) {
             continue;
         }
 
@@ -138,7 +138,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
 //連結內容格式化
 function mk_big_content($link_sn = null, $click_mode = 'normal', $link_cate_title = '', $link_url = '', $cate_sn = '', $cate_title = '', $link_desc = '', $link_counter = '')
 {
-    global $xoopsModuleConfig, $isAdmin, $xoopsTpl;
+    global $xoopsModuleConfig, $xoopsTpl;
 }
 
 //顯示圖片
@@ -159,17 +159,9 @@ function get_show_pic($link_sn, $mode = 'thumb')
     }
     get_pic($link_sn);
     if ('thumb' === $mode) {
-        if ('120.115.2.78' === $xoopsModuleConfig['capture_from']) {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=120&h=90" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
-        } else {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
-        }
+        $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
     } else {
-        if ('120.115.2.78' === $xoopsModuleConfig['capture_from']) {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
-        } else {
-            $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
-        }
+        $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
     }
 
     return $empty;
@@ -196,12 +188,7 @@ function get_pic($link_sn = '')
         }
     } else {
         $link = get_tad_link($link_sn);
-
-        if ('120.115.2.78' === $xoopsModuleConfig['capture_from']) {
-            copyemz("http://120.115.2.78/img.php?url={$link['link_url']}&w=400&h=300", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
-        } else {
-            copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
-        }
+        copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
     }
     tad_link_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
 }
@@ -337,9 +324,9 @@ function tad_link_cate_max_sort($of_cate_sn = '0')
 //刪除tad_link某筆資料資料
 function delete_tad_link($link_sn = '')
 {
-    global $xoopsDB, $isAdmin, $now_uid;
+    global $xoopsDB, $now_uid;
 
-    $and_uid = $isAdmin ? '' : "and uid='{$now_uid}'";
+    $and_uid = $_SESSION['tad_link_adm'] ? '' : "and uid='{$now_uid}'";
     $sql = 'delete from ' . $xoopsDB->prefix('tad_link') . " where link_sn='$link_sn' {$and_uid}";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
@@ -380,17 +367,17 @@ function getItem_Permissions($itemid, $gperm_name)
 //判斷某人在哪些類別中有發表(post)的權利
 function chk_cate_power($kind = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsUser, $xoopsModule;
     $module_id = $xoopsModule->getVar('mid');
     if (!empty($xoopsUser)) {
-        if ($isAdmin) {
+        if ($_SESSION['tad_link_adm']) {
             $ok_cat[] = '0';
         }
         $user_array = $xoopsUser->getGroups();
         $gsn_arr = implode(',', $user_array);
     } else {
         $user_array = [3];
-        $isAdmin = 0;
+        $_SESSION['tad_link_adm'] = 0;
         $gsn_arr = 3;
     }
 
