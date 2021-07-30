@@ -66,7 +66,7 @@
             <{$smarty.const._MD_TADLINK_SHOW_CATE}><{$smarty.const._TAD_FOR}>
         </div>
         <div class="col-sm-6">
-            <select name="show_cate_sn" class="form-control" id="show_cate_sn" onChange="location.href='index.php?mode=batch&cate_sn='+this.value;">
+            <select name="show_cate_sn" class="form-control" id="show_cate_sn" onChange="location.href='index.php?mode=batch&cate_sn='+this.value;" title="select site">
                 <option value="" ></option>
                 <{$get_tad_link_cate_options}>
             </select>

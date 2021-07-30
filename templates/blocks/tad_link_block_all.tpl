@@ -17,7 +17,7 @@
     <{/foreach}>
 <{else}>
     <{foreach from=$block.data item=cate}>
-        <select onChange="<{$cate.link_js}>" style='background-color: <{$cate.cate_bg}>;color: <{$cate.cate_color}>;' class="form-control">
+        <select onChange="<{$cate.link_js}>" style='background-color: <{$cate.cate_bg}>;color: <{$cate.cate_color}>;' class="form-control" title="select kind">
             <option value=""><{$cate.cate_title}></option>
             <{foreach from=$cate.item item=link}>
                 <option value='<{$link.val}>'>

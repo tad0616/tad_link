@@ -1,3 +1,7 @@
+Tad Link 3.1 (released 2021-07-30)
+=================================================
+1.Compliant with 2021/07 AA accessibility standard
+
 Tad Link 3.0 (Released on 2020-10-21)
 =================================================
 1. Fix the incorrect block style problem.
