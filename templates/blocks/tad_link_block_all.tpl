@@ -8,8 +8,7 @@
             <{foreach from=$cate.item item=link}>
                 <li>
                     <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                    <a href="<{$link.val}>" target="_blank">
-                    <{$link.link_title}></a>
+                    <a href="<{$link.val}>" target="_blank"><{if $link.link_title}><{$link.link_title}><{else}><{$link.val}><{/if}></a>
                 </li>
             <{/foreach}>
             </ul>
@@ -17,7 +16,7 @@
     <{/foreach}>
 <{else}>
     <{foreach from=$block.data item=cate}>
-        <select onChange="<{$cate.link_js}>" style='background-color: <{$cate.cate_bg}>;color: <{$cate.cate_color}>;' class="form-control" title="select kind">
+        <select onChange="<{$cate.link_js}>" style='background-color: <{$cate.cate_bg}>;color: <{$cate.cate_color}>;' class="form-control" title="select cate">
             <option value=""><{$cate.cate_title}></option>
             <{foreach from=$cate.item item=link}>
                 <option value='<{$link.val}>'>
