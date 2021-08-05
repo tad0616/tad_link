@@ -1,7 +1,7 @@
 <div class="well card card-body bg-light m-1">
     <div class="row">
         <div class="col-sm-5">
-            <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" border=0><img src="<{$pic}>" class="img-fluid img-responsive" alt="<{$cate_title}>"></a>
+            <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank"><img src="<{$pic}>" class="img-fluid img-responsive" alt="<{$cate_title}> pic"><span class="sr-only">title:<{$cate_title}></span></a>
         </div>
         <div class="col-sm-7">
             <h2><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title}><{$link_title}><{else}><{$link_url}><{/if}></a></h2>
