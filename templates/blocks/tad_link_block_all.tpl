@@ -1,7 +1,7 @@
 <{if $block.display_type=='list'}>
     <{foreach from=$block.data item=cate}>
         <{if $cate.item}>
-            <{if $block.show_title=='1'}>
+            <{if $block.show_title=='1' && $cate.cate_title}>
                 <h4><a href="<{$xoops_url}>/modules/tad_link/index.php?cate_sn=<{$cate.cate_sn}>" style="text-shadow:1px 1px 1px #aaaaaa;"><{$cate.cate_title}></a></h4>
             <{/if}>
             <ul class="vertical_menu">
