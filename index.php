@@ -311,7 +311,42 @@ function go_url($link_sn)
 
     $myts = MyTextSanitizer::getInstance();
     $link_url = $myts->htmlSpecialChars($link_url);
-    header("location:{$data['link_url']}");
+    $force_mimetype_arr = ['.pdf' => 'application/pdf', '.mp3' => 'audio/mp3', '.mp4' => 'video/mp4'];
+    $force_arr = array_keys($force_mimetype_arr);
+    $ext = strtolower(substr($data['link_url'], -4));
+    if (in_array($ext, $force_arr)) {
+        $file_display = basename($data['link_url']);
+        $pos = strpos($file_display, '#');
+        if ($pos !== false) {
+            $pos++;
+            $file_display = substr($file_display, $pos);
+        }
+        header('Expires: 0');
+        header('Content-Type: ' . $force_mimetype_arr[$ext]);
+        if (preg_match("/MSIE ([0-9]\.[0-9]{1,2})/", $_SERVER['HTTP_USER_AGENT'])) {
+            header('Content-Disposition: inline; filename="' . $file_display . '"');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+        } else {
+            header('Content-Disposition: attachment; filename="' . $file_display . '"');
+            header('Pragma: no-cache');
+        }
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($data['link_url']));
+
+        ob_clean();
+        $handle = fopen($data['link_url'], 'rb');
+
+        set_time_limit(0);
+        while (!feof($handle)) {
+            echo fread($handle, 4096);
+            flush();
+        }
+        fclose($handle);
+    } else {
+        header("location:{$data['link_url']}");
+
+    }
     exit;
 }
 
