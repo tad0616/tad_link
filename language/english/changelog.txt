@@ -1,3 +1,7 @@
+Tad Link 3.3 (2021-08-24 釋出)
+====================================
+1.Search function security correction
+
 Tad Link 3.2 (released 2021-08-22)
 ====================================
 1.Revised for the new version of AA Accessibility Standard 2021/07

@@ -170,7 +170,6 @@ function get_show_pic($link_sn, $mode = 'thumb')
 //遠端擷取圖片
 function get_pic($link_sn = '')
 {
-    global $xoopsModuleConfig;
     if ($_FILES) {
         require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
 
@@ -188,60 +187,18 @@ function get_pic($link_sn = '')
         }
     } else {
         $link = get_tad_link($link_sn);
-        copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
+        Utility::copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
     }
     tad_link_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
-}
-
-//複製檔案
-function copyemz($file1, $file2)
-{
-    $contentx = @vita_get_url_content($file1);
-    $openedfile = fopen($file2, 'wb');
-    fwrite($openedfile, $contentx);
-    fclose($openedfile);
-    if (false === $contentx) {
-        $status = false;
-    } else {
-        $status = true;
-    }
-
-    return $status;
-}
-
-//遠端取得資料
-function vita_get_url_content($url)
-{
-    if (function_exists('curl_init')) {
-        $ch = curl_init();
-        $timeout = 5;
-        // if (substr($url, 0, 5) == 'https') {
-        //     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // 信任任何证书
-        //     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        //     curl_setopt($ch, CURLOPT_SSLVERSION, 1);
-        //     curl_setopt($ch, CURLOPT_HEADER, true);
-        // }
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $file_contents = curl_exec($ch);
-        curl_close($ch);
-    } elseif (function_exists('file_get_contents')) {
-        $file_contents = file_get_contents($url);
-    }
-
-    return $file_contents;
 }
 
 //做縮圖
 function tad_link_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '120')
 {
-    // die($filename);
     if (!file_exists($filename)) {
         return;
     }
-    // ini_set('memory_limit', '50M');
-    // Get new sizes
+
     list($old_width, $old_height) = getimagesize($filename);
     if (empty($old_width) or empty($old_height)) {
         return;
