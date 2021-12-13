@@ -20,13 +20,13 @@
 
 <div class="well card card-body bg-light m-1">
     <form action="index.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <div class="col-sm-12">
                 <input type="text" name="link_url" id="LinkUrl" style="font-size: 1.5rem;" class="validate[required,custom[url]] form-control" placeholder="http://<{$smarty.const._MD_TADLINK_LINK_URL}>" value="<{$link_url}>">
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <div class="col-sm-6">
                 <input type="text" name="link_title" id="LinkTitle" class="validate[required] form-control" placeholder="<{$smarty.const._MD_TADLINK_LINK_TITLE}>" value="<{$link_title}>">
             </div>
@@ -39,7 +39,7 @@
         </div>
 
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <{if $get_tad_link_cate_options}>
                 <div class="col-sm-6">
                     <select name="cate_sn" size=1 id="cate_sn" class="form-control">
@@ -61,7 +61,7 @@
             <{/if}>
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <div class="col-sm-6">
                 <textarea name="link_desc" class="form-control" rows=3 id="LinkDesc" placeholder="<{$smarty.const._MD_TADLINK_LINK_DESC}>"><{$link_desc}></textarea>
             </div>

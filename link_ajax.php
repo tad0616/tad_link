@@ -1,9 +1,10 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 
 $myts = \MyTextSanitizer::getInstance();
-$url = $myts->addSlashes($_POST['url']);
+$url = $myts->addSlashes(Request::getString('url'));
 
 $date['metaTags']['description']['value'] = $date['title'] = '';
 if (!empty($url)) {

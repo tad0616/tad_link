@@ -1,4 +1,9 @@
-Tad Link 3.3 (2021-08-24 釋出)
+Tad Link 3.4 (released 2021-12-13)
+====================================
+1.Streamline the code
+2.Support Bootstrap5
+
+Tad Link 3.3 (released 2021-08-24)
 ====================================
 1.Search function security correction
 

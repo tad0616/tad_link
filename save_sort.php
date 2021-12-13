@@ -1,7 +1,9 @@
 <?php
+use Xmf\Request;
 require_once __DIR__ . '/header.php';
 require_once __DIR__ . '/function.php';
-$updateRecordsArray = $_POST['tr'];
+
+$updateRecordsArray = Request::getArray('tr');
 
 $sort = 1;
 foreach ($updateRecordsArray as $link_sn) {

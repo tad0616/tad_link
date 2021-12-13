@@ -62,7 +62,7 @@
     </script>
 
     <div class="row">
-        <div class="col-sm-2 text-right">
+        <div class="col-sm-2 text-right text-end">
             <{$smarty.const._MD_TADLINK_SHOW_CATE}><{$smarty.const._TAD_FOR}>
         </div>
         <div class="col-sm-6">
@@ -144,7 +144,7 @@
                 <{foreach item=link from=$all_content}>
                     <div class="row" id="link<{$link.link_sn}>" style="margin:10px 0px; padding:10px 0px; border-bottom: 1px dotted #cfcfcf;">
                         <div class="col-sm-3 text-center">
-                            <a href="<{$link.pic}>" class="fancybox" title="<{$link.link_title}>"><img src="<{$link.thumb}>" alt="<{$link.link_title}> pic"><span class="sr-only"><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></span></a>
+                            <a href="<{$link.pic}>" class="fancybox" title="<{$link.link_title}>"><img src="<{$link.thumb}>" alt="<{$link.link_title}> pic"><span class="sr-only visually-hidden"><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></span></a>
                         </div>
 
                         <div class="col-sm-9">

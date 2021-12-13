@@ -96,6 +96,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $xoopsTpl->assign('count', ++$i);
 
     $FancyBox = new FancyBox('.fancybox');
+    $FancyBox->set_type('image');
     $FancyBox->render();
 
     $path = get_tad_link_cate_path($show_cate_sn);

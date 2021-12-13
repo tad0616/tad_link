@@ -2,7 +2,7 @@
 <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
     <div class="row">
         <div class="col-sm-6">
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-4 control-label col-form-label text-sm-right">
                     <{$smarty.const._MA_TADLINK_OF_CATE_SN}>
                 </label>
@@ -13,7 +13,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-4 control-label col-form-label text-sm-right">
                     <{$smarty.const._MA_TADLINK_CATE_TITLE}>
                 </label>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-4 control-label col-form-label text-sm-right">
                     <{$smarty.const._MA_TADLINK_CATE_BG}>
                 </label>
@@ -30,7 +30,7 @@
                     <input type="text" name="cate_bg" class="form-control color" value="<{$cate_bg}>" id="cate_bg" data-text="hidden" data-hex="true">
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-4 control-label col-form-label text-sm-right">
                     <{$smarty.const._MA_TADLINK_CATE_COLOR}>
                 </label>
