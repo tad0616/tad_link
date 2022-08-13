@@ -1,3 +1,8 @@
+Tad Link 3.5 (2released 022-08-13)
+====================================
+1. CSS reduce the introduction of external style files
+2. Fixed font
+
 Tad Link 3.4 (released 2021-12-13)
 ====================================
 1.Streamline the code
