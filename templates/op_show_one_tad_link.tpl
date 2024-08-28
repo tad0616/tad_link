@@ -31,4 +31,3 @@
 </div>
 
 <div style="margin:8px;text-align:right;"><{$push_url}></div>
-<{$facebook_comments}>

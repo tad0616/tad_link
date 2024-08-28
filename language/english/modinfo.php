@@ -15,8 +15,6 @@ define('_MI_TADLINK_BDESC2', 'Quick Links (tad_link_all)');
 
 define('_MI_TADLINK_SHOW_NUM', 'Links per Page');
 define('_MI_TADLINK_SHOW_NUM_DESC', 'Number of links displayed on a page (pagination)');
-define('_MI_TADLINK_SHOW_FACEBOOK', 'Use Facebook Message System Tools');
-define('_MI_TADLINK_SHOW_FACEBOOK_DESC', 'Set the "Link detail page" whether to show Facebook Message Tools');
 define('_MI_TADLINK_SHOW_PUSH', 'Use Tweets Tools');
 define('_MI_TADLINK_SHOW_PUSH_DESC', 'Set in the "Link detail page" whether to show Tweets Tools');
 define('_MI_TADLINK_PIC_WIDTH', 'Picture width');

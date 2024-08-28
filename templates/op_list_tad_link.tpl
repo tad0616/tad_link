@@ -181,6 +181,6 @@
     <{/if}>
 
     <{if $post_cate_arr or $smarty.session.tad_link_adm}>
-        <{includeq file="$xoops_rootpath/modules/tad_link/templates/op_tad_link_form.tpl"}>
+        <{include file="$xoops_rootpath/modules/tad_link/templates/op_tad_link_form.tpl"}>
     <{/if}>
 <{/if}>

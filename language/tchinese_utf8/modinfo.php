@@ -16,8 +16,6 @@ define('_MI_TADLINK_BDESC2', '文字連結(tad_link_all)');
 
 define('_MI_TADLINK_SHOW_NUM', '一次顯示幾個連結');
 define('_MI_TADLINK_SHOW_NUM_DESC', '首頁顯示連結的數量，作為分頁依據');
-define('_MI_TADLINK_SHOW_FACEBOOK', '是否使用facebook留言系統工具');
-define('_MI_TADLINK_SHOW_FACEBOOK_DESC', '設定在「連結的詳細頁面」是否出現facebook留言工具');
 define('_MI_TADLINK_SHOW_PUSH', '是否秀出推文工具');
 define('_MI_TADLINK_SHOW_PUSH_DESC', '設定在「連結的詳細頁面」是否秀出推文工具');
 define('_MI_TADLINK_PIC_WIDTH', '大圖寬度');

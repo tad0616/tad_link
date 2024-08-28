@@ -128,10 +128,9 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 //以流水號秀出某筆tad_link資料內容
 function show_one_tad_link($link_sn = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $xoopsUser, $now_uid;
-    $push_url = $facebook_comments = '';
+    global $xoopsModuleConfig, $xoopsTpl, $now_uid;
+    $push_url = '';
     $push_url = Utility::push_url($xoopsModuleConfig['use_social_tools']);
-    $facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_link', 'index.php', 'link_sn', $link_sn);
 
     $width = empty($xoopsModuleConfig['pic_width']) ? 400 : $xoopsModuleConfig['pic_width'];
     $width_div = $width + 10;
@@ -162,7 +161,6 @@ function show_one_tad_link($link_sn = '')
     $xoopsTpl->assign('cate_sn', $cate_sn);
     $xoopsTpl->assign('uid', $uid);
     $xoopsTpl->assign('link_counter', $link_counter);
-    $xoopsTpl->assign('facebook_comments', $facebook_comments);
     $xoopsTpl->assign('push_url', $push_url);
     $xoopsTpl->assign('op', 'show_one_tad_link');
 
@@ -182,7 +180,7 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
     }
     $of_cate_sn = (int) $of_cate_sn;
     $myts = \MyTextSanitizer::getInstance();
-    $cate_title = $myts->addSlashes($cate_title);
+    $cate_title = $xoopsDB->escape($cate_title);
     $cate_sort = tad_link_cate_max_sort($of_cate_sn);
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_link_cate') . "
@@ -201,11 +199,11 @@ function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser;
     $myts = \MyTextSanitizer::getInstance();
-    $link_title = $myts->addSlashes($_POST['link_title']);
-    $link_url = $myts->addSlashes($_POST['link_url']);
-    $link_desc = $myts->addSlashes($_POST['link_desc']);
-    $new_cate = $myts->addSlashes($_POST['new_cate']);
-    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $myts->addSlashes($_POST['unable_date']);
+    $link_title = $xoopsDB->escape($_POST['link_title']);
+    $link_url = $xoopsDB->escape($_POST['link_url']);
+    $link_desc = $xoopsDB->escape($_POST['link_desc']);
+    $new_cate = $xoopsDB->escape($_POST['new_cate']);
+    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $xoopsDB->escape($_POST['unable_date']);
     $enable = (int) $_POST['enable'];
     $cate_sn = (int) $_POST['cate_sn'];
 
@@ -254,11 +252,11 @@ function update_tad_link($link_sn = '')
 {
     global $xoopsDB, $xoopsUser;
     $myts = \MyTextSanitizer::getInstance();
-    $link_title = $myts->addSlashes($_POST['link_title']);
-    $link_url = $myts->addSlashes($_POST['link_url']);
-    $link_desc = $myts->addSlashes($_POST['link_desc']);
-    $new_cate = $myts->addSlashes($_POST['new_cate']);
-    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $myts->addSlashes($_POST['unable_date']);
+    $link_title = $xoopsDB->escape($_POST['link_title']);
+    $link_url = $xoopsDB->escape($_POST['link_url']);
+    $link_desc = $xoopsDB->escape($_POST['link_desc']);
+    $new_cate = $xoopsDB->escape($_POST['new_cate']);
+    $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $xoopsDB->escape($_POST['unable_date']);
     $enable = (int) $_POST['enable'];
     $cate_sn = (int) $_POST['cate_sn'];
 

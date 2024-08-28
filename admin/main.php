@@ -142,9 +142,9 @@ function insert_tad_link_cate()
     global $xoopsDB, $xoopsUser;
 
     $myts = \MyTextSanitizer::getInstance();
-    $cate_title = $myts->addSlashes($_POST['cate_title']);
-    $cate_bg = $myts->addSlashes($_POST['cate_bg']);
-    $cate_color = $myts->addSlashes($_POST['cate_color']);
+    $cate_title = $xoopsDB->escape($_POST['cate_title']);
+    $cate_bg = $xoopsDB->escape($_POST['cate_bg']);
+    $cate_color = $xoopsDB->escape($_POST['cate_color']);
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
@@ -172,9 +172,9 @@ function update_tad_link_cate($cate_sn = '')
     global $xoopsDB, $xoopsUser;
 
     $myts = \MyTextSanitizer::getInstance();
-    $cate_title = $myts->addSlashes($_POST['cate_title']);
-    $cate_bg = $myts->addSlashes($_POST['cate_bg']);
-    $cate_color = $myts->addSlashes($_POST['cate_color']);
+    $cate_title = $xoopsDB->escape($_POST['cate_title']);
+    $cate_bg = $xoopsDB->escape($_POST['cate_bg']);
+    $cate_color = $xoopsDB->escape($_POST['cate_color']);
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
