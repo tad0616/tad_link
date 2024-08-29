@@ -4,6 +4,7 @@ Tad Link 4.0 (尚未釋出)
 2.支援PHP8.3
 3.用$xoopsDB->escape()取代$myts->addSlashes()
 4.移除facebook留言功能
+5.移除訪客的發布權限設定
 
 
 Tad Link 3.5 (2022-08-13 釋出)

@@ -22,7 +22,7 @@ while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
 
 $perm_desc = '';
 
-$formi = new \XoopsGroupPermForm('', $module_id, 'tad_link_post', $perm_desc);
+$formi = new \XoopsGroupPermForm('', $module_id, 'tad_link_post', $perm_desc, null, false);
 foreach ($item_list as $item_id => $item_name) {
     $formi->addItem($item_id, $item_name);
 }

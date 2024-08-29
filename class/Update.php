@@ -26,6 +26,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 class Update
 {
+    // 移除訪客的發布權限設定
+    public static function remove_guest_power()
+    {
+        global $xoopsDB;
+        $sql = 'DELETE FROM `' . $xoopsDB->prefix('group_permission') . "`
+        WHERE `gperm_name` = 'tad_link_post' AND  `gperm_groupid` = 3";
+        $xoopsDB->query($sql);
+
+    }
+
     //刪除錯誤的重複欄位及樣板檔
     public static function chk_tad_link_block()
     {
