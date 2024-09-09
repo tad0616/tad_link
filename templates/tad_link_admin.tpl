@@ -1,8 +1,10 @@
 <div class="row">
-    <div class="col-sm-3 d-grid gap-2">
+    <div class="col-sm-3">
         <div id="save_msg"></div>
         <{$ztree_code}>
-        <a href="main.php?op=tad_link_cate_form" class="btn btn-info btn-block"><{$smarty.const._TAD_ADD}></a>
+        <div class="d-grid gap-2">
+            <a href="main.php?op=tad_link_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADLINK_ADD_CATE}></a>
+        </div>
     </div>
     <div class="col-sm-9">
 

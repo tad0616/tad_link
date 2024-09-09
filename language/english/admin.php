@@ -7,6 +7,8 @@ define('_MA_TADLINK_OF_CATE_SN', 'Parent category');
 define('_MA_TADLINK_CATE_TITLE', 'Category Title');
 define('_MA_TADLINK_CATE_SORT', 'Sorting');
 define('_MA_TADLINK_CATE_FORM', 'Category Management');
+define('_MA_TADLINK_CATE_ROOT', 'All Categories');
+define('_MA_TADLINK_ADD_CATE', 'New Category');
 
 //index.php
 define('_MA_TADLINK_LINK_SN', 'Link number');
@@ -27,3 +29,4 @@ define('_MA_TADLINK_EMPTY', 'Empty');
 define('_MA_TADLINK_SET_POST_POWER', 'Post Groups');
 define('_MA_TADLINK_CATE_BG', 'Category Background Color');
 define('_MA_TADLINK_CATE_COLOR', 'Category Text Color');
+define('_MA_TADLINK_NEED_CATE', 'Please create a category before you can set the permission.');

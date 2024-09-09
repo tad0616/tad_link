@@ -34,3 +34,4 @@ define('_MD_TADLINK_BACK', 'Back');
 define('_MD_TADLINK_SELECT_ALL', 'Select');
 define('_MD_TADLINK_DRAG_SORT', 'Sort by Directly drag');
 define('_MD_TADLINK_UNCATEGORIZED', 'uncategorized');
+define('_MD_TADLINK_CATE_ROOT', 'All Categories');

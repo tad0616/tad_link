@@ -105,7 +105,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $count = tad_link_cate_count();
-    $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
+    $data[] = "{ id:0, pId:0, name:'" . _MD_TADLINK_CATE_ROOT . "', url:'index.php', target:'_self', open:true}";
     while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         $font_style = $show_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
@@ -173,13 +173,12 @@ function show_one_tad_link($link_sn = '')
 //新增資料到tad_link_cate中
 function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB;
 
     if (!$_SESSION['tad_link_adm']) {
         return;
     }
     $of_cate_sn = (int) $of_cate_sn;
-    $myts = \MyTextSanitizer::getInstance();
     $cate_title = $xoopsDB->escape($cate_title);
     $cate_sort = tad_link_cate_max_sort($of_cate_sn);
 
@@ -198,7 +197,6 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser;
-    $myts = \MyTextSanitizer::getInstance();
     $link_title = $xoopsDB->escape($_POST['link_title']);
     $link_url = $xoopsDB->escape($_POST['link_url']);
     $link_desc = $xoopsDB->escape($_POST['link_desc']);
@@ -251,7 +249,6 @@ function tad_link_max_sort()
 function update_tad_link($link_sn = '')
 {
     global $xoopsDB, $xoopsUser;
-    $myts = \MyTextSanitizer::getInstance();
     $link_title = $xoopsDB->escape($_POST['link_title']);
     $link_url = $xoopsDB->escape($_POST['link_url']);
     $link_desc = $xoopsDB->escape($_POST['link_desc']);

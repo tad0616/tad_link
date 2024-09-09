@@ -7,6 +7,8 @@ define('_MA_TADLINK_OF_CATE_SN', '父分類');
 define('_MA_TADLINK_CATE_TITLE', '分類標題');
 define('_MA_TADLINK_CATE_SORT', '分類排序');
 define('_MA_TADLINK_CATE_FORM', '分類管理');
+define('_MA_TADLINK_CATE_ROOT', '所有分類');
+define('_MA_TADLINK_ADD_CATE', '新增分類');
 
 //index.php
 define('_MA_TADLINK_LINK_SN', '連結編號');
@@ -27,3 +29,4 @@ define('_MA_TADLINK_EMPTY', '尚無資料');
 define('_MA_TADLINK_SET_POST_POWER', '可發布群組');
 define('_MA_TADLINK_CATE_BG', '分類背景顏色');
 define('_MA_TADLINK_CATE_COLOR', '分類文字顏色');
+define('_MA_TADLINK_NEED_CATE', '請先建立分類，始能設定權限');

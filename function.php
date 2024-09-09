@@ -159,9 +159,9 @@ function get_show_pic($link_sn, $mode = 'thumb')
     }
     get_pic($link_sn);
     if ('thumb' === $mode) {
-        $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
+        $empty = ($xoopsModuleConfig['direct_link']) ? "https://capture.heartrails.com/120x90/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_thumb.png';
     } else {
-        $empty = ($xoopsModuleConfig['direct_link']) ? "http://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
+        $empty = ($xoopsModuleConfig['direct_link']) ? "https://capture.heartrails.com/400x300/border?{$link['link_url']}" : XOOPS_URL . '/modules/tad_link/images/pic_big.png';
     }
 
     return $empty;
@@ -187,7 +187,7 @@ function get_pic($link_sn = '')
         }
     } else {
         $link = get_tad_link($link_sn);
-        Utility::copyemz("http://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
+        Utility::copyemz("https://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
     }
     tad_link_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
 }
@@ -299,7 +299,7 @@ function saveItem_Permissions($groups, $itemid, $perm_name)
     $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
 
     // Save the new permissions
-    if (count($groups) > 0) {
+    if (is_array($groups) && count($groups) > 0) {
         foreach ($groups as $group_id) {
             $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
         }

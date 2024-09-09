@@ -6,12 +6,12 @@
                 var obj = $.parseJSON(data);
                 $('#LinkTitle').val(obj.title);
                 $('#LinkDesc').val(obj.description);
-                $('#thumb').attr("src","http://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
+                $('#thumb').attr("src","https://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
             });
         });
 
         $('#thumb').click(function() {
-            $('#thumb').attr("src","http://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
+            $('#thumb').attr("src","https://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
         });
     });
 </script>
@@ -22,7 +22,7 @@
     <form action="index.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
         <div class="form-group row mb-3">
             <div class="col-sm-12">
-                <input type="text" name="link_url" id="LinkUrl" style="font-size: 1.5rem;" class="validate[required,custom[url]] form-control" placeholder="http://<{$smarty.const._MD_TADLINK_LINK_URL}>" value="<{$link_url}>">
+                <input type="text" name="link_url" id="LinkUrl" style="font-size: 1.5rem;" class="validate[required,custom[url]] form-control" placeholder="https://<{$smarty.const._MD_TADLINK_LINK_URL}>" value="<{$link_url}>">
             </div>
         </div>
 
