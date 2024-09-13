@@ -116,12 +116,12 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 
     $path = get_tad_link_cate_path($def_cate_sn);
     $path_arr = array_keys($path);
-    $data[] = "{ id:0, pId:0, name:'" . _MA_TADLINK_CATE_ROOT . "', url:'main.php', target:'_self', open:true}";
+    $data[] = "{ id:0, pId:0, name:'" . _MA_TADLINK_CATE_ROOT . "', url:'main.php', target:'_self', open:true, font:{'font-size': '0.8rem', 'height': '1.3rem'}}";
 
     $sql = 'SELECT cate_sn, of_cate_sn, cate_title, cate_bg, cate_color FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($cate_sn, $of_cate_sn, $cate_title, $cate_bg, $cate_color) = $xoopsDB->fetchRow($result)) {
-        $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black', 'font-size': '0.825rem', 'margin': '2px 0px'}" : ", font:{'background-color':'$cate_bg', 'color':'$cate_color', 'font-size': '0.825rem', 'margin': '2px 0px'}";
+        $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black', 'font-size': '0.8rem', 'height': '1.3rem'}" : ", font:{'background-color':'$cate_bg', 'color':'$cate_color', 'font-size': '0.8rem', 'height': '1.3rem'}";
         $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$cate_sn]) ? '' : " ({$cate_count[$cate_sn]})";
         $data[] = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'main.php?cate_sn={$cate_sn}', open: {$open} ,target:'_self' {$font_style}}";
