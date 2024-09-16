@@ -105,7 +105,7 @@
                                     <span style="font-size: 0.75rem;"><{$link.link_url}></span>
                                     <span class="badge badge-info"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
 
-                                    <{if $link.overdue}>
+                                    <{if $link.overdue|default:false}>
                                         <span class="badge badge-important"><{$smarty.const._MD_TADLINK_OVERDUE}></span>
                                     <{/if}>
 
@@ -127,15 +127,15 @@
     </div>
 <{else}>
 
-    <{if $all_content}>
+    <{if $all_content|default:false}>
 
-        <h2><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h2>
+        <h2><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h2>
         <div class="row">
             <div class="col-sm-3">
                 <{$ztree_code}>
                 <{if $smarty.session.tad_link_adm and $show_cate_sn!=""}>
                     <div class="text-center">
-                        <a href="index.php?mode=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
+                        <a href="index.php?mode=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
                     </div>
                 <{/if}>
             </div>
@@ -144,7 +144,7 @@
                 <{foreach item=link from=$all_content}>
                     <div class="row" id="link<{$link.link_sn}>" style="margin:10px 0px; padding:10px 0px; border-bottom: 1px dotted #cfcfcf;">
                         <div class="col-sm-3 text-center">
-                            <a href="<{$link.pic}>" class="fancybox" title="<{$link.link_title}>"><img src="<{$link.thumb}>" alt="<{$link.link_title}> pic"><span class="sr-only visually-hidden"><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></span></a>
+                            <a href="<{$link.pic}>" class="fancybox" title="<{$link.link_title}>"><img src="<{$link.thumb}>" alt="<{$link.link_title}> pic"><span class="sr-only visually-hidden"><{if $link.link_title|default:false}><{$link.link_title}><{else}><{$link.link_url}><{/if}></span></a>
                         </div>
 
                         <div class="col-sm-9">
@@ -157,7 +157,7 @@
                             <{/if}>
 
                             <div style="font-size: 1.5rem;">
-                                <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{if $link.link_title}><{$link.link_title}><{else}><{$link.link_url}><{/if}></a>
+                                <a href="index.php?link_sn=<{$link.link_sn}>" <{$link.js_class}>><{if $link.link_title|default:false}><{$link.link_title}><{else}><{$link.link_url}><{/if}></a>
                             </div>
 
                             <div style="font-size: 0.75rem; margin: 10px 0px;">

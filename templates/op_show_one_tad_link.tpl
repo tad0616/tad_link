@@ -4,7 +4,7 @@
             <a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank"><img src="<{$pic}>" class="img-fluid img-responsive" alt="<{$cate_title}> pic"><span class="sr-only visually-hidden">title:<{$cate_title}></span></a>
         </div>
         <div class="col-sm-7">
-            <h2><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title}><{$link_title}><{else}><{$link_url}><{/if}></a></h2>
+            <h2><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" style="text-decoration:none;"><{if $link_title|default:false}><{$link_title}><{else}><{$link_url}><{/if}></a></h2>
 
             <{$smarty.const._MD_TADLINK_LINK_URL}><{$smarty.const._TAD_FOR}><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" ><{$link_url}></a>
             <div class="row">
@@ -22,7 +22,7 @@
             </div>
             <p style="margin: 20px auto;" class="d-grid gap-2"><a href="index.php?op=go&link_sn=<{$link_sn}>" target="_blank" class="btn btn-primary btn-block"><{$smarty.const._MD_TADLINK_GOTO_LINK}><{$link_url}></a></p>
 
-            <{if $link_desc}>
+            <{if $link_desc|default:false}>
                 <hr>
                 <{$link_desc}>
             <{/if}>

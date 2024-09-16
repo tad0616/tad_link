@@ -1,4 +1,4 @@
-<{if $data}>
+<{if $data|default:false}>
     <form action="main.php" method="post" role="form">
         <table class="table table-striped table-bordered">
             <tr>

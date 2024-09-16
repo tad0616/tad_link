@@ -1,7 +1,7 @@
 <h2 class="my"><{$cate_title}> <{$smarty.const._MA_TADLINK_CATE_FORM}></h2>
 <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form">
     <div class="row">
-        <{if $get_tad_link_cate_options}>
+        <{if $get_tad_link_cate_options|default:false}>
             <div class="col-sm-2">
                 <div class="form-group mb-3">
                     <label class="form-label">

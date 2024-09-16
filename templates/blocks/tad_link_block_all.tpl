@@ -1,6 +1,6 @@
 <{if $block.display_type=='list'}>
     <{foreach from=$block.data item=cate}>
-        <{if $cate.item}>
+        <{if $cate.item|default:false}>
             <{if $block.show_title=='1' && $cate.cate_title}>
                 <h4><a href="<{$xoops_url}>/modules/tad_link/index.php?cate_sn=<{$cate.cate_sn}>" style="text-shadow:1px 1px 1px #aaaaaa;"><{$cate.cate_title}></a></h4>
             <{/if}>
@@ -8,7 +8,7 @@
             <{foreach from=$cate.item item=link}>
                 <li>
                     <i class="fa fa-external-link-square" aria-hidden="true"></i>
-                    <a href="<{$link.val}>" target="_blank"><{if $link.link_title}><{$link.link_title}><{else}><{$link.val}><{/if}></a>
+                    <a href="<{$link.val}>" target="_blank"><{if $link.link_title|default:false}><{$link.link_title}><{else}><{$link.val}><{/if}></a>
                 </li>
             <{/foreach}>
             </ul>

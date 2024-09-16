@@ -40,17 +40,17 @@
 
 
         <div class="form-group row mb-3">
-            <{if $get_tad_link_cate_options}>
+            <{if $get_tad_link_cate_options|default:false}>
                 <div class="col-sm-6">
                     <select name="cate_sn" size=1 id="cate_sn" class="form-control">
-                        <{if $smarty.session.tad_link_adm}>
+                        <{if $smarty.session.tad_link_adm|default:false}>
                             <option value=""></option>
                         <{/if}>
                         <{$get_tad_link_cate_options}>
                     </select>
                 </div>
                 <div class="col-sm-6">
-                    <{if $smarty.session.tad_link_adm}>
+                    <{if $smarty.session.tad_link_adm|default:false}>
                         <input type="text" name="new_cate" class="form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_NEW_CATE}>">
                     <{/if}>
                 </div>
@@ -78,7 +78,7 @@
             <input type="hidden" name="mode" value="<{$mode}>">
             <input type="hidden" name="link_sn" value="<{$link_sn}>">
             <input type="hidden" name="op" value="<{$next_op}>">
-            <button type="submit" class="btn btn-info"><{if $link_sn}><{$smarty.const._TAD_SAVE}><{else}><{$smarty.const._MD_TADLINK_QUICK_ADD}><{/if}></button>
+            <button type="submit" class="btn btn-info"><{if $link_sn|default:false}><{$smarty.const._TAD_SAVE}><{else}><{$smarty.const._MD_TADLINK_QUICK_ADD}><{/if}></button>
         </div>
     </form>
 </div>
