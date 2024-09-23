@@ -68,12 +68,12 @@
         <div class="col-sm-6">
             <select name="show_cate_sn" class="form-control" id="show_cate_sn" onChange="location.href='index.php?mode=batch&cate_sn='+this.value;" title="select site">
                 <option value="" ></option>
-                <{$get_tad_link_cate_options}>
+                <{$get_tad_link_cate_options|default:''}>
             </select>
         </div>
         <div class="col-sm-4">
             <{if $smarty.session.tad_link_adm and $show_cate_sn!=""}>
-                <a href="index.php?cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BACK}></a>
+                <a href="index.php?cate_sn=<{$show_cate_sn|default:''}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BACK}></a>
             <{/if}>
         </div>
     </div>
@@ -132,10 +132,10 @@
         <h2><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></h2>
         <div class="row">
             <div class="col-sm-3">
-                <{$ztree_code}>
+                <{$ztree_code|default:''}>
                 <{if $smarty.session.tad_link_adm and $show_cate_sn!=""}>
                     <div class="text-center">
-                        <a href="index.php?mode=batch&cate_sn=<{$show_cate_sn}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
+                        <a href="index.php?mode=batch&cate_sn=<{$show_cate_sn|default:''}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
                     </div>
                 <{/if}>
             </div>
@@ -176,7 +176,7 @@
 
 
         <div style="margin:20px auto;">
-            <{$bar}>
+            <{$bar|default:''}>
         </div>
     <{/if}>
 

@@ -26,7 +26,7 @@
                 <{/foreach}>
             </tbody>
         </table>
-        <{$bar}>
+        <{$bar|default:''}>
     </form>
 <{else}>
     <div class="alert alert-danger text-center">
