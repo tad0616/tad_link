@@ -7,11 +7,14 @@ function tad_link_all($options)
     $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
     $i = 0;
     $block = [];
-    $and_cate = empty($options[1]) ? '' : "where cate_sn in({$options[1]})";
     //今天日期
     $today = date('Y-m-d');
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_link_cate') . " $and_cate order by of_cate_sn,cate_sort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $and_cate = empty($options[1]) ? '' : "WHERE `cate_sn` IN (?)";
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link_cate') . "` $and_cate ORDER BY `of_cate_sn`, `cate_sort`";
+
+    $params = empty($options[1]) ? [] : [$options[1]];
+    $result = Utility::query($sql, str_repeat('s', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $myts = MyTextSanitizer::getInstance();
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         //以下會產生這些變數： $cate_sn , $of_cate_sn , $cate_title , $cate_sort
@@ -21,8 +24,9 @@ function tad_link_all($options)
 
         $link_js = (1 == $options[0]) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
 
-        $sql2 = 'select * from ' . $xoopsDB->prefix('tad_link') . " where `cate_sn` = '{$cate_sn}' and `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') order by link_sort";
-        $result2 = $xoopsDB->query($sql2) or Utility::web_error($sql2);
+        $sql2 = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `cate_sn` =? AND `enable`=? AND (`unable_date`="0000-00-00" OR `unable_date` >=?) ORDER BY `link_sort`';
+        $result2 = Utility::query($sql2, 'iss', [$cate_sn, '1', $today]) or Utility::web_error($sql2);
+
         $total = $xoopsDB->getRowsNum($result2);
         if (empty($total)) {
             continue;

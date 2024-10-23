@@ -1,10 +1,12 @@
 <?php
 use Xmf\Request;
+use XoopsModules\Tadtools\CategoryHelper;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
+use XoopsModules\Tad_link\Tools;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_link_admin.tpl';
 require_once __DIR__ . '/header.php';
@@ -16,7 +18,6 @@ $cate_sn = Request::getInt('cate_sn');
 $link_sn = Request::getInt('link_sn');
 
 switch ($op) {
-    /*---判斷動作請貼在下方---*/
 
     //新增資料
     case 'insert_tad_link_cate':
@@ -46,15 +47,16 @@ switch ($op) {
     case 'tad_link_cate_form':
         list_tad_link_cate_tree($cate_sn);
         tad_link_cate_form($cate_sn);
+        $op = 'list_tad_link_cate';
         break;
 
     //預設動作
     default:
         list_tad_link_cate_tree($cate_sn);
         list_tad_link_data($cate_sn);
-        $op = 'list_tad_link_data';
+        $op = 'list_tad_link_cate';
         break;
-        /*---判斷動作請貼在上方---*/
+
 }
 
 /*-----------秀出結果區--------------*/
@@ -65,12 +67,10 @@ require_once __DIR__ . '/footer.php';
 //列出所有tad_link資料
 function list_tad_link_data($cate_sn = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $g2p;
+    global $xoopsDB, $xoopsTpl, $g2p;
 
-    // $cate_select = cate_select($cate_sn);
-    // $xoopsTpl->assign('cate_select', $cate_select);
-
-    $cate = get_tad_link_cate($cate_sn);
+    $categoryHelper = new CategoryHelper('tad_link_cate', 'cate_sn', 'of_cate_sn', 'cate_title');
+    $cate = $categoryHelper->getCategory($cate_sn);
 
     $where_cate_sn = !empty($cate_sn) ? "where a.cate_sn='{$cate_sn}' order by a.link_sort, a.post_date desc" : 'order by a.link_sort, a.post_date desc';
 
@@ -108,18 +108,17 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 {
     global $xoopsDB, $xoopsTpl;
 
-    $sql = 'SELECT count(*),cate_sn FROM ' . $xoopsDB->prefix('tad_link') . ' GROUP BY cate_sn';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (list($count, $cate_sn) = $xoopsDB->fetchRow($result)) {
-        $cate_count[$cate_sn] = $count;
-    }
+    $cate_count = Tools::tad_link_cate_count();
 
-    $path = get_tad_link_cate_path($def_cate_sn);
+    $categoryHelper = new CategoryHelper('tad_link_cate', 'cate_sn', 'of_cate_sn', 'cate_title');
+    $path = $categoryHelper->getCategoryPath($def_cate_sn);
+    // $path = get_tad_link_cate_path($def_cate_sn);
     $path_arr = array_keys($path);
     $data[] = "{ id:0, pId:0, name:'" . _MA_TADLINK_CATE_ROOT . "', url:'main.php', target:'_self', open:true, font:{'font-size': '0.8rem', 'height': '1.3rem'}}";
 
-    $sql = 'SELECT cate_sn, of_cate_sn, cate_title, cate_bg, cate_color FROM ' . $xoopsDB->prefix('tad_link_cate') . ' ORDER BY cate_sort';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `cate_sn`, `of_cate_sn`, `cate_title`, `cate_bg`, `cate_color` FROM `' . $xoopsDB->prefix('tad_link_cate') . '` ORDER BY `cate_sort`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($cate_sn, $of_cate_sn, $cate_title, $cate_bg, $cate_color) = $xoopsDB->fetchRow($result)) {
         $font_style = $def_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black', 'font-size': '0.8rem', 'height': '1.3rem'}" : ", font:{'background-color':'$cate_bg', 'color':'$cate_color', 'font-size': '0.8rem', 'height': '1.3rem'}";
         $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
@@ -141,12 +140,15 @@ function list_tad_link_cate_tree($def_cate_sn = '')
 //tad_link_cate編輯表單
 function tad_link_cate_form($cate_sn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl, $xoopsModule;
+    global $xoopsTpl, $xoopsModule;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($cate_sn)) {
-        $DBV = get_tad_link_cate($cate_sn);
+
+        $categoryHelper = new CategoryHelper('tad_link_cate', 'cate_sn', 'of_cate_sn', 'cate_title');
+        $DBV = $categoryHelper->getCategory($cate_sn);
+        // $DBV = get_tad_link_cate($cate_sn);
     } else {
         $DBV = [];
     }
@@ -193,16 +195,14 @@ function insert_tad_link_cate()
 {
     global $xoopsDB;
 
-    $cate_title = $xoopsDB->escape($_POST['cate_title']);
-    $cate_bg = $xoopsDB->escape($_POST['cate_bg']);
-    $cate_color = $xoopsDB->escape($_POST['cate_color']);
+    $cate_title = $_POST['cate_title'];
+    $cate_bg = $_POST['cate_bg'];
+    $cate_color = $_POST['cate_color'];
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
-    $sql = 'insert into ' . $xoopsDB->prefix('tad_link_cate') . "
-    (`of_cate_sn` , `cate_title` , `cate_sort`, `cate_bg`, `cate_color`)
-    values('{$of_cate_sn}' , '{$cate_title}' , '{$cate_sort}', '{$cate_bg}', '{$cate_color}')";
-    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_link_cate') . '` (`of_cate_sn`, `cate_title`, `cate_sort`, `cate_bg`, `cate_color`) VALUES (?, ?, ?, ?, ?)';
+    Utility::query($sql, 'isiss', [$of_cate_sn, $cate_title, $cate_sort, $cate_bg, $cate_color]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $cate_sn = $xoopsDB->getInsertId();
@@ -222,20 +222,20 @@ function update_tad_link_cate($cate_sn = '')
 {
     global $xoopsDB;
 
-    $cate_title = $xoopsDB->escape($_POST['cate_title']);
-    $cate_bg = $xoopsDB->escape($_POST['cate_bg']);
-    $cate_color = $xoopsDB->escape($_POST['cate_color']);
+    $cate_title = $_POST['cate_title'];
+    $cate_bg = $_POST['cate_bg'];
+    $cate_color = $_POST['cate_color'];
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
-    $sql = 'update ' . $xoopsDB->prefix('tad_link_cate') . " set
-    `of_cate_sn` = '{$of_cate_sn}' ,
-    `cate_title` = '{$cate_title}' ,
-    `cate_sort` = '{$cate_sort}',
-    `cate_bg` = '{$cate_bg}',
-    `cate_color` = '{$cate_color}'
-    where cate_sn='$cate_sn'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_link_cate') . '` SET
+    `of_cate_sn` = ?,
+    `cate_title` = ?,
+    `cate_sort` = ?,
+    `cate_bg` = ?,
+    `cate_color` = ?
+    WHERE `cate_sn` = ?';
+    Utility::query($sql, 'isissi', [$of_cate_sn, $cate_title, $cate_sort, $cate_bg, $cate_color, $cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //有上層目錄，新增目錄時，而且在前台時($is_back=0) , 依上層權限
     // if ($of_cate_sn) {
@@ -247,16 +247,48 @@ function update_tad_link_cate($cate_sn = '')
     return $cate_sn;
 }
 
-//取得tad_link_cate無窮分類列表
-
 //刪除tad_link_cate某筆資料資料
 function delete_tad_link_cate($cate_sn = '')
 {
     global $xoopsDB;
     //先刪除底下所有連結
-    $sql = 'delete from ' . $xoopsDB->prefix('tad_link') . " where cate_sn='$cate_sn'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `cate_sn` =?';
+    Utility::query($sql, 'i', [$cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $sql = 'delete from ' . $xoopsDB->prefix('tad_link_cate') . " where cate_sn='$cate_sn'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_link_cate') . '` WHERE `cate_sn` =?';
+    Utility::query($sql, 'i', [$cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
+}
+
+//儲存權限
+function saveItem_Permissions($groups, $itemid, $perm_name)
+{
+    global $xoopsModule;
+    $module_id = $xoopsModule->getVar('mid');
+    $gpermHandler = xoops_getHandler('groupperm');
+
+    // First, if the permissions are already there, delete them
+    $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
+
+    // Save the new permissions
+    if (is_array($groups) && count($groups) > 0) {
+        foreach ($groups as $group_id) {
+            $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
+        }
+    }
+}
+
+//取回權限的函數
+function getItem_Permissions($itemid, $gperm_name)
+{
+    global $xoopsModule, $xoopsDB;
+    $module_id = $xoopsModule->getVar('mid');
+    $sql = 'SELECT `gperm_groupid` FROM `' . $xoopsDB->prefix('group_permission') . '` WHERE `gperm_modid`=? AND `gperm_itemid`=? AND `gperm_name`=?';
+    $result = Utility::query($sql, 'iis', [$module_id, $itemid, $gperm_name]) or Utility::web_error($sql, __FILE__, __LINE__);
+
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
+        $data[] = $row['gperm_groupid'];
+    }
+
+    return $data;
 }

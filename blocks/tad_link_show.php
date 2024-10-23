@@ -9,19 +9,18 @@ function tad_link_show($options)
     }
 
     if ('new' === $options[4]) {
-        $order = 'order by post_date desc';
+        $order = 'ORDER BY `post_date` desc';
     } elseif ('rand' === $options[4]) {
-        $order = 'order by rand()';
+        $order = 'ORDER BY RAND()';
     } else {
-        $order = 'order by link_sort';
+        $order = 'ORDER BY `link_sort`';
     }
 
-    $and_cate = empty($options[6]) ? '' : "and cate_sn in({$options[6]})";
     //今天日期
     $today = date('Y-m-d');
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where `enable`='1' and (`unable_date`='0000-00-00' or `unable_date` >='$today') $and_cate $order limit 0,{$options[0]}";
-
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $and_cate = empty($options[6]) ? '' : 'AND `cate_sn` IN(' . $options[6] . ')';
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `enable`=? AND (`unable_date`=? OR `unable_date` >= ?) ' . $and_cate . ' ' . $order . ' LIMIT 0,?';
+    $result = Utility::query($sql, 'sssi', ['1', '0000-00-00', $today, $options[0]]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $block = [];
     $i = 0;

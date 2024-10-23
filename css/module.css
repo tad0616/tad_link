@@ -118,3 +118,8 @@ ul {
     text-align: center;
     margin: 3em auto;
 }
+
+.color-picker {
+    width: 80%;
+    display: inline-block;
+}

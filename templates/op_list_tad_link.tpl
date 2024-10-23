@@ -81,7 +81,7 @@
     <div class="row">
         <div class="col-sm-12">
             <form action="index.php" method="post" class="form" role="form">
-                <span class="badge badge-success" id="save_msg"></span>
+                <span class="badge badge-success bg-success" id="save_msg"></span>
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -103,17 +103,17 @@
                                     <{$link.link_title}>
 
                                     <span style="font-size: 0.75rem;"><{$link.link_url}></span>
-                                    <span class="badge badge-info"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
+                                    <span class="badge badge-info bg-info"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
 
                                     <{if $link.overdue|default:false}>
-                                        <span class="badge badge-important"><{$smarty.const._MD_TADLINK_OVERDUE}></span>
+                                        <span class="badge badge-danger bg-danger"><{$smarty.const._MD_TADLINK_OVERDUE}></span>
                                     <{/if}>
 
                                 </label>
                             </td>
                             <td>
-                                <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><{$smarty.const._TAD_DEL}></a>
-                                <a href="index.php?op=tad_link_form&mode=batch&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                                <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                                <a href="index.php?op=tad_link_form&mode=batch&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                             </td>
                         </tr>
                     <{/foreach}>
@@ -133,7 +133,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <{$ztree_code|default:''}>
-                <{if $smarty.session.tad_link_adm and $show_cate_sn!=""}>
+                <{if $smarty.session.tad_link_adm && $show_cate_sn}>
                     <div class="text-center">
                         <a href="index.php?mode=batch&cate_sn=<{$show_cate_sn|default:''}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
                     </div>
@@ -150,9 +150,9 @@
                         <div class="col-sm-9">
 
                             <{if $smarty.session.tad_link_adm or $link.uid==$now_uid}>
-                                <div class="pull-right float-right">
-                                    <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><{$smarty.const._TAD_DEL}></a>
-                                    <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                                <div class="pull-right float-right pull-end">
+                                    <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                                    <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                                 </div>
                             <{/if}>
 

@@ -9,6 +9,4 @@ if (!isset($_SESSION['tad_link_adm'])) {
 }
 
 $interface_menu[_MD_TADLINK_HOME] = 'index.php';
-if ($_SESSION['tad_link_adm']) {
-    $interface_menu[_TAD_TO_ADMIN] = 'admin/main.php';
-}
+$interface_icon[_MD_TADLINK_HOME] = 'fa-link';

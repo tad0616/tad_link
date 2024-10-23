@@ -9,13 +9,13 @@
             <{$smarty.const._MD_TADLINK_LINK_URL}><{$smarty.const._TAD_FOR}><a href="index.php?op=go&link_sn=<{$link_sn|default:''}>" target="_blank" ><{$link_url|default:''}></a>
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="index.php?cate_sn=<{$cate_sn|default:''}>"><{if $cate_sn && $cate_title}><{$cate_title|default:''}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a> <span class="badge badge-info badge-pill"><{$link_counter|default:''}></span>
+                    <a href="index.php?cate_sn=<{$cate_sn|default:''}>"><{if $cate_sn && $cate_title}><{$cate_title|default:''}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a> <span class="badge badge-info bg-info"><{$link_counter|default:''}></span>
                 </div>
 
                 <div class="col-sm-6 text-right text-end">
                 <{if $smarty.session.tad_link_adm or $uid==$now_uid}>
-                    <a href="index.php?op=tad_link_form&link_sn=<{$link_sn|default:''}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
-                    <a href="javascript:delete_tad_link_func(<{$link_sn|default:''}>)" class="btn btn-sm btn-danger"><{$smarty.const._TAD_DEL}></a>
+                    <a href="index.php?op=tad_link_form&link_sn=<{$link_sn|default:''}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
+                    <a href="javascript:delete_tad_link_func(<{$link_sn|default:''}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
                 <{/if}>
                 <a href="index.php?cate_sn=<{$cate_sn|default:''}>" class="btn btn-sm btn-info"><{$smarty.const._MD_TADLINK_CATE_INFO2}></a>
                 </div>

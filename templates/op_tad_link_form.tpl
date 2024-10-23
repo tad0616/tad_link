@@ -34,7 +34,7 @@
                 <input type="text" name="unable_date" class="form-control" value="<{$unable_date|default:''}>" id="unable_date" placeholder="<{$smarty.const._MD_TADLINK_UNABLE_DATE}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd' , startDate:'%y-%M-%d}'})">
             </div>
             <div class="col-sm-2">
-                <button type="button" id="LinkGet" class="btn btn-primary pull-right float-right"><{$smarty.const._MD_TADLINK_AUTOGET}></button>
+                <button type="button" id="LinkGet" class="btn btn-primary pull-right float-right pull-end"><i class="fa fa-cloud-download" aria-hidden="true"></i> <{$smarty.const._MD_TADLINK_AUTOGET}></button>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
             <input type="hidden" name="mode" value="<{$mode|default:''}>">
             <input type="hidden" name="link_sn" value="<{$link_sn|default:''}>">
             <input type="hidden" name="op" value="<{$next_op|default:''}>">
-            <button type="submit" class="btn btn-info"><{if $link_sn|default:false}><{$smarty.const._TAD_SAVE}><{else}><{$smarty.const._MD_TADLINK_QUICK_ADD}><{/if}></button>
+            <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> <{if $link_sn|default:false}> <{$smarty.const._TAD_SAVE}><{else}><{$smarty.const._MD_TADLINK_QUICK_ADD}><{/if}></button>
         </div>
     </form>
 </div>

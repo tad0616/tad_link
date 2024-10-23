@@ -3,6 +3,7 @@
 global $xoopsConfig;
 
 $modversion = [];
+global $xoopsConfig;
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADLINK_NAME;
@@ -28,19 +29,19 @@ $modversion['min_php'] = 5.4;
 $modversion['min_xoops'] = '2.5.9';
 
 //---paypal資訊---//
-$modversion['paypal'] = [];
-$modversion['paypal']['business'] = 'tad0616@gmail.com';
-$modversion['paypal']['item_name'] = 'Donation : ' . _MI_TAD_WEB;
-$modversion['paypal']['amount'] = 0;
-$modversion['paypal']['currency_code'] = 'USD';
+$modversion['paypal'] = [
+    'business' => 'tad0616@gmail.com',
+    'item_name' => 'Donation : ' . _MI_TAD_WEB,
+    'amount' => 0,
+    'currency_code' => 'USD',
+];
 
 //---啟動後台管理界面選單---//
 $modversion['system_menu'] = 1;
 
 //---資料表架構---//
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
-$modversion['tables'][1] = 'tad_link_cate';
-$modversion['tables'][2] = 'tad_link';
+$modversion['tables'] = ['tad_link_cate', 'tad_link'];
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
@@ -56,71 +57,67 @@ $modversion['onUpdate'] = 'include/onUpdate.php';
 $modversion['onUninstall'] = 'include/onUninstall.php';
 
 //---樣板設定---//
-$modversion['templates'] = [];
-$i = 1;
-$modversion['templates'][$i]['file'] = 'tad_link_index.tpl';
-$modversion['templates'][$i]['description'] = 'tad_link_index.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_link_admin.tpl';
-$modversion['templates'][$i]['description'] = 'tad_link_admin.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_link_adm_power.tpl';
-$modversion['templates'][$i]['description'] = 'tad_link_adm_power.tpl';
+$modversion['templates'] = [
+    ['file' => 'tad_link_index.tpl', 'description' => 'tad_link_index.tpl'],
+    ['file' => 'tad_link_admin.tpl', 'description' => 'tad_link_admin.tpl'],
+];
 
 //---搜尋設定---//
 $modversion['hasSearch'] = 1;
 $modversion['search']['file'] = 'include/tad_link_search.php';
 $modversion['search']['func'] = 'tad_link_search';
+$modversion['blocks'] = [
+    [
+        'file' => 'tad_link_show.php',
+        'name' => _MI_TADLINK_BNAME1,
+        'description' => _MI_TADLINK_BDESC1,
+        'show_func' => 'tad_link_show',
+        'template' => 'tad_link_block_show.tpl',
+        'edit_func' => 'tad_link_show_edit',
+        'options' => '10|1|1|0|new|1||0|3',
+    ],
+    [
+        'file' => 'tad_link_all.php',
+        'name' => _MI_TADLINK_BNAME2,
+        'description' => _MI_TADLINK_BDESC2,
+        'show_func' => 'tad_link_all',
+        'template' => 'tad_link_block_all.tpl',
+        'edit_func' => 'tad_link_all_edit',
+        'options' => '1||dropdown|1',
+    ],
+];
 
-//---區塊設定---//
-$modversion['blocks'][1]['file'] = 'tad_link_show.php';
-$modversion['blocks'][1]['name'] = _MI_TADLINK_BNAME1;
-$modversion['blocks'][1]['description'] = _MI_TADLINK_BDESC1;
-$modversion['blocks'][1]['show_func'] = 'tad_link_show';
-$modversion['blocks'][1]['template'] = 'tad_link_block_show.tpl';
-$modversion['blocks'][1]['edit_func'] = 'tad_link_show_edit';
-$modversion['blocks'][1]['options'] = '10|1|1|0|new|1||0|3';
-
-$modversion['blocks'][2]['file'] = 'tad_link_all.php';
-$modversion['blocks'][2]['name'] = _MI_TADLINK_BNAME2;
-$modversion['blocks'][2]['description'] = _MI_TADLINK_BDESC2;
-$modversion['blocks'][2]['show_func'] = 'tad_link_all';
-$modversion['blocks'][2]['template'] = 'tad_link_block_all.tpl';
-$modversion['blocks'][2]['edit_func'] = 'tad_link_all_edit';
-$modversion['blocks'][2]['options'] = '1||dropdown|1';
-
-$i = 0;
-
-$i++;
-$modversion['config'][$i]['name'] = 'show_num';
-$modversion['config'][$i]['title'] = '_MI_TADLINK_SHOW_NUM';
-$modversion['config'][$i]['description'] = '_MI_TADLINK_SHOW_NUM_DESC';
-$modversion['config'][$i]['formtype'] = 'textbox';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '10';
-
-$i++;
-$modversion['config'][$i]['name'] = 'pic_width';
-$modversion['config'][$i]['title'] = '_MI_TADLINK_PIC_WIDTH';
-$modversion['config'][$i]['description'] = '_MI_TADLINK_PIC_WIDTH_DESC';
-$modversion['config'][$i]['formtype'] = 'textbox';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '400';
-
-$i++;
-$modversion['config'][$i]['name'] = 'direct_link';
-$modversion['config'][$i]['title'] = '_MI_TADLINK_DIRECT_LINK';
-$modversion['config'][$i]['description'] = '_MI_TADLINK_DIRECT_LINK_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '0';
-
-$i++;
-$modversion['config'][$i]['name'] = 'use_social_tools';
-$modversion['config'][$i]['title'] = '_MI_SOCIALTOOLS_TITLE';
-$modversion['config'][$i]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '1';
+$modversion['config'] = [
+    [
+        'name' => 'show_num',
+        'title' => '_MI_TADLINK_SHOW_NUM',
+        'description' => '_MI_TADLINK_SHOW_NUM_DESC',
+        'formtype' => 'textbox',
+        'valuetype' => 'int',
+        'default' => '10',
+    ],
+    [
+        'name' => 'pic_width',
+        'title' => '_MI_TADLINK_PIC_WIDTH',
+        'description' => '_MI_TADLINK_PIC_WIDTH_DESC',
+        'formtype' => 'textbox',
+        'valuetype' => 'int',
+        'default' => '400',
+    ],
+    [
+        'name' => 'direct_link',
+        'title' => '_MI_TADLINK_DIRECT_LINK',
+        'description' => '_MI_TADLINK_DIRECT_LINK_DESC',
+        'formtype' => 'yesno',
+        'valuetype' => 'int',
+        'default' => '0',
+    ],
+    [
+        'name' => 'use_social_tools',
+        'title' => '_MI_SOCIALTOOLS_TITLE',
+        'description' => '_MI_SOCIALTOOLS_TITLE_DESC',
+        'formtype' => 'yesno',
+        'valuetype' => 'int',
+        'default' => '1',
+    ],
+];

@@ -19,8 +19,8 @@
                         </td>
                         <td><{$link.link_url}></td>
                         <td>
-                            <a href="javascript:delete_tad_link_func(<{$link.link_sn}>);" class="btn btn-sm btn-danger" id="del<{$link.link_sn}>"><{$smarty.const._TAD_DEL}></a>
-                            <a href="<{$xoops_url}>/modules/tad_link/index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-info" id="update<{$link.link_sn}>"><{$smarty.const._TAD_EDIT}></a>
+                            <a href="javascript:delete_tad_link_func(<{$link.link_sn}>);" class="btn btn-sm btn-danger" id="del<{$link.link_sn}>"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                            <a href="<{$xoops_url}>/modules/tad_link/index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning" id="update<{$link.link_sn}>"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                         </td>
                     </tr>
                 <{/foreach}>
