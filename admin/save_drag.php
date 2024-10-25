@@ -4,7 +4,7 @@ use XoopsModules\Tadtools\Utility;
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 $of_cate_sn = (int) (str_replace('node-_', '', $_POST['of_cate_sn']));
 $cate_sn = (int) (str_replace('node-_', '', $_POST['cate_sn']));
-error_reporting(0);
+// 關閉除錯訊息
 $xoopsLogger->activated = false;
 if ($of_cate_sn == $cate_sn) {
     die(_MA_TREETABLE_MOVE_ERROR1 . '(' . date('Y-m-d H:i:s') . ')');

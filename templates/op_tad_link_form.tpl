@@ -16,7 +16,6 @@
     });
 </script>
 
-<script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
 <div class="well card card-body bg-light m-1">
     <form action="index.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">

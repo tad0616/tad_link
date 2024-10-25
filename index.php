@@ -410,8 +410,9 @@ function go_url($link_sn)
 //編輯表單
 function tad_link_form($link_sn = '', $mode = '')
 {
-    global $xoopsTpl;
+    global $xoopsTpl, $xoTheme;
 
+    $xoTheme->addScript('modules/tadtools/My97DatePicker/WdatePicker.js');
     $data = [];
     $next_op = 'insert_tad_link';
     $pic = 'images/pic_thumb.png';

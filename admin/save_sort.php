@@ -2,7 +2,7 @@
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-error_reporting(0);
+// 關閉除錯訊息
 $xoopsLogger->activated = false;
 $cate_sn = (int) $_POST['cate_sn'];
 $cate_sort = (int) $_POST['sort'];

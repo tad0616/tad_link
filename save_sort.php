@@ -3,7 +3,7 @@ use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 require_once __DIR__ . '/function.php';
-error_reporting(0);
+// 關閉除錯訊息
 $xoopsLogger->activated = false;
 $updateRecordsArray = Request::getVar('tr', [], null, 'array', 4);
 

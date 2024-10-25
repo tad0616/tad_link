@@ -2,6 +2,8 @@
 
 namespace XoopsModules\Tad_link;
 
+use XoopsModules\Tadtools\Utility;
+
 /*
 Update Class Definition
 

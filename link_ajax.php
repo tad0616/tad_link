@@ -3,6 +3,8 @@ use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 
+// 關閉除錯訊息
+$xoopsLogger->activated = false;
 $myts = \MyTextSanitizer::getInstance();
 $url = $xoopsDB->escape(Request::getString('url'));
 
