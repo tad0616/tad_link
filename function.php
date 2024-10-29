@@ -13,7 +13,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
 {
     global $xoopsDB;
 
-    $post_cate_arr = chk_cate_power('tad_link_post');
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
 
     $count = Tools::tad_link_cate_count();
 
@@ -82,32 +82,6 @@ function delete_tad_link($link_sn = '')
         $params[] = $now_uid;
     }
 
-    $result = Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
+    Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
-}
-
-//判斷某人在哪些類別中有發表(post)的權利
-function chk_cate_power($kind = '')
-{
-    global $xoopsDB, $xoopsUser, $xoopsModule;
-    $module_id = $xoopsModule->getVar('mid');
-    if (!empty($xoopsUser)) {
-        if ($_SESSION['tad_link_adm']) {
-            $ok_cat[] = '0';
-        }
-        $user_array = $xoopsUser->getGroups();
-        $gsn_arr = implode(',', $user_array);
-    } else {
-        $user_array = [3];
-        $_SESSION['tad_link_adm'] = 0;
-        $gsn_arr = 3;
-    }
-    $sql = 'SELECT `gperm_itemid` FROM `' . $xoopsDB->prefix('group_permission') . '` WHERE `gperm_modid`=? AND `gperm_name`=? AND `gperm_groupid` IN (?)';
-    $result = Utility::query($sql, 'iss', [$module_id, $kind, $gsn_arr]) or Utility::web_error($sql, __FILE__, __LINE__);
-
-    while (list($gperm_itemid) = $xoopsDB->fetchRow($result)) {
-        $ok_cat[] = $gperm_itemid;
-    }
-
-    return $ok_cat;
 }

@@ -209,10 +209,10 @@ function insert_tad_link_cate()
 
     //有上層目錄，新增目錄時，而且在前台時($is_back=0) , 依上層權限
     // if ($of_cate_sn) {
-    //     $catalog_up = getItem_Permissions($of_cate_sn, 'tad_link_post');
+    //     $catalog_up = Utility::get_perm($of_cate_sn, 'tad_link_post');
     // }
     //寫入權限
-    saveItem_Permissions($_POST['tad_link_post'], $cate_sn, 'tad_link_post');
+    Utility::save_perm($_POST['tad_link_post'], $cate_sn, 'tad_link_post');
 
     return $cate_sn;
 }
@@ -239,10 +239,10 @@ function update_tad_link_cate($cate_sn = '')
 
     //有上層目錄，新增目錄時，而且在前台時($is_back=0) , 依上層權限
     // if ($of_cate_sn) {
-    //     $catalog_up = getItem_Permissions($of_cate_sn, 'tad_link_post');
+    //     $catalog_up = Utility::get_perm($of_cate_sn, 'tad_link_post');
     // }
     //寫入權限
-    saveItem_Permissions($_POST['tad_link_post'], $cate_sn, 'tad_link_post');
+    Utility::save_perm($_POST['tad_link_post'], $cate_sn, 'tad_link_post');
 
     return $cate_sn;
 }
@@ -258,37 +258,4 @@ function delete_tad_link_cate($cate_sn = '')
     $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_link_cate') . '` WHERE `cate_sn` =?';
     Utility::query($sql, 'i', [$cate_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-}
-
-//儲存權限
-function saveItem_Permissions($groups, $itemid, $perm_name)
-{
-    global $xoopsModule;
-    $module_id = $xoopsModule->getVar('mid');
-    $gpermHandler = xoops_getHandler('groupperm');
-
-    // First, if the permissions are already there, delete them
-    $gpermHandler->deleteByModule($module_id, $perm_name, $itemid);
-
-    // Save the new permissions
-    if (is_array($groups) && count($groups) > 0) {
-        foreach ($groups as $group_id) {
-            $gpermHandler->addRight($perm_name, $itemid, $group_id, $module_id);
-        }
-    }
-}
-
-//取回權限的函數
-function getItem_Permissions($itemid, $gperm_name)
-{
-    global $xoopsModule, $xoopsDB;
-    $module_id = $xoopsModule->getVar('mid');
-    $sql = 'SELECT `gperm_groupid` FROM `' . $xoopsDB->prefix('group_permission') . '` WHERE `gperm_modid`=? AND `gperm_itemid`=? AND `gperm_name`=?';
-    $result = Utility::query($sql, 'iis', [$module_id, $itemid, $gperm_name]) or Utility::web_error($sql, __FILE__, __LINE__);
-
-    while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $data[] = $row['gperm_groupid'];
-    }
-
-    return $data;
 }

@@ -87,7 +87,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
 
     //判斷某人在哪些類別中有發表(post)的權利
-    $post_cate_arr = chk_cate_power('tad_link_post');
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
     $xoopsTpl->assign('post_cate_arr', $post_cate_arr);
     // die(var_export($post_cate_arr));
     $show_num = empty($xoopsModuleConfig['show_num']) ? 10 : $xoopsModuleConfig['show_num'];
@@ -274,7 +274,7 @@ function insert_tad_link()
         $cate_sn = new_tad_link_cate($cate_sn, $new_cate);
     }
 
-    $post_cate_arr = chk_cate_power('tad_link_post');
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
     if (!$_SESSION['tad_link_adm'] and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
@@ -324,7 +324,7 @@ function update_tad_link($link_sn = '')
         $cate_sn = new_tad_link_cate($cate_sn, $new_cate);
     }
 
-    $post_cate_arr = chk_cate_power('tad_link_post');
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
     if (!$_SESSION['tad_link_adm'] and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }

@@ -41,7 +41,7 @@
         <div class="form-group row mb-3">
             <{if $get_tad_link_cate_options|default:false}>
                 <div class="col-sm-6">
-                    <select name="cate_sn" size=1 id="cate_sn" class="form-control">
+                    <select name="cate_sn" size=1 id="cate_sn" class="form-select">
                         <{if $smarty.session.tad_link_adm|default:false}>
                             <option value=""></option>
                         <{/if}>
