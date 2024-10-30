@@ -68,7 +68,6 @@ function tad_link_all($options)
 //區塊編輯函式
 function tad_link_all_edit($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
     $chked0_0 = ('1' == $options[0]) ? 'checked' : '';
     $chked0_1 = ('0' == $options[0]) ? 'checked' : '';
     $chked3_0 = ('1' == $options[0]) ? 'checked' : '';

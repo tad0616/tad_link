@@ -66,7 +66,6 @@ function tad_link_show($options)
 //區塊編輯函式
 function tad_link_show_edit($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/tad_link/function_block.php';
 
     $chked1_1 = ('1' == $options[1]) ? 'checked' : '';
     $chked1_0 = ('0' == $options[1]) ? 'checked' : '';

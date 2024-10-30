@@ -500,46 +500,7 @@ function get_pic($link_sn = '')
         $link = get_tad_link($link_sn);
         Utility::copyemz("https://capture.heartrails.com/400x300/border?{$link['link_url']}", _TADLINK_PIC_PATH . "/{$link_sn}.jpg");
     }
-    tad_link_thumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg");
-}
-
-//做縮圖
-function tad_link_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '120')
-{
-    if (!file_exists($filename)) {
-        return;
-    }
-
-    list($old_width, $old_height) = getimagesize($filename);
-    if (empty($old_width) or empty($old_height)) {
-        return;
-    }
-    $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
-
-    $newwidth = ($old_width > $old_height) ? $width : $old_width * $percent;
-    $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
-
-    // Load
-    $thumb = imagecreatetruecolor($newwidth, $newheight);
-    if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
-        $source = imagecreatefromjpeg($filename);
-        $type = 'image/jpeg';
-    } elseif ('image/png' === $type) {
-        $source = imagecreatefrompng($filename);
-        $type = 'image/png';
-    } elseif ('image/gif' === $type) {
-        $source = imagecreatefromgif($filename);
-        $type = 'image/gif';
-    }
-
-    // Resize
-    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-    //die($thumb_name);
-    header('Content-type: image/png');
-    imagepng($thumb, $thumb_name);
-
-    return;
-    exit;
+    Utility::generateThumbnail(_TADLINK_PIC_PATH . "/{$link_sn}.jpg", _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg", 120);
 }
 
 //以流水號取得某筆tad_link資料

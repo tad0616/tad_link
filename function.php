@@ -2,7 +2,6 @@
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_link\Tools;
 xoops_loadLanguage('main', 'tadtools');
-require_once __DIR__ . '/function_block.php';
 define('_TADLINK_PIC_URL', XOOPS_URL . '/uploads/tad_link');
 define('_TADLINK_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link');
 define('_TADLINK_THUMB_PIC_URL', XOOPS_URL . '/uploads/tad_link/thumbs');
