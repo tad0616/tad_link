@@ -1,5 +1,6 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
+xoops_loadLanguage('main', 'tadtools');
 
 //cate.php
 define('_MA_TADLINK_CATE_SN', '分類');

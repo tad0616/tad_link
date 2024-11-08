@@ -1,4 +1,13 @@
-Tad Link 3.5 (2released 022-08-13)
+Tad Link 4.0 (released on 2024-11-11)
+====================================
+1.Support XOOPS 2.5.11
+2.Support PHP8.1.x
+3. Use $xoopsDB->escape() instead of $myts->addSlashes()
+4. Remove Facebook message function
+5.Remove guest publishing permission settings
+6. Database syntax parameterization
+
+Tad Link 3.5 (released 022-08-13)
 ====================================
 1. CSS reduce the introduction of external style files
 2. Fixed font
