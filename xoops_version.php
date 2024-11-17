@@ -1,7 +1,4 @@
 <?php
-
-global $xoopsConfig;
-
 $modversion = [];
 global $xoopsConfig;
 
@@ -66,8 +63,10 @@ $modversion['templates'] = [
 $modversion['hasSearch'] = 1;
 $modversion['search']['file'] = 'include/tad_link_search.php';
 $modversion['search']['func'] = 'tad_link_search';
+
+//---區塊設定 (索引為固定值，若欲刪除區塊記得補上索引，避免區塊重複)---//
 $modversion['blocks'] = [
-    [
+    1 => [
         'file' => 'tad_link_show.php',
         'name' => _MI_TADLINK_BNAME1,
         'description' => _MI_TADLINK_BDESC1,
@@ -76,7 +75,7 @@ $modversion['blocks'] = [
         'edit_func' => 'tad_link_show_edit',
         'options' => '10|1|1|0|new|1||0|3',
     ],
-    [
+    2 => [
         'file' => 'tad_link_all.php',
         'name' => _MI_TADLINK_BNAME2,
         'description' => _MI_TADLINK_BDESC2,

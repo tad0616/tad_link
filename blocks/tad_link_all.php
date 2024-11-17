@@ -1,5 +1,6 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_link\Tools;
 //區塊主函式 (文字連結(tad_link_all))
 function tad_link_all($options)
 {
@@ -9,11 +10,9 @@ function tad_link_all($options)
     $block = [];
     //今天日期
     $today = date('Y-m-d');
-    $and_cate = empty($options[1]) ? '' : "WHERE `cate_sn` IN (?)";
+    $and_cate = empty($options[1]) ? '' : "WHERE `cate_sn` IN ({$options[1]})";
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link_cate') . "` $and_cate ORDER BY `of_cate_sn`, `cate_sort`";
-
-    $params = empty($options[1]) ? [] : [$options[1]];
-    $result = Utility::query($sql, str_repeat('s', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $myts = MyTextSanitizer::getInstance();
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
@@ -24,8 +23,8 @@ function tad_link_all($options)
 
         $link_js = (1 == $options[0]) ? "window.open(this.value,'_blank');" : "location.href='" . XOOPS_URL . "/modules/tad_link/index.php?link_sn='+this.value";
 
-        $sql2 = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `cate_sn` =? AND `enable`=? AND (`unable_date`="0000-00-00" OR `unable_date` >=?) ORDER BY `link_sort`';
-        $result2 = Utility::query($sql2, 'iss', [$cate_sn, '1', $today]) or Utility::web_error($sql2);
+        $sql2 = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . "` WHERE `cate_sn` ='$cate_sn' AND `enable`='1' AND (`unable_date`='0000-00-00' OR `unable_date` >= '$today') ORDER BY `link_sort`";
+        $result2 = $xoopsDB->query($sql2) or Utility::web_error($sql2);
 
         $total = $xoopsDB->getRowsNum($result2);
         if (empty($total)) {
@@ -75,7 +74,7 @@ function tad_link_all_edit($options)
     $opt2_dropdown = ('list' !== $options[2]) ? 'checked' : '';
     $opt2_list = ('list' === $options[2]) ? 'checked' : '';
 
-    $menu = block_link_cate($options[1]);
+    $menu = Tools::block_link_cate($options[1]);
 
     $form = "{$menu['js']}
     <ol class='my-form'>

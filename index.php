@@ -77,6 +77,7 @@ $xoTheme->addStylesheet('modules/tad_link/css/module.css');
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
 $xoopsTpl->assign('now_uid', $now_uid);
 $xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('tad_link_adm', $tad_link_adm);
 require_once XOOPS_ROOT_PATH . '/footer.php';
 
 /*-----------function區--------------*/
@@ -84,10 +85,10 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 //列出所有tad_link資料
 function list_tad_link($show_cate_sn = '', $mode = '')
 {
-    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
+    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl, $tad_link_adm;
 
     //判斷某人在哪些類別中有發表(post)的權利
-    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post', 'tad_link');
     $xoopsTpl->assign('post_cate_arr', $post_cate_arr);
     // die(var_export($post_cate_arr));
     $show_num = empty($xoopsModuleConfig['show_num']) ? 10 : $xoopsModuleConfig['show_num'];
@@ -188,7 +189,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
 
-    if ($_SESSION['tad_link_adm'] or $post_cate_arr) {
+    if ($tad_link_adm or $post_cate_arr) {
 
         $SweetAlert2 = new SweetAlert();
         $SweetAlert2->render('delete_tad_link_func', "index.php?op=delete_tad_link&mode=batch&cate_sn={$show_cate_sn}&link_sn=", 'link_sn');
@@ -198,7 +199,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
 //以流水號秀出某筆tad_link資料內容
 function show_one_tad_link($link_sn = '')
 {
-    global $xoopsModuleConfig, $xoopsTpl, $now_uid;
+    global $xoopsModuleConfig, $xoopsTpl, $now_uid, $tad_link_adm;
     $push_url = '';
     $push_url = Utility::push_url($xoopsModuleConfig['use_social_tools']);
 
@@ -233,7 +234,7 @@ function show_one_tad_link($link_sn = '')
     $xoopsTpl->assign('push_url', $push_url);
     $xoopsTpl->assign('op', 'show_one_tad_link');
 
-    if ($_SESSION['tad_link_adm'] or $now_uid == $uid) {
+    if ($tad_link_adm or $now_uid == $uid) {
         $SweetAlert2 = new SweetAlert();
         $SweetAlert2->render('delete_tad_link_func', 'index.php?op=delete_tad_link&link_sn=', 'link_sn');
     }
@@ -242,9 +243,9 @@ function show_one_tad_link($link_sn = '')
 //新增資料到tad_link_cate中
 function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 {
-    global $xoopsDB;
+    global $xoopsDB, $tad_link_adm;
 
-    if (!$_SESSION['tad_link_adm']) {
+    if (!$tad_link_adm) {
         return;
     }
     $cate_sort = tad_link_cate_max_sort($of_cate_sn);
@@ -261,7 +262,7 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 //新增資料到tad_link中
 function insert_tad_link()
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB, $xoopsUser, $tad_link_adm;
     $link_title = $_POST['link_title'];
     $link_url = $_POST['link_url'];
     $link_desc = $_POST['link_desc'];
@@ -274,8 +275,8 @@ function insert_tad_link()
         $cate_sn = new_tad_link_cate($cate_sn, $new_cate);
     }
 
-    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
-    if (!$_SESSION['tad_link_adm'] and !in_array($cate_sn, $post_cate_arr)) {
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post', 'tad_link');
+    if (!$tad_link_adm and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
 
@@ -312,7 +313,7 @@ function tad_link_max_sort()
 //更新tad_link某一筆資料
 function update_tad_link($link_sn = '')
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB, $xoopsUser, $tad_link_adm;
     $link_title = $_POST['link_title'];
     $link_url = $_POST['link_url'];
     $link_desc = $_POST['link_desc'];
@@ -324,8 +325,8 @@ function update_tad_link($link_sn = '')
         $cate_sn = new_tad_link_cate($cate_sn, $new_cate);
     }
 
-    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
-    if (!$_SESSION['tad_link_adm'] and !in_array($cate_sn, $post_cate_arr)) {
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post', 'tad_link');
+    if (!$tad_link_adm and !in_array($cate_sn, $post_cate_arr)) {
         return;
     }
 
@@ -352,11 +353,11 @@ function update_tad_link($link_sn = '')
 //批次刪除tad_link某筆資料資料
 function delete_all_link($all_sn = '')
 {
-    global $xoopsDB, $now_uid;
+    global $xoopsDB, $now_uid, $tad_link_adm;
 
-    $and_uid = $_SESSION['tad_link_adm'] ? '' : 'AND `uid` = ?';
+    $and_uid = $tad_link_adm ? '' : 'AND `uid` = ?';
     $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `link_sn` IN(' . $all_sn . ') ' . $and_uid;
-    $params = $_SESSION['tad_link_adm'] ? [] : [$now_uid];
+    $params = $tad_link_adm ? [] : [$now_uid];
     Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
 }

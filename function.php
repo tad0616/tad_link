@@ -6,13 +6,15 @@ define('_TADLINK_PIC_URL', XOOPS_URL . '/uploads/tad_link');
 define('_TADLINK_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link');
 define('_TADLINK_THUMB_PIC_URL', XOOPS_URL . '/uploads/tad_link/thumbs');
 define('_TADLINK_THUMB_PIC_PATH', XOOPS_ROOT_PATH . '/uploads/tad_link/thumbs');
-
+if (!isset($tad_link_adm)) {
+    $tad_link_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+}
 //取得所有tad_link_cate分類選單的選項（模式 = edit or show,目前分類編號,目前分類的所屬編號）
 function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn = '0', $default_of_cate_sn = '0', $unselect_level = '', $start_search_sn = '0', $level = 0)
 {
-    global $xoopsDB;
+    global $xoopsDB, $tad_link_adm;
 
-    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post');
+    $post_cate_arr = Utility::get_gperm_cate_arr('tad_link_post', 'tad_link');
 
     $count = Tools::tad_link_cate_count();
 
@@ -27,7 +29,7 @@ function get_tad_link_cate_options($page = '', $mode = 'edit', $default_cate_sn 
     $main = '';
     while (list($cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
         // $tad_link_post = $modulepermHandler->getGroupIds("tad_link_post", $cate_sn, $mod_id);
-        if (!$_SESSION['tad_link_adm'] and is_array($post_cate_arr) and !in_array($cate_sn, $post_cate_arr)) {
+        if (!$tad_link_adm and is_array($post_cate_arr) and !in_array($cate_sn, $post_cate_arr)) {
             continue;
         }
 
@@ -71,9 +73,9 @@ function tad_link_cate_max_sort($of_cate_sn = '0')
 //刪除tad_link某筆資料資料
 function delete_tad_link($link_sn = '')
 {
-    global $xoopsDB, $now_uid;
+    global $xoopsDB, $now_uid, $tad_link_adm;
 
-    $and_uid = $_SESSION['tad_link_adm'] ? '' : "AND uid = ?";
+    $and_uid = $tad_link_adm ? '' : "AND uid = ?";
     $sql = 'DELETE FROM ' . $xoopsDB->prefix('tad_link') . " WHERE link_sn = ? {$and_uid}";
     $params = [$link_sn];
 

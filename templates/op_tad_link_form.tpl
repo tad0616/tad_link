@@ -43,18 +43,18 @@
                 <{if $get_tad_link_cate_options|default:false}>
                     <div class="col-sm-6">
                         <select name="cate_sn" size=1 id="cate_sn" class="validate[required] form-select">
-                            <{if $smarty.session.tad_link_adm|default:false}>
+                            <{if $tad_link_adm|default:false}>
                                 <option value=""></option>
                             <{/if}>
                             <{$get_tad_link_cate_options|default:''}>
                         </select>
                     </div>
                     <div class="col-sm-6">
-                        <{if $smarty.session.tad_link_adm|default:false}>
+                        <{if $tad_link_adm|default:false}>
                             <input type="text" name="new_cate" class="form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_NEW_CATE}>">
                         <{/if}>
                     </div>
-                <{elseif $smarty.session.tad_link_adm}>
+                <{elseif $tad_link_adm}>
                     <div class="col-sm-12">
                         <input type="text" name="new_cate" class="validate[required] form-control" id="new_cate" placeholder="<{$smarty.const._MD_TADLINK_ADD_NEW_CATE}>">
                     </div>

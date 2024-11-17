@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="col-sm-6 text-right text-end">
-                <{if $smarty.session.tad_link_adm or $uid==$now_uid}>
+                <{if $tad_link_adm or $uid==$now_uid}>
                     <a href="index.php?op=tad_link_form&link_sn=<{$link_sn|default:''}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                     <a href="javascript:delete_tad_link_func(<{$link_sn|default:''}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
                 <{/if}>

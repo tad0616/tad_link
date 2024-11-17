@@ -1,5 +1,6 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_link\Tools;
 //區塊主函式 (圖片連結(tad_link_show))
 function tad_link_show($options)
 {
@@ -19,8 +20,8 @@ function tad_link_show($options)
     //今天日期
     $today = date('Y-m-d');
     $and_cate = empty($options[6]) ? '' : 'AND `cate_sn` IN(' . $options[6] . ')';
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `enable`=? AND (`unable_date`=? OR `unable_date` >= ?) ' . $and_cate . ' ' . $order . ' LIMIT 0,?';
-    $result = Utility::query($sql, 'sssi', ['1', '0000-00-00', $today, $options[0]]) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . "` WHERE `enable`='1' AND (`unable_date`='0000-00-00' OR `unable_date` >= '{$today}') $and_cate $order LIMIT 0,{$options[0]}";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $block = [];
     $i = 0;
@@ -86,7 +87,7 @@ function tad_link_show_edit($options)
     $s1 = ('1' == $options[8]) ? 'selected' : '';
     $sno = ('0' == $options[8]) ? 'selected' : '';
 
-    $menu = block_link_cate($options[6]);
+    $menu = Tools::block_link_cate($options[6]);
 
     $form = "{$menu['js']}
     <ol class='my-form'>

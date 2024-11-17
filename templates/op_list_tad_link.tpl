@@ -1,5 +1,5 @@
 
-<{if $mode=="batch" and $smarty.session.tad_link_adm and $show_cate_sn}>
+<{if $mode=="batch" and $tad_link_adm and $show_cate_sn}>
 
     <script type="text/javascript">
         $().ready(function(){
@@ -72,7 +72,7 @@
             </select>
         </div>
         <div class="col-sm-4">
-            <{if $smarty.session.tad_link_adm and $show_cate_sn!=""}>
+            <{if $tad_link_adm and $show_cate_sn!=""}>
                 <a href="index.php?cate_sn=<{$show_cate_sn|default:''}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BACK}></a>
             <{/if}>
         </div>
@@ -133,7 +133,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <{$ztree_code|default:''}>
-                <{if $smarty.session.tad_link_adm && $show_cate_sn}>
+                <{if $tad_link_adm && $show_cate_sn}>
                     <div class="text-center">
                         <a href="index.php?mode=batch&cate_sn=<{$show_cate_sn|default:''}>" class="btn btn-success"><{$smarty.const._MD_TADLINK_BATCH}><{if $cate.cate_sn|default:false}><{$cate.cate_title}><{else}><{$smarty.const._MD_TADLINK_UNCATEGORIZED}><{/if}></a>
                     </div>
@@ -149,7 +149,7 @@
 
                         <div class="col-sm-9">
 
-                            <{if $smarty.session.tad_link_adm or $link.uid==$now_uid}>
+                            <{if $tad_link_adm or $link.uid==$now_uid}>
                                 <div class="pull-right float-right pull-end">
                                     <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
                                     <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
@@ -180,7 +180,7 @@
         </div>
     <{/if}>
 
-    <{if $post_cate_arr or $smarty.session.tad_link_adm}>
+    <{if $post_cate_arr or $tad_link_adm}>
         <{include file="$xoops_rootpath/modules/tad_link/templates/op_tad_link_form.tpl"}>
     <{/if}>
 <{/if}>
