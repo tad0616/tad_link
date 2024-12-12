@@ -263,10 +263,10 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser, $tad_link_adm;
-    $link_title = $_POST['link_title'];
-    $link_url = $_POST['link_url'];
-    $link_desc = $_POST['link_desc'];
-    $new_cate = $_POST['new_cate'];
+    $link_title = (string) $_POST['link_title'];
+    $link_url = (string) $_POST['link_url'];
+    $link_desc = (string) $_POST['link_desc'];
+    $new_cate = (string) $_POST['new_cate'];
     $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $_POST['unable_date'];
     $enable = (int) $_POST['enable'];
     $cate_sn = (int) $_POST['cate_sn'];
@@ -314,10 +314,10 @@ function tad_link_max_sort()
 function update_tad_link($link_sn = '')
 {
     global $xoopsDB, $xoopsUser, $tad_link_adm;
-    $link_title = $_POST['link_title'];
-    $link_url = $_POST['link_url'];
-    $link_desc = $_POST['link_desc'];
-    $new_cate = $_POST['new_cate'];
+    $link_title = (string) $_POST['link_title'];
+    $link_url = (string) $_POST['link_url'];
+    $link_desc = (string) $_POST['link_desc'];
+    $new_cate = (string) $_POST['new_cate'];
     $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $_POST['unable_date'];
     $cate_sn = (int) $_POST['cate_sn'];
 

@@ -27,7 +27,7 @@
                 get_all_sn();
             });
 
-            $("input[name='link_sn[]']").change(function() {
+            $("input[name='link_sn[]']").on('change', function() {
                 get_all_sn();
             });
         });
@@ -66,7 +66,7 @@
             <{$smarty.const._MD_TADLINK_SHOW_CATE}><{$smarty.const._TAD_FOR}>
         </div>
         <div class="col-sm-6">
-            <select name="show_cate_sn" class="form-select" id="show_cate_sn" onChange="location.href='index.php?mode=batch&cate_sn='+this.value;" title="select site">
+            <select name="show_cate_sn" class="form-control form-select" id="show_cate_sn" onChange="location.href='index.php?mode=batch&cate_sn='+this.value;" title="select site">
                 <option value="" ></option>
                 <{$get_tad_link_cate_options|default:''}>
             </select>
@@ -112,8 +112,8 @@
                                 </label>
                             </td>
                             <td>
-                                <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-                                <a href="index.php?op=tad_link_form&mode=batch&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
+                                <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                                <a href="index.php?op=tad_link_form&mode=batch&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pen-to-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                             </td>
                         </tr>
                     <{/foreach}>
@@ -151,8 +151,8 @@
 
                             <{if $tad_link_adm or $link.uid==$now_uid}>
                                 <div class="pull-right float-right pull-end">
-                                    <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-                                    <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
+                                    <a href="javascript:delete_tad_link_func(<{$link.link_sn}>)" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                                    <a href="index.php?op=tad_link_form&link_sn=<{$link.link_sn}>" class="btn btn-sm btn-warning"><i class="fa fa-pen-to-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                                 </div>
                             <{/if}>
 

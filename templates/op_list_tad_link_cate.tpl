@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h2 class="my d-inline-block"><{$cate.cate_title}></h2>
-                    <a href="javascript:delete_tad_link_cate_func(<{$cate.cate_sn}>);" class="btn btn-danger btn-sm <{if $cate_count.$cate_sn|default:0 > 0}>disabled<{/if}>"><i class="fa fa-trash-o" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-                        <a href="main.php?op=tad_link_cate_form&cate_sn=<{$cate_sn|default:''}>" class="btn btn-warning btn-sm"><i class="fa fa-pencil-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
+                    <a href="javascript:delete_tad_link_cate_func(<{$cate.cate_sn}>);" class="btn btn-danger btn-sm <{if $cate_count.$cate_sn|default:0 > 0}>disabled<{/if}>"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                        <a href="main.php?op=tad_link_cate_form&cate_sn=<{$cate_sn|default:''}>" class="btn btn-warning btn-sm"><i class="fa fa-pen-to-square" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></a>
                 </div>
             </div>
         <{/if}>

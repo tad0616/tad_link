@@ -7,7 +7,7 @@
                     <label class="form-label">
                         <{$smarty.const._MA_TADLINK_OF_CATE_SN}>
                     </label>
-                    <select name="of_cate_sn" size=1 class="form-select">
+                    <select name="of_cate_sn" size=1 class="form-control form-select">
                         <option value=""></option>
                         <{$get_tad_link_cate_options|default:''}>
                     </select>
@@ -56,7 +56,7 @@
             <input type="hidden" name="cate_sn" value="<{$cate_sn|default:''}>">
             <input type="hidden" name="cate_sort" value="<{$cate_sort|default:''}>">
             <input type="hidden" name="op" value="<{$next_op|default:''}>">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i> <{$smarty.const._TAD_EDIT}></button>
         </div>
     </div>
 </form>

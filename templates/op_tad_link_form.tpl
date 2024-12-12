@@ -1,10 +1,10 @@
-<{if $xoops_isuser}>
+<{if $xoops_isuser|default:false}>
     <script type="text/javascript">
         $(document).ready(function(){
             $('#LinkGet').click(function() {
                 $.post("link_ajax.php", { url: $('#LinkUrl').val()},
                 function(data) {
-                    var obj = $.parseJSON(data);
+                    var obj = JSON.parse(data);
                     $('#LinkTitle').val(obj.title);
                     $('#LinkDesc').val(obj.description);
                     $('#thumb').attr("src","https://capture.heartrails.com/400x300/border?"+$('#LinkUrl').val());
@@ -42,7 +42,7 @@
             <div class="form-group row mb-3">
                 <{if $get_tad_link_cate_options|default:false}>
                     <div class="col-sm-6">
-                        <select name="cate_sn" size=1 id="cate_sn" class="validate[required] form-select">
+                        <select name="cate_sn" size=1 id="cate_sn" class="validate[required] form-control form-select">
                             <{if $tad_link_adm|default:false}>
                                 <option value=""></option>
                             <{/if}>
@@ -78,7 +78,7 @@
                 <input type="hidden" name="mode" value="<{$mode|default:''}>">
                 <input type="hidden" name="link_sn" value="<{$link_sn|default:''}>">
                 <input type="hidden" name="op" value="<{$next_op|default:''}>">
-                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-o" aria-hidden="true"></i> <{if $link_sn|default:false}> <{$smarty.const._TAD_SAVE}><{else}><{$smarty.const._MD_TADLINK_QUICK_ADD}><{/if}></button>
+                <button type="submit" class="btn btn-info"><i class="fa fa-floppy-disk" aria-hidden="true"></i> <{if $link_sn|default:false}> <{$smarty.const._TAD_SAVE}><{else}><{$smarty.const._MD_TADLINK_QUICK_ADD}><{/if}></button>
             </div>
         </form>
     </div>

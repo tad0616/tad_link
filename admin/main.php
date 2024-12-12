@@ -196,9 +196,9 @@ function insert_tad_link_cate()
 {
     global $xoopsDB;
 
-    $cate_title = $_POST['cate_title'];
-    $cate_bg = $_POST['cate_bg'];
-    $cate_color = $_POST['cate_color'];
+    $cate_title = (string) $_POST['cate_title'];
+    $cate_bg = (string) $_POST['cate_bg'];
+    $cate_color = (string) $_POST['cate_color'];
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
@@ -223,9 +223,9 @@ function update_tad_link_cate($cate_sn = '')
 {
     global $xoopsDB;
 
-    $cate_title = $_POST['cate_title'];
-    $cate_bg = $_POST['cate_bg'];
-    $cate_color = $_POST['cate_color'];
+    $cate_title = (string) $_POST['cate_title'];
+    $cate_bg = (string) $_POST['cate_bg'];
+    $cate_color = (string) $_POST['cate_color'];
     $of_cate_sn = (int) $_POST['of_cate_sn'];
     $cate_sort = (int) $_POST['cate_sort'];
 
