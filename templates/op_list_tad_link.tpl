@@ -103,7 +103,7 @@
                                     <{$link.link_title}>
 
                                     <span style="font-size: 0.75rem;"><{$link.link_url}></span>
-                                    <span class="badge badge-info bg-info"><a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank" style="color:white">Go</a></span>
+                                    <span class="badge badge-info bg-info"><a href="<{$link.link_url}>" target="_blank" style="color:white">Go</a></span>
 
                                     <{if $link.overdue|default:false}>
                                         <span class="badge badge-danger bg-danger"><{$smarty.const._MD_TADLINK_OVERDUE}></span>
@@ -163,7 +163,7 @@
                             <div style="font-size: 0.75rem; margin: 10px 0px;">
                                 <{if $link.cate_sn && $link.cate_title}><a href="index.php?cate_sn=<{$link.cate_sn}>"><{$link.cate_title}></a><{else}><span style="color:red;"><{$smarty.const._MD_TADLINK_UNCATEGORIZED}></span><{/if}> |
 
-                                <a href="index.php?op=go&link_sn=<{$link.link_sn}>" target="_blank"><{$link.link_url}></a>
+                                <a href="<{$link.link_url}>" target="_blank"><{$link.link_url}></a>
                             </div>
 
                             <div style="color:#404040; font-size: 0.75rem; line-height: 1.8;"><{$link.link_desc}></div>

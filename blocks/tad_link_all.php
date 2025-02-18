@@ -1,4 +1,5 @@
 <?php
+
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_link\Tools;
 //區塊主函式 (文字連結(tad_link_all))
@@ -48,7 +49,7 @@ function tad_link_all($options)
             $link_url = $myts->htmlSpecialChars($link_url);
             $link_title = $myts->htmlSpecialChars($link_title);
 
-            $val = (1 == $options[0]) ? $link_url : $link_sn;
+            $val = (1 == $options[0]) ? $link_url : "index.php?link_sn=$link_sn";
             if (empty($val)) {
                 $val = '#';
             }
