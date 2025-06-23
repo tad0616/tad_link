@@ -15,9 +15,9 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 $now_uid = $xoopsUser ? $xoopsUser->uid() : 0;
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$mode = Request::getString('mode');
-$all_sn = Request::getString('all_sn');
+$op      = Request::getString('op');
+$mode    = Request::getString('mode');
+$all_sn  = Request::getString('all_sn');
 $cate_sn = Request::getInt('cate_sn');
 $link_sn = Request::getInt('link_sn');
 
@@ -92,30 +92,30 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $xoopsTpl->assign('post_cate_arr', $post_cate_arr);
     // die(var_export($post_cate_arr));
     $show_num = empty($xoopsModuleConfig['show_num']) ? 10 : $xoopsModuleConfig['show_num'];
-    $cate = get_tad_link_cate_all();
+    $cate     = get_tad_link_cate_all();
 
     $and_cate = empty($show_cate_sn) ? 'order by post_date desc' : "and cate_sn='$show_cate_sn' order by link_sort";
 
     //今天日期
     $today = date('Y-m-d');
-    $now = time();
+    $now   = time();
 
     $and_unable = ('batch' === $mode) ? '' : "and (unable_date='0000-00-00' or unable_date >='$today')";
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_link') . " where enable='1' $and_unable  $and_cate";
-    $bar = '';
+    $sql        = 'select * from ' . $xoopsDB->prefix('tad_link') . " where enable='1' $and_unable  $and_cate";
+    $bar        = '';
     if ('batch' !== $mode) {
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = Utility::getPageBar($sql, $show_num, 10);
-        $bar = $PageBar['bar'];
-        $sql = $PageBar['sql'];
-        $total = $PageBar['total'];
+        $bar     = $PageBar['bar'];
+        $sql     = $PageBar['sql'];
+        $total   = $PageBar['total'];
     }
 
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all_content = [];
-    $i = 0;
-    $myts = MyTextSanitizer::getInstance();
+    $i           = 0;
+    $myts        = MyTextSanitizer::getInstance();
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -124,27 +124,27 @@ function list_tad_link($show_cate_sn = '', $mode = '')
         $link_desc = nl2br(xoops_substr(strip_tags($link_desc), 0, 180));
 
         $thumb = get_show_pic($link_sn);
-        $pic = get_show_pic($link_sn, 'big');
+        $pic   = get_show_pic($link_sn, 'big');
 
         $unable_time = strtotime($unable_date);
-        $overdue = ($now > $unable_time and '0000-00-00' != $unable_date) ? true : false;
+        $overdue     = ($now > $unable_time and '0000-00-00' != $unable_date) ? true : false;
 
-        $link_url = $myts->htmlSpecialChars($link_url);
+        $link_url   = $myts->htmlSpecialChars($link_url);
         $link_title = $myts->htmlSpecialChars($link_title);
         $cate_title = $myts->htmlSpecialChars($cate_title);
-        $link_desc = $myts->displayTarea($link_desc, 0, 0, 0, 0, 1);
+        $link_desc  = $myts->displayTarea($link_desc, 0, 0, 0, 0, 1);
 
-        $all_content[$i]['link_sn'] = $link_sn;
-        $all_content[$i]['pic'] = $pic;
-        $all_content[$i]['thumb'] = $thumb;
-        $all_content[$i]['cate_sn'] = $cate_sn;
-        $all_content[$i]['cate_title'] = empty($cate_sn) ? '' : $cate[$cate_sn]['cate_title'];
-        $all_content[$i]['link_title'] = $link_title;
-        $all_content[$i]['link_url'] = $link_url;
-        $all_content[$i]['link_desc'] = $link_desc;
+        $all_content[$i]['link_sn']      = $link_sn;
+        $all_content[$i]['pic']          = $pic;
+        $all_content[$i]['thumb']        = $thumb;
+        $all_content[$i]['cate_sn']      = $cate_sn;
+        $all_content[$i]['cate_title']   = empty($cate_sn) ? '' : $cate[$cate_sn]['cate_title'];
+        $all_content[$i]['link_title']   = $link_title;
+        $all_content[$i]['link_url']     = $link_url;
+        $all_content[$i]['link_desc']    = $link_desc;
         $all_content[$i]['link_counter'] = $link_counter;
-        $all_content[$i]['overdue'] = $overdue;
-        $all_content[$i]['uid'] = $uid;
+        $all_content[$i]['overdue']      = $overdue;
+        $all_content[$i]['uid']          = $uid;
         $i++;
     }
 
@@ -161,7 +161,7 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $xoopsTpl->assign('mode', $mode);
 
     $categoryHelper = new CategoryHelper('tad_link_cate', 'cate_sn', 'of_cate_sn', 'cate_title');
-    $xoopsTpl->assign('cate', $categoryHelper->getCategory($show_cate_sn));
+    $xoopsTpl->assign('cate', $categoryHelper->getCategory($show_cate_sn, 'tad_link'));
     // $xoopsTpl->assign('cate', get_tad_link_cate($show_cate_sn));
 
     $xoopsTpl->assign('count', ++$i);
@@ -169,23 +169,22 @@ function list_tad_link($show_cate_sn = '', $mode = '')
     $FancyBox = new FancyBox('.fancybox');
     $FancyBox->set_type('image');
     $FancyBox->render();
-    $path = $categoryHelper->getCategoryPath($show_cate_sn);
-    // $path = get_tad_link_cate_path($show_cate_sn);
+    $path     = $categoryHelper->getCategoryPath($show_cate_sn, 'tad_link');
     $path_arr = array_keys($path);
-    $sql = 'SELECT `cate_sn`, `of_cate_sn`, `cate_title` FROM `' . $xoopsDB->prefix('tad_link_cate') . '` ORDER BY `cate_sort`';
-    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql      = 'SELECT `cate_sn`, `of_cate_sn`, `cate_title` FROM `' . $xoopsDB->prefix('tad_link_cate') . '` ORDER BY `cate_sort`';
+    $result   = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $count = Tools::tad_link_cate_count();
+    $count  = Tools::tad_link_cate_count();
     $data[] = "{ id:0, pId:0, name:'" . _MD_TADLINK_CATE_ROOT . "', url:'index.php', target:'_self', open:true}";
     while (list($cate_sn, $of_cate_sn, $cate_title) = $xoopsDB->fetchRow($result)) {
-        $font_style = $show_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($cate_sn, $path_arr) ? 'true' : 'false';
+        $font_style      = $show_cate_sn == $cate_sn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
+        $open            = in_array($cate_sn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($count[$cate_sn]) ? '' : " ({$count[$cate_sn]})";
-        $data[] = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'index.php?cate_sn={$cate_sn}', target:'_self', open:{$open} {$font_style}}";
+        $data[]          = "{ id:{$cate_sn}, pId:{$of_cate_sn}, name:'{$cate_title}{$display_counter}', url:'index.php?cate_sn={$cate_sn}', target:'_self', open:{$open} {$font_style}}";
     }
     $json = implode(',', $data);
 
-    $Ztree = new Ztree('link_tree', $json, '', '', 'of_cate_sn', 'cate_sn');
+    $Ztree      = new Ztree('link_tree', $json, '', '', 'of_cate_sn', 'cate_sn');
     $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
 
@@ -210,15 +209,15 @@ function show_one_tad_link($link_sn = '')
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        $cate = get_tad_link_cate_all();
+        $cate       = get_tad_link_cate_all();
         $cate_title = $cate[$cate_sn]['cate_title'];
     }
 
-    $myts = MyTextSanitizer::getInstance();
-    $link_url = $myts->htmlSpecialChars($link_url);
+    $myts       = MyTextSanitizer::getInstance();
+    $link_url   = $myts->htmlSpecialChars($link_url);
     $link_title = $myts->htmlSpecialChars($link_title);
     $cate_title = $myts->htmlSpecialChars($cate_title);
-    $link_desc = $myts->displayTarea($link_desc, 0, 0, 0, 0, 1);
+    $link_desc  = $myts->displayTarea($link_desc, 0, 0, 0, 0, 1);
 
     $pic = get_show_pic($link_sn, 'big');
 
@@ -263,13 +262,13 @@ function new_tad_link_cate($of_cate_sn = 0, $cate_title = '')
 function insert_tad_link()
 {
     global $xoopsDB, $xoopsUser, $tad_link_adm;
-    $link_title = (string) $_POST['link_title'];
-    $link_url = (string) $_POST['link_url'];
-    $link_desc = (string) $_POST['link_desc'];
-    $new_cate = (string) $_POST['new_cate'];
+    $link_title  = (string) $_POST['link_title'];
+    $link_url    = (string) $_POST['link_url'];
+    $link_desc   = (string) $_POST['link_desc'];
+    $new_cate    = (string) $_POST['new_cate'];
     $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $_POST['unable_date'];
-    $enable = (int) $_POST['enable'];
-    $cate_sn = (int) $_POST['cate_sn'];
+    $enable      = (int) $_POST['enable'];
+    $cate_sn     = (int) $_POST['cate_sn'];
 
     if (!empty($new_cate)) {
         $cate_sn = new_tad_link_cate($cate_sn, $new_cate);
@@ -302,7 +301,7 @@ function insert_tad_link()
 function tad_link_max_sort()
 {
     global $xoopsDB;
-    $sql = 'SELECT MAX(`link_sort`) FROM `' . $xoopsDB->prefix('tad_link') . '`';
+    $sql    = 'SELECT MAX(`link_sort`) FROM `' . $xoopsDB->prefix('tad_link') . '`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($sort) = $xoopsDB->fetchRow($result);
@@ -314,12 +313,12 @@ function tad_link_max_sort()
 function update_tad_link($link_sn = '')
 {
     global $xoopsDB, $xoopsUser, $tad_link_adm;
-    $link_title = (string) $_POST['link_title'];
-    $link_url = (string) $_POST['link_url'];
-    $link_desc = (string) $_POST['link_desc'];
-    $new_cate = (string) $_POST['new_cate'];
+    $link_title  = (string) $_POST['link_title'];
+    $link_url    = (string) $_POST['link_url'];
+    $link_desc   = (string) $_POST['link_desc'];
+    $new_cate    = (string) $_POST['new_cate'];
     $unable_date = empty($_POST['unable_date']) ? '0000-00-00' : $_POST['unable_date'];
-    $cate_sn = (int) $_POST['cate_sn'];
+    $cate_sn     = (int) $_POST['cate_sn'];
 
     if (!empty($new_cate)) {
         $cate_sn = new_tad_link_cate($cate_sn, $new_cate);
@@ -356,8 +355,8 @@ function delete_all_link($all_sn = '')
     global $xoopsDB, $now_uid, $tad_link_adm;
 
     $and_uid = $tad_link_adm ? '' : 'AND `uid` = ?';
-    $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `link_sn` IN(' . $all_sn . ') ' . $and_uid;
-    $params = $tad_link_adm ? [] : [$now_uid];
+    $sql     = 'DELETE FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `link_sn` IN(' . $all_sn . ') ' . $and_uid;
+    $params  = $tad_link_adm ? [] : [$now_uid];
     Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
 }
@@ -367,14 +366,14 @@ function go_url($link_sn)
     add_tad_link_counter($link_sn);
     $data = get_tad_link($link_sn);
 
-    $myts = MyTextSanitizer::getInstance();
-    $link_url = $myts->htmlSpecialChars($link_url);
+    $myts               = MyTextSanitizer::getInstance();
+    $link_url           = $myts->htmlSpecialChars($link_url);
     $force_mimetype_arr = ['.pdf' => 'application/pdf', '.mp3' => 'audio/mp3', '.mp4' => 'video/mp4'];
-    $force_arr = array_keys($force_mimetype_arr);
-    $ext = strtolower(substr($data['link_url'], -4));
+    $force_arr          = array_keys($force_mimetype_arr);
+    $ext                = strtolower(substr($data['link_url'], -4));
     if (in_array($ext, $force_arr)) {
         $file_display = basename($data['link_url']);
-        $pos = strpos($file_display, '#');
+        $pos          = strpos($file_display, '#');
         if ($pos !== false) {
             $pos++;
             $file_display = substr($file_display, $pos);
@@ -414,14 +413,14 @@ function tad_link_form($link_sn = '', $mode = '')
     global $xoopsTpl, $xoTheme;
 
     $xoTheme->addScript('modules/tadtools/My97DatePicker/WdatePicker.js');
-    $data = [];
+    $data    = [];
     $next_op = 'insert_tad_link';
-    $pic = 'images/pic_thumb.png';
+    $pic     = 'images/pic_thumb.png';
 
     if (!empty($link_sn)) {
-        $data = get_tad_link($link_sn);
+        $data    = get_tad_link($link_sn);
         $next_op = 'update_tad_link';
-        $pic = get_show_pic($link_sn);
+        $pic     = get_show_pic($link_sn);
     }
 
     if ('0000-00-00' == $data['unable_date']) {
@@ -459,10 +458,10 @@ function get_show_pic($link_sn, $mode = 'thumb')
     global $xoopsModuleConfig;
     $link = get_tad_link($link_sn);
     if ('thumb' === $mode) {
-        $pic = _TADLINK_THUMB_PIC_URL . "/{$link_sn}.jpg";
+        $pic      = _TADLINK_THUMB_PIC_URL . "/{$link_sn}.jpg";
         $pic_path = _TADLINK_THUMB_PIC_PATH . "/{$link_sn}.jpg";
     } else {
-        $pic = _TADLINK_PIC_URL . "/{$link_sn}.jpg";
+        $pic      = _TADLINK_PIC_URL . "/{$link_sn}.jpg";
         $pic_path = _TADLINK_PIC_PATH . "/{$link_sn}.jpg";
     }
 
@@ -489,11 +488,11 @@ function get_pic($link_sn = '')
         if ($handle->uploaded) {
             // 如果檔案已經上傳到 tmp
             $handle->file_new_name_body = $link_sn; // 重新設定新檔名
-            $handle->file_overwrite = true;
-            $handle->image_resize = true; // 重設圖片大小
-            $handle->image_x = 400; // 設定寬度為 400 px
-            $handle->image_ratio_y = true; // 按比例縮放高度
-            $handle->image_convert = 'jpg';
+            $handle->file_overwrite     = true;
+            $handle->image_resize       = true; // 重設圖片大小
+            $handle->image_x            = 400; // 設定寬度為 400 px
+            $handle->image_ratio_y      = true; // 按比例縮放高度
+            $handle->image_convert      = 'jpg';
             $handle->process(_TADLINK_PIC_PATH); // 檔案搬移到目的地
             $handle->clean(); // 若搬移成功，則釋放記憶體
         }
@@ -511,7 +510,7 @@ function get_tad_link($link_sn = '')
     if (empty($link_sn)) {
         return [];
     }
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `link_sn`=?';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link') . '` WHERE `link_sn`=?';
     $result = Utility::query($sql, 'i', [$link_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
@@ -523,11 +522,11 @@ function get_tad_link($link_sn = '')
 function get_tad_link_cate_all()
 {
     global $xoopsDB;
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link_cate') . '`';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_link_cate') . '`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
-        $cate_sn = (int) ($data['cate_sn']);
+        $cate_sn            = (int) ($data['cate_sn']);
         $data_arr[$cate_sn] = $data;
     }
 

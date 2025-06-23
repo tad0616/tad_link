@@ -1,5 +1,4 @@
 <?php
-
 namespace XoopsModules\Tad_link;
 
 use XoopsModules\Tadtools\Utility;
@@ -12,7 +11,7 @@ class Tools
     {
         $all = [];
         global $xoopsDB;
-        $sql = 'SELECT `cate_sn`, COUNT(*) FROM `' . $xoopsDB->prefix('tad_link') . '` GROUP BY `cate_sn`';
+        $sql    = 'SELECT `cate_sn`, COUNT(*) FROM `' . $xoopsDB->prefix('tad_link') . '` GROUP BY `cate_sn`';
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($cate_sn, $count) = $xoopsDB->fetchRow($result)) {
@@ -27,8 +26,8 @@ class Tools
     {
         global $xoopsDB;
         $counter = self::tad_link_cate_count();
-
-        if (!empty($selected)) {
+        $sc      = [];
+        if (! empty($selected)) {
             $sc = explode(',', $selected);
         }
 
@@ -37,7 +36,7 @@ class Tools
         i=0;
         var arr = new Array();';
 
-        $sql = 'SELECT `cate_sn`,`cate_title` FROM `' . $xoopsDB->prefix('tad_link_cate') . '` ORDER BY `of_cate_sn`,`cate_sort`';
+        $sql    = 'SELECT `cate_sn`,`cate_title` FROM `' . $xoopsDB->prefix('tad_link_cate') . '` ORDER BY `of_cate_sn`,`cate_sort`';
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $option = '';
@@ -58,7 +57,7 @@ class Tools
         }
         </script>";
 
-        $main['js'] = $js;
+        $main['js']   = $js;
         $main['form'] = $option;
 
         return $main;
